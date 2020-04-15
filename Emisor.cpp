@@ -75,6 +75,10 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 		}
 
 	}else{//Si esta activado el modo protocolo
+		if(f->getCondition()){
+			f->cerrarFichero();
+			f->changeCondicion();
+		}
 		establecerColor(11);
 		printf("===================================================\n");
 		printf("===================================================\n");
@@ -142,6 +146,11 @@ void Emisor::teclaF5(){
 }
 
 void Emisor::teclaF6(HANDLE &PuertoCOM){
+
+	if(f->getCondition()){
+		f->cerrarFichero();
+		f->changeCondicion();
+	}
 
 	establecerColor(11);
 	printf("===================================================\n");
