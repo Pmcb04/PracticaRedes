@@ -12,7 +12,7 @@ Protocolo::Protocolo(){
 	protocolo = false;
 	operacion = 0;
 	finFichero = false;
-	sondeo = false;
+	finSondeo = false;
 
 }
 
@@ -32,8 +32,8 @@ void Protocolo::setFinFichero(bool b){
 	finFichero = b;
 }
 
-void Protocolo::setSondeo(bool s){
-	sondeo = s;
+void Protocolo::setFinSondeo(bool s){
+	finSondeo = s;
 }
 
 char Protocolo::getTipo(){
@@ -49,7 +49,7 @@ bool Protocolo::getFinFichero(){
 }
 
 bool Protocolo::getFinSondeo(){
-	return sondeo;
+	return finSondeo;
 }
 char Protocolo::getOperacion(){
 	return operacion;
@@ -124,13 +124,9 @@ void Protocolo::printCabecera(){
 	establecerColor(11);
 	printCaracterCabecera(39);
 	printf("\n");
-	printCaracterCabecera(39);
-	printf("\n");
 	printCaracterCabecera(6);
 	printf(" PROTOCOLO MAESTRO-ESCLAVO ");
 	printCaracterCabecera(6);
-	printf("\n");
-	printCaracterCabecera(39);
 	printf("\n");
 	printCaracterCabecera(39);
 	printf("\n");

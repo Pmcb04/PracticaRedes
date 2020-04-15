@@ -246,18 +246,47 @@ void Emisor::maestroSeleccion(HANDLE &PuertoCOM){
 }
 
 void Emisor::elegirFin(HANDLE &PuertoCOM){
-	char tecla;
-	printf("ESCLAVO quiere terminar, desea terminar? (Y,n)");
-	cin >> tecla;
-	if(tecla == 'Y'){
-		enviarTramaConfirmacion(PuertoCOM);
-		p->setSondeo(true);
-	}else{
-		enviarTramaNegacion(PuertoCOM);
-	}
+	establecerColor(11);
+	esperarTramaCierre(PuertoCOM);
 
-	p->printString("E ");//Trama enviada
-			TE.imprimir(); TEimprimir();
+	char opcion;
+	bool salir = false;
+	establecerColor(2);
+	do{
+		p->printString("¿Desea el cierre de la comunicacion?(1-2)\n");
+		p->printString("\t1. Si\n");
+		p->printString("\t2. No\n\n");
+		opcion = getch();
+		if(opcion > 50 || (opcion < 49 && opcion != 27)) p->printString("Por favor, seleccione una opcion valida...\n");
+		else if(opcion == 27) salir = true;
+
+	} while((opcion > 50 || opcion < 49) && !salir);
+
+	if(!salir){
+		establecerColor(11);
+		switch(opcion){
+			case 49:
+				TE.setNumeroTrama(R->getNumeroTrama());
+				enviarTramaConfirmacion(PuertoCOM);
+				p->printString("E ");//Trama enviada
+				TE.imprimir(); //TEimprimir();
+				p->setFinSondeo(true);
+				break;
+			case 50:
+				TE.setNumeroTrama(R->getNumeroTrama());
+				p->printString("E ");//Trama enviada
+				TE.imprimir(); //TEimprimir();
+				enviarTramaNegacion(PuertoCOM);
+				break;
+		}
+
+
+	}else{
+		establecerColor(15);
+		p->setProtocolo(false);//Se cancela protocolo
+		//TODO Habria que enviarle algun caracter para que otra pantalla cancele protocolo tb
+		p->printString("Se cancela la accion\n");
+	}
 
 }
 
@@ -273,9 +302,6 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM){
 	recibirFaseTranseferencia(PuertoCOM);
 	p->printString("\n");//Acaba fase Transferencia
 
-	establecerColor(11);
-	TE.setNumeroTrama('0');
-
 	while(!p->getFinSondeo()){
 		elegirFin(PuertoCOM);
 		p->printString("\n");
@@ -284,6 +310,7 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM){
 	p->printString("FIN PROTOCOLO\n");
 	p->cerrarFichero();
 	p->setProtocolo(false);//Se termina el protocolo
+	p->setFinSondeo(false);//Preparado para futura comunicacion
 }
 
 
@@ -331,13 +358,6 @@ void Emisor::esclavoSeleccion(HANDLE &PuertoCOM){
 	p->setProtocolo(false);//Se termina el protocolo
 }
 
-void Emisor::esperarRespuesta(HANDLE &PuertoCOM){
-	int n = 0;
-	while((n = R->Recibir(PuertoCOM)) < 3);
-
-	if(n == 4) p->setSondeo(true);
-}
-
 
 void Emisor::esclavoSondeo(HANDLE &PuertoCOM){
 
@@ -349,11 +369,13 @@ void Emisor::esclavoSondeo(HANDLE &PuertoCOM){
 	enviarFaseTransferencia(PuertoCOM);
 	p->printString("\n");//Acaba fase Transferencia
 
+
 	establecerColor(11);
 	TE.setNumeroTrama('0');
 	enviarTramaCierre(PuertoCOM);
 	p->printString("E ");//Trama enviada
 	TE.imprimir(); TEimprimir();
+
 
 	int i = 1;
 	while(!p->getFinSondeo()){
@@ -363,17 +385,19 @@ void Emisor::esclavoSondeo(HANDLE &PuertoCOM){
 		if(!p->getFinSondeo()){
 			if(i%2 == 0) TE.setNumeroTrama('0');
 			else TE.setNumeroTrama('1');
-			p->printString("E ");
-			TE.imprimir();
-			TEimprimir();
+			enviarTramaCierre(PuertoCOM);
+			p->printString("E ");//Trama enviada
+			TE.imprimir(); TEimprimir();
 			i++;
 		}
 	}
 
+	p->printString("\n");//Acaba fase Cierre
 
 	p->printString("FIN PROTOCOLO\n");
 	p->cerrarFichero();
 	p->setProtocolo(false);//Se termina el protocolo
+	p->setFinSondeo(false);//Preparado para futura comunicacion
 
 }
 
@@ -435,6 +459,13 @@ void Emisor::esperarTramaCierre(HANDLE &PuertoCOM){
 
 void Emisor::esperarTramaDatos(HANDLE &PuertoCOM){
 	while(R->Recibir(PuertoCOM) != 1);//Esperar trama STX
+}
+
+void Emisor::esperarRespuesta(HANDLE &PuertoCOM){
+	int n = 0;
+	while((n = R->Recibir(PuertoCOM)) < 3);
+
+	if(n == 4) p->setFinSondeo(true);
 }
 
 void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
