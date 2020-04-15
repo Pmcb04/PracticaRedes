@@ -12,6 +12,7 @@ Protocolo::Protocolo(){
 	protocolo = false;
 	operacion = 0;
 	finFichero = false;
+	sondeo = false;
 
 }
 
@@ -31,6 +32,10 @@ void Protocolo::setFinFichero(bool b){
 	finFichero = b;
 }
 
+void Protocolo::setSondeo(bool s){
+	sondeo = s;
+}
+
 char Protocolo::getTipo(){
 	return mE;
 }
@@ -43,6 +48,9 @@ bool Protocolo::getFinFichero(){
 	return finFichero;
 }
 
+bool Protocolo::getFinSondeo(){
+	return sondeo;
+}
 char Protocolo::getOperacion(){
 	return operacion;
 }
@@ -106,20 +114,33 @@ void Protocolo::printCharPunteroFichero(char* c, int longitud){
 	}
 }
 
+void printCaracterCabecera(int cont){
+	for ( int i = 0; i < cont; i++) {
+		printf("%c", 176);
+	}
+}
+
 void Protocolo::printCabecera(){
-	printStringFichero("===================================================\n");
-	printStringFichero("===================================================\n");
-	printStringFichero("-----------{ ");
-	printStringFichero("PROTOCOLO MAESTRO-ESCLAVO");
-	printStringFichero(" }-----------\n");
-	printStringFichero("===================================================\n");
-	printStringFichero("===================================================\n\n");
+	establecerColor(11);
+	printCaracterCabecera(39);
+	printf("\n");
+	printCaracterCabecera(39);
+	printf("\n");
+	printCaracterCabecera(6);
+	printf(" PROTOCOLO MAESTRO-ESCLAVO ");
+	printCaracterCabecera(6);
+	printf("\n");
+	printCaracterCabecera(39);
+	printf("\n");
+	printCaracterCabecera(39);
+	printf("\n");
+	printf("\n");
 }
 
 void Protocolo::printSeleccion(){
-	printStringFichero("Seleccione maestro o esclavo:(1-2)\n");
-	printStringFichero("\t1. Mestro\n");
-	printStringFichero("\t2. Esclavo\n\n");
+	printString("Seleccione maestro o esclavo:(1-2)\n");
+	printString("\t1. Maestro\n");
+	printString("\t2. Esclavo\n\n");
 }
 
 Protocolo::~Protocolo(){

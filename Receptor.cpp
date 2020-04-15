@@ -184,8 +184,8 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 					}else{//trama incorrecta
 						establecerColor(15);
 						if(esFichero){
-							if(!p->getProtocolo()) f->printString("Error en la recepción de la trama del fichero\n");
-							else p->printString("Error en la recepción de la trama del fichero\n");
+							if(!p->getProtocolo()) f->printString("Error en la recepcion de la trama del fichero\n");
+							else p->printString("Error en la recepcion de la trama del fichero\n");
 						}else{
 							if(!p->getProtocolo()) f->printString("Error en la trama recibida\n");
 							else p->printString("Error en la trama recibida\n");

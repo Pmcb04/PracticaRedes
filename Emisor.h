@@ -10,6 +10,7 @@
 #define EMISOR_H_
 
 #include "Receptor.h"
+#include "Protocolo.h"
 
 
 const int MAXMENSAJE = 800;
@@ -60,7 +61,11 @@ class Emisor{
 
 	void enviarTramaControl(HANDLE &PuertoCOM);
 
+	void elegirFin(HANDLE &PuertoCOM);
+
 	void enviarTramaDatos(HANDLE &PuertoCOM);
+
+	void esperarRespuesta(HANDLE &PuertoCOM);
 
 	void copiarCadena(char* cadena, int numCaracteres, char* cadaux);
 
