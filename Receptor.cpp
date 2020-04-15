@@ -149,35 +149,21 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 				   campo = 1;
 
 					if(tramaCorrecta){
-						if(p->getProtocolo()){//Si esta activo el modo protocolo
-							tipoTrama = getTipoTrama(TR.getControl());
-							NT = TR.getNumeroTrama();
-							if(esFichero){
-								if(linea < 3) establecerColor(12);//linea de cabecera
-								else establecerColor(3);//cuerpo de fichero
-							   linea++;
-							}else if(finFichero){
-								establecerColor(8);
-								string numBytes = TR.toString();
-								p->printStringFichero("El fichero recibido tiene un tamano de ");
-								p->printStringFichero(numBytes);
-								p->printStringFichero("bytes\n");
-								finFichero = false;
-								linea = 0;
-							}
-							p->printString("R ");//Trama recibida
-							TR.imprimirTrama(); TRimprimirTrama();
-							int BCE = (int) carR;
-							printf("%d\n", carR); p->printIntFichero(BCE); p->printCharFichero('\n');
-						}else{//Si no esta activo el modo protocolo, tratamiento normal
 							if(esFichero){
 								 procesarFichero();
 							}else if(finFichero){
 								string numBytes = TR.toString();
 								establecerColor(color);
-								f->printString("El fichero recibido tiene un tamano de ");
-								f->printString(numBytes);
-								f->printString(" bytes\n");
+								if(!p->getProtocolo()){
+									f->printString("El fichero recibido tiene un tamano de ");
+									f->printString(numBytes);
+									f->printString(" bytes\n");
+								}else{
+									p->printString("El fichero recibido tiene un tamano de ");
+									p->printString(numBytes);
+									p->printString(" bytes\n");
+									establecerColor(8);
+								}
 								finFichero = false;
 								linea = 0;
 							}else{//mensaje normal
@@ -185,12 +171,26 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 								string datos = TR.toString();
 								f->printString(datos);
 							}
+
+						if(p->getProtocolo()){
+							tipoTrama = getTipoTrama(TR.getControl());
+							NT = TR.getNumeroTrama();
+							p->printString("R ");//Trama recibida
+							TR.imprimirTrama(); TRimprimirTrama();
+							int BCE = (int) carR;
+							printf("%d\n", carR); p->printIntFichero(BCE); p->printCharFichero('\n');
 						}
 
 					}else{//trama incorrecta
 						establecerColor(15);
-						if(esFichero) f->printString("Error en la recepción de la trama del fichero\n");
-						else f->printString("Error en la trama recibida\n");
+						if(esFichero){
+							if(!p->getProtocolo()) f->printString("Error en la recepción de la trama del fichero\n");
+							else p->printString("Error en la recepción de la trama del fichero\n");
+						}else{
+							if(!p->getProtocolo()) f->printString("Error en la trama recibida\n");
+							else p->printString("Error en la trama recibida\n");
+
+						}
 					}
 					break;
 			}
@@ -211,6 +211,7 @@ void Receptor::procesarFichero(){
 	if(linea == 0){
 
 	  Autores = TR.toString();
+	  if(p->getProtocolo()) establecerColor(12);//linea de cabecera
 
 	  linea++;
 
@@ -218,6 +219,7 @@ void Receptor::procesarFichero(){
 
 		string colores = TR.toString();
 		color = atoi(colores.c_str());
+		if(p->getProtocolo()) establecerColor(12);//linea de cabecera
 
 		linea++;
 
@@ -226,9 +228,18 @@ void Receptor::procesarFichero(){
 		string fichero = TR.toString();
 		flujoEscritura.open(fichero);
 		establecerColor(color);
-		f->printString("Recibiendo fichero por ");
-		f->printString(Autores);
-		f->printString("\n");
+		if(!p->getProtocolo()){
+			f->printString("Recibiendo fichero por ");
+			f->printString(Autores);
+			f->printString("\n");
+		}else{
+			p->printString("Recibiendo fichero por ");
+			p->printString(Autores);
+			p->printString("\n");
+			establecerColor(12);//linea de cabecera
+		}
+
+
 
 		linea++;
 
@@ -240,6 +251,8 @@ void Receptor::procesarFichero(){
 		for(int i = 0; i<TR.getLongitud(); i++){
 			flujoEscritura.put(datos[i]);
 		}
+
+		if(p->getProtocolo()) establecerColor(3);//cuerpo de fichero
 
 		linea++;
 	}
