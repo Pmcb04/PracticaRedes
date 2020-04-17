@@ -327,5 +327,237 @@ hacer uso de colores. Para ello deberemos utilizar Windows.h.
       getch();
   }
   ```
-  Se deberán usar colores que no impidan una visión cómoda de la información.
+Se deberán usar colores que no impidan una visión cómoda de la información.
+
+### :six: Control de fin de aplicación (ESC).
+En todo momento, el usuario puede poner fin a la aplicación mediante la pulsación
+de la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se pulsa esta
+tecla, se cancelará dicha acción.
+
+# Entrega 4
+
+### :one: Construcción de tramas de datos.
+Como ya se explicó anteriormente, las tramas de datos están compuestas por los
+siguientes campos:
+
+
+```C++
+struct TramaDatos
+{
+  unsigned char S; // Sincronismo = SYN =22;
+  unsigned char D; // Direccion=’T’;
+  unsigned char C; // Control = STX = 02;
+  unsigned char N; // NumTrama = (En principio fijo a ‘0’);
+  unsigned char L; // Long (Longitud del campo de datos);
+  char Datos[255]; // Datos[255];
+  unsigned char BCE; // (Siempre debe tomar siempre valores entre 1 y 254);
+};
+```
+
+En un principio, como se explicó en la entrega 3, la trama de datos se construirá de la
+manera expresada anteriormente. En la entrega 5 se explicará como cambiará.
+
+### :two: Envío y recepción de ficheros con tramas de datos.
+- Previamente se creará un fichero de texto llamado **“fichero-e.txt”** con el bloc de notas
+  y se almacenará en el directorio de trabajo. El tamaño del fichero será como mínimo
+  de 100 KB.
+- El fichero constará primero de tres líneas de cabecera y a continuación aparecerá el
+  cuerpo del fichero.
+- Las líneas de cabecera contendrán:
+  - Línea 1: Nombre y apellidos de los autores de la práctica separados por & (Ej: Clara Santos & Olivia Becerra).
+  - Línea 2: Color cabecera (texto y fondo). Se expresará con un valor entero.
+  - Línea 3: Nombre y extensión del fichero en el equipo receptor.
+- Mediante la tecla F3 se iniciará el envío del fichero de texto. Pasos a seguir:
+  1. Se intentará abrir el fichero **“fichero-e.txt”.** Si existe dicho fichero, se
+  enviará el carácter ‘{’ al receptor para indicarle que recibirá un fichero. Si
+  no existe, se deberá mostrar el mensaje pertinente y no se enviará
+  información alguna.
+  2. Se extraerá de la primera línea de cabecera el nombre y apellidos de los
+  autores de la práctica. Posteriormente esta información se enviará al equipo
+  receptor mediante una trama de datos.
+  3. Se extraerá de la segunda línea de cabecera el color de texto y fondo con el
+  que se mostrará la información referente al fichero en el receptor.
+  Posteriormente esta información se enviará al equipo receptor mediante una
+  trama de datos.
+  4. Se extraerá de la tercera línea de cabecera el nombre del fichero que tendrá
+  en el equipo receptor. Este nombre de fichero se enviará al equipo receptor
+  mediante una trama de datos; en el equipo receptor se creará un fichero con
+  dicho nombre. Posteriormente, se enviará el cuerpo del fichero (resto de
+  líneas del fichero sin las tres líneas de cabecera).
+  5. A la vez que se va enviando el cuerpo del fichero mediante tramas de datos
+  se irá calculando el tamaño de ese fichero.
+  6. Una vez finalizado el envío del fichero, se mandará el carácter ‘}’ para
+  indicar al receptor que el envío terminó.
+  7. Por último, se enviará el número de caracteres de los que constará el fichero
+  enviado mediante una trama de datos.
+  
+- **El fichero debe llegar íntegro.**
+- NO SE DEBE MOSTRAR en ningún momento el cuerpo del fichero por pantalla, ni
+  en el emisor, ni en el receptor.
+- Toda la información mostrada en el equipo receptor referente al fichero, se mostrará en
+  el color (texto y fondo) indicado por la segunda línea de cabecera recibida.
+- Las tramas de datos recibidas en el equipo receptor (pertenecientes al cuerpo del
+  fichero), serán procesadas tal y como se explica a continuación. El campo datos de las
+  tramas recibidas, se irá almacenando en el fichero siempre y cuando éstas sean
+  correctas (proceso que se explicó en la entrega anterior). Si alguna trama fuese correcta,
+  se mostrará el mensaje en pantalla de **“Error en la recepción de la trama del fichero”**
+  y la trama se descartará. Como no se contemplan errores de transmisión, las tramas
+  deben llegar siempre correctas para que la entrega se pueda considerar APTA.
+  Recordar: en el fichero receptor, solo se almacenarán las tramas de datos perteneciente
+  al cuerpo del fichero enviado, no las líneas de cabecera.
+  
+- Cuando el emisor comience a enviar el fichero, mostrará un mensaje informativo de
+  ``“Enviando fichero por Autores”`` y cuando termine, mostrará un mensaje indicando
+  que el fichero ya se ha enviado, ``“Fichero enviado”``. Autores será el nombre y apellidos
+  de los autores de la práctica separados por & y se extraerá de la primera línea de
+  cabecera del fichero de envío.
+- En el receptor se mostrará un mensaje informativo indicando cuando comienza a
+  recibirse un fichero, ``“Recibiendo fichero por Autores”`` y otro para indicar cuando
+  termina la recepción de dicho fichero, ``“Fichero recibido”.`` La información de
+  “Autores” la habrá recibido el receptor previamente.
+- Una vez terminada la recepción del fichero, se mostrará el mensaje: ``“El fichero``
+  ``recibido tiene un tamaño de xxxx bytes”``, siendo xxxx el número de caracteres del
+  fichero y que previamente envió el emisor.
+- Para realizar el envío, el fichero se irá troceando en bloques de 254 caracteres. Cada
+  bloque se almacenará en el campo Datos de la trama de datos. Para enviar el fichero se
+  harán tantos envíos como bloques de 254 caracteres se pueda dividir el fichero. Para
+  cada envío se deberá enviar la trama de datos completa.
+- **MUY IMPORTANTE:** Nunca se debe excluir el envío de la recepción, es decir, se puede
+  y se debe “enviar y recibir a la vez”. Las posibilidades que tendríamos serían las
+  siguientes:
+  - **Enviar mensaje datos / recibir mensaje datos.**
+  Se podrán enviar mensajes de datos (con F1) y recibir mensajes del equipo
+  receptor (que envió con F1).
+  - **Enviar mensaje datos / recibir fichero.**
+  Se podrán enviar mensajes de datos (con F1) y recibir un fichero de texto
+  (por parte del equipo receptor).
+  - **Enviar fichero / recibir mensaje datos.**
+  Se podrá enviar un fichero y recibir mensajes del equipo receptor (que envió
+  con F1).
+  - **Enviar fichero / recibir fichero. (OPCIONAL).**
+  Este apartado es opcional. Se podrá implementar desde ahora hasta la
+  entrega 6. Se podrá enviar y recibir un fichero de 100 kb de forma
+  simultánea. El realizar este apartado incrementará la nota de la práctica en
+  1 punto.
+
+### :three: Envio de ficheros con tramas de datos
+
+A continuación, se muestra un pseudocódigo para enviar el fichero, a modo de ayuda,
+para que podáis pensar en una solución válida. Como recomendación, no utilicéis la
+función trocer_trama() que implementasteis en la entrega 3 para el envío del fichero.
+
+```C++
+  Abrir_Fichero_Envío();
+  si (Apertura correcta del fichero)
+    EnviarCaracter(PuertoCOM, '{'); //Comienzo de envío de fichero
+    EnviarLineasCabecera ();
+    printf("Enviando fichero por %s.\n", Autores); //Autores contendrá los autores del fichero de envío. 
+    Información que se encuentra en la primera línea de cabecera.
+    Mientras (No fin de fichero) //Envío del cuerpo del fichero
+      Leer del fichero ();
+      Si (se ha leído algo del fichero)
+        Construir_trama();
+        Enviar_trama();
+    Cerrar_fichero ();
+    EnviarCaracter(PuertoCOM, '}');//Fin envío de fichero
+    EnviarNumCaracteresFichero() // Enviar mediante trama de datos
+    printf("Fichero enviado.\n");
+  sino
+    printf("ERROR: El fichero fichero-e.txt no existe.\n")
+ ```
  
+En el emisor,**NO SE DEBE MOSTRAR** en ningún momento el cuerpo del fichero por pantalla.
+
+### :four: Volcado de pantalla a fichero log.txt.
+Para comprobar en un momento determinado de forma detallada todo lo que ocurre en
+la aplicación, se podrá volcar toda la activad mostrada en pantalla a un fichero llamado **log.txt**
+utilizando para ello la tecla de función F5. Una vez pulsada F5 toda la información que se
+muestre en pantalla a partir de ese momento en un equipo determinado (emisor o receptor) se
+volcará al fichero log.txt hasta finalizar la ejecución de la aplicación.
+
+### :five: Control de fin de aplicación (ESC).
+En todo momento, el usuario puede poner fin a la aplicación mediante la pulsación de
+la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se pulsa esta tecla, se
+cancelará dicha acción.
+
+# Entrega 5
+### :one: Funcionamiento del protocolo MAESTRO-EXCLAVO
+El protocolo Maestro-Esclavo se activará **únicamente** en una de las dos estaciones mediante la
+pulsación de la tecla **F6**. Una vez activado el protocolo, una estación tomará el roll de
+Maestro y la otra de Esclavo, teniendo en cuenta que ambas no podrán ser Maestras o Esclavas al
+mismo tiempo. La estación que pulse **F6** tendrá el control para elegir el roll que desee. Una vez que
+dicha estación seleccione dicho roll, automáticamente la otra estación adquirirá el roll que quedase
+libre.
+
+Selección de roll de maestro en una estación y automáticamente la otra estación se convierte en esclava.
+
+- Sólo el PC Maestro tiene capacidad para iniciar una comunicación mediante una llamada al
+  Esclavo, mientras que éste sólo estará dedicado a esperar una posible llamada del equipo Maestro
+  para contestarla.
+  
+- El Maestro podrá iniciar una llamada para realizar una operación de Selección o de Sondeo. Se
+  deberá preguntar al usuario de la estación Maestra (figura 2 - izquierda) qué operación desea relizar.
+  Si la operación es de Selección, el Maestro enviará un fichero de texto fraccionado en tramas de
+  datos al Esclavo y si es de Sondeo, el Maestro hará que el Esclavo le envíe un fichero, también
+  fraccionado en tramas de datos. El intercambio de datos será unidireccional.
+ 
+- Si la operación es de Selección se empleará el valor ``'R'`` en el campo Dirección de todas las
+  tramas. Si es de Sondeo se empleará el valor ``'T'`` en dicho campo.
+  
+- El campo Número de Trama de las tramas de datos tomará los valores ``‘0’ o ‘1’`` de forma cíclica,
+  es decir, la trama siguiente a la ``‘0’`` será la ``‘1’``, y la siguiente a ésta, la ``‘0’`` y así sucesivamente.
+  
+- Para cada trama recibida se deberá devolver una confirmación de recepción o ACK (siempre y
+  cuando la trama recibida sea correcta). Si la operación es de Selección, para cada trama de datos
+  que reciba el esclavo, si ésta es correcta, éste deberá devolver una trama ACK. Cuando ésta sea
+  recibida por el Maestro, éste podrá enviar la siguiente trama de datos al esclavo. Al recibir cualquier
+  trama de datos siempre se deberá comprobar si los BCEs coinciden, aunque como no hay errores de
+  transmisión, los BCEs de las tramas de datos siempre deberían coincidir. Si en cambio, la operación
+  es de Sondeo, para cada trama de datos que reciba el Maestro éste deberá devolver un ACK si la
+  trama es correcta. Cuando el ACK sea recibido por el Esclavo, éste podrá enviar la siguiente trama
+  de datos al Maestro. Se deberá realizar la misma comprobación del BCE que se hizo con la operación
+  de Selección. Tanto en selección, como en sondeo, en el momento en que, para alguna trama
+  recibida, los BCEs no coincidieran, no se podría confirmar dicha trama con ACK, por lo que el
+  protocolo se quedaría parado y dejaría de funcionar; sería un fallo cometido por nosotros y 
+  deberíamos corregirlo. Si los BCEs coincidieran, antes de enviar la trama ACK, el campo datos de
+  la trama recibida se almacenará en el fichero del receptor
+  
+- El Esclavo nunca podrá dar órdenes. En caso de que la operación sea de sondeo, la estación
+  Esclava solicitará a la Maestra la liberación de la comunicación cuando termine de enviar el fichero
+  de texto, pero no la podrá liberar hasta que la estación Maestra se lo confirme. Dicho de otro modo,
+  cuando la estación Maestra reciba una solicitud de cierre de la Esclava (figura 3), preguntará al
+  usuario si quiere terminar la llamada. Si el usuario la rechaza, se enviará una negación (trama
+  NACK) a la estación Esclava, que volverá a solicitar el cierre. Este proceso continuará hasta que el
+  usuario de la estación Maestra confirme el cierre (envía una trama ACK). Si en cambio la operación
+  era de Selección, el Maestro iniciará la liberación de la comunicación automáticamente al terminar
+  de enviar el fichero y el Esclavo la aceptará directamente.
+  
+- El fichero a enviar en la fase de transferencia se llamará “EProtoc.txt”. Al igual que en la
+práctica anterior, el fichero constará primero de tres líneas de cabecera y a continuación aparecerá
+el cuerpo del fichero. Las líneas de cabecera contendrán:
+  - **Línea 1:** Nombre y apellidos de los autores de la práctica separados por & (Ej: Clara
+    Santos & Olivia Becerra).
+  - **Línea 2:** Color cabecera (texto y fondo). Se expresará con un valor entero.
+  - **Línea 3:** Nombre y extensión del fichero en el equipo receptor.
+  
+- El nombre del fichero que se enviará en la fase de transferencia se llamará EProtoc.txt. El
+modo de proceder del fichero será igual que en la práctica anterior. Debe tenerse en cuenta que
+después de enviar el fichero completo, se enviará una trama de datos con el tamaño en bytes del
+fichero.
+
+### :two: Tipos de tramas empleadas.
+Como ya sabemos, existen dos tipos de tramas: tramas de control (órdenes y respuestas) y tramas
+de datos. Se debe mostrar por pantalla cada trama de control que se envíe o que se reciba. En el caso
+de tramas de datos, las cuales se procesan de manera transparente al usuario, creándose el fichero
+correspondiente, se mostrarán también en pantalla, tanto si son enviadas como si son recibidas.
+
+Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas fases:
+
+**Fase de selección**
+  - Llamada de Selección: ``SYN  R  ENQ  '0'``
+  - Llamada de Sondeo : ``SYN  T  ENQ  '0'``
+  
+**Fase de trasferencia**
+  - Envío de datos de Selección(trama número n): ``SYN  R  STX  n  Long  Datos  BCE``
+  - Envío de datos de Sondeo(trama número n): ``SYN  T  STX  n  Long  Datos  BCE``
+
