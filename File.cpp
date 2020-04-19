@@ -14,8 +14,6 @@ void File::cerrarFichero(){
 }
 
 void File::changeCondicion(){
-//  if(f5) f5 = false;
-//  else f5 = true;
 	f5 = true;
 }
 
