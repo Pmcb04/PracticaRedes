@@ -8,7 +8,7 @@
 #include "Protocolo.h"
 
 Protocolo::Protocolo(){
-	mE = 0;
+	mE = 'M';
 	protocolo = false;
 	operacion = 0;
 	finFichero = false;
@@ -101,6 +101,14 @@ void Protocolo::printCharFichero(char c){
 	else esclavo.put(c);
 }
 
+
+void Protocolo::printCharCabecera(int cont){
+
+	for (int i = 0; i < cont; i++) {
+		printCharFichero(176);
+	}
+}
+
 void Protocolo::printIntFichero(int n){
 	if(mE == 'M')  maestro << n;
 	else esclavo << n;
@@ -114,7 +122,8 @@ void Protocolo::printCharPunteroFichero(char* c, int longitud){
 	}
 }
 
-void printCaracterCabecera(int cont){
+void Protocolo::printCaracterCabecera(int cont){
+
 	for ( int i = 0; i < cont; i++) {
 		printf("%c", 176);
 	}
@@ -123,14 +132,24 @@ void printCaracterCabecera(int cont){
 void Protocolo::printCabecera(){
 	establecerColor(11);
 	printCaracterCabecera(39);
+	printCharCabecera(39);
 	printf("\n");
+	printCharFichero('\n');
 	printCaracterCabecera(6);
+	printCharCabecera(6);
 	printf(" PROTOCOLO MAESTRO-ESCLAVO ");
+	printStringFichero(" PROTOCOLO MAESTRO-ESCLAVO ");
 	printCaracterCabecera(6);
+	printCharCabecera(6);
 	printf("\n");
+	printCharFichero('\n');
 	printCaracterCabecera(39);
+	printCharCabecera(39);
 	printf("\n");
+	printCharFichero('\n');
 	printf("\n");
+	printCharFichero('\n');
+
 }
 
 void Protocolo::printSeleccion(){

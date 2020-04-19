@@ -78,7 +78,6 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 			f->cerrarFichero();
 			f->changeCondicion();
 		}
-		p->printCabecera();
 		switch(p->getTipo()){
 		case 69://Esclavo
 			Esclavo(PuertoCOM);
@@ -144,6 +143,7 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 		f->changeCondicion();
 	}
 
+	p->abrirFichero();
 	p->printCabecera();
 
 	char opcion;
@@ -163,12 +163,10 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 
 		if(opcion == 49){
 			p->setTipo('M');
-			p->abrirFichero();
 			EnviarCaracter(PuertoCOM, 'E');//La otra estacion sera esclavo
 			Maestro(PuertoCOM);
 		}else if(opcion == 50){
 			p->setTipo('E');
-			p->abrirFichero();
 			EnviarCaracter(PuertoCOM, 'M');//La otra estacion sera maestro
 			Esclavo(PuertoCOM);
 		}
@@ -176,7 +174,6 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 	}else{
 		establecerColor(15);
 		p->setProtocolo(false);//Se cancela protocolo
-		//TODO Habria que enviarle algun caracter para que otra pantalla cancele protocolo tb
 		p->printString("Se cancela la accion\n");
 	}
 
@@ -214,7 +211,6 @@ void Emisor::Maestro(HANDLE &PuertoCOM){
 	}else{
 		establecerColor(15);
 		p->setProtocolo(false);//Se cancela protocolo
-		//TODO Habria que enviarle algun caracter para que otra pantalla cancele protocolo tb
 		p->printString("Se cancela la accion\n");
 	}
 
@@ -253,7 +249,7 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 	bool salir = false;
 	establecerColor(2);
 	do{
-		p->printString("Â¿Desea el cierre de la comunicacion?(1-2)\n");
+		p->printString("¿Desea el cierre de la comunicacion?(1-2)\n");
 		p->printString("\t1. Si\n");
 		p->printString("\t2. No\n\n");
 		opcion = getch();
@@ -284,7 +280,6 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 	}else{
 		establecerColor(15);
 		p->setProtocolo(false);//Se cancela protocolo
-		//TODO Habria que enviarle algun caracter para que otra pantalla cancele protocolo tb
 		p->printString("Se cancela la accion\n");
 	}
 
@@ -316,6 +311,7 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM){
 
 void Emisor::Esclavo(HANDLE &PuertoCOM){
 	establecerColor(2);
+	p->printCabecera();
 	p->printString("Ha seleccionado ESCLAVO\n\n");
 
 	establecerColor(1);//Para la trama ENQ que recibimos

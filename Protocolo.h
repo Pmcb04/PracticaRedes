@@ -67,11 +67,15 @@ public:
 
 	void printCabecera();
 
+	void printCaracterCabecera(int cont);
+
 	void printSeleccion();
 
 	void printStringFichero(string s);
 
 	void printCharFichero(char c);
+
+	void printCharCabecera(int cont);
 
 	void printIntFichero(int n);
 
