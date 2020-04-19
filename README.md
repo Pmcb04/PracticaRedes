@@ -558,6 +558,38 @@ Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas 
   - Llamada de Sondeo : ``SYN  T  ENQ  '0'``
   
 **Fase de trasferencia**
-  - Envío de datos de Selección(trama número n): ``SYN  R  STX  n  Long  Datos  BCE``
-  - Envío de datos de Sondeo(trama número n): ``SYN  T  STX  n  Long  Datos  BCE``
+  - Envío de datos de Selección(trama número n): 
+    -  ``| SYN | R | STX | n | Long | Datos | BCE |``
+  - Envío de datos de Sondeo(trama número n):
+    -  ``| SYN | T | STX | n | Long | Datos | BCE |``
+  - Confirmación de la tama n en Selección:   
+    -  ``| SYN  | R | STX | n | Long | Datos | BCE |``  
+  - Confirmación de la tama n en Sondeo:   
+    -  ``| SYN  | T | STX | n | Long | Datos | BCE |``  
+  - Rechazo de la trama n en Sondeo:   
+    -  ``| SYN  | T | NACK | n |``
+    
+ **Fase de cierre o liberación**
+   - Liberación o cierre en Selección:   
+    -  ``| SYN  | R | EOT | '0' |``  
+   - Liberaci´on o cierre en Sondeo:   
+    -  ``| SYN  | T | STX | '0' |``  
+
+### :three: Fases de la operación de Selección.
+Al comienzo de cada fase de operación, el número de
+trama será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’. 
+
+Se deberá mostrar en todo momento TODAS las
+tramas (control y datos) que se envían y que se reciban durante las tres fases de la comunicación
+(establecimiento, transferencia y liberación), tanto en el equipo emisor como en el equipo receptor
+
+De cada trama SOLO se mostrará la información estrictamente necesaria que se indica a continuación.
+Para la estación maestra se mostrará (en orden de aparición):
+- **E** si la trama es enviada o **R** si la trama es recibida.
+- **R**, que indica que el tipo de operación que estamos realizando es de Selección.
+- La descripción del campo de control (**ENQ, ACK, NACK, EOT o STX** (si es trama
+  de datos).
+- El número de trama, que se corresponderá con **0 o 1.**
+- El **BCE** de la trama que se envía. El valor que se muestre deberá ser un valor
+  numérico, no se admitirá un carácter como representación en pantalla.
 
