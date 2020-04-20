@@ -1,4 +1,5 @@
 //============================================================================
+// ----------- PRÃ�CTICAS DE FUNDAMENTOS DE REDES DE COMUNICACIONES -----------
 // ---------------------------- CURSO 2019/20 --------------------------------
 // ----------------------------- SESION1.CPP ---------------------------------
 //============================================================================
@@ -43,8 +44,10 @@ HANDLE PuertoCOM;
 // */
 
 
+//Abrimos el puerto. Para ello necesitamos indicar los siguientes parÃ¯Â¿Â½metros:
 // - Nombre del puerto a abrir: ("COM1", "COM2", "COM3", ...).
 // - Velocidad: (1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200).
+// - NÃ¯Â¿Â½mero de bits en cada byte enviado o recibido: (4, 5, 6, 7, 8).
 // - Paridad: (0=sin paridad, 1=impar, 2=par, 3=marca, 4=espacio).
 // - Bits de stop: (0=1 bit, 1=1.5 bits, 2=2 bits).
 
@@ -85,6 +88,7 @@ int main()
   	    }
 
 
+    // Lectura y escritura simultÃ¡nea de caracteres:
 	//if(i == 0){
 		while( E->getCarE() != 27){
 			R->Recibir(PuertoCOM);
