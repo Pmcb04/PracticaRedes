@@ -20,8 +20,7 @@
 using namespace std;
 
 HANDLE PuertoCOM;
-//File f;
-//Protocolo p;
+
 
 
 //

@@ -96,10 +96,12 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 						p->setProtocolo(true);//Se activa protocolo
 						p->setTipo('M');
 						p->abrirFichero();
+						p->printCabecera();
 					}else if(carR == 'E'){
 						p->setProtocolo(true);//Se activa protocolo
 						p->setTipo('E');
 						p->abrirFichero();
+						p->printCabecera();
 					}
 					break;
 
@@ -230,14 +232,7 @@ void Receptor::procesarFichero(){
 			f->printString("Recibiendo fichero por ");
 			f->printString(Autores);
 			f->printString("\n");
-		}else{
-			p->printString("Recibiendo fichero por ");
-			p->printString(Autores);
-			p->printString("\n");
-			establecerColor(12);//linea de cabecera
-		}
-
-
+		}else establecerColor(12);//linea de cabecera
 
 		linea++;
 

@@ -143,6 +143,7 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 		f->changeCondicion();
 	}
 
+	p->setProtocolo(true);
 	p->abrirFichero();
 	p->printCabecera();
 
@@ -311,7 +312,7 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM){
 
 void Emisor::Esclavo(HANDLE &PuertoCOM){
 	establecerColor(2);
-	p->printCabecera();
+
 	p->printString("Ha seleccionado ESCLAVO\n\n");
 
 	establecerColor(1);//Para la trama ENQ que recibimos
