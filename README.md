@@ -554,8 +554,8 @@ correspondiente, se mostrarán también en pantalla, tanto si son enviadas como 
 Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas fases:
 
 **Fase de selección**
-  - Llamada de Selección: ``SYN  R  ENQ  '0'``
-  - Llamada de Sondeo : ``SYN  T  ENQ  '0'``
+  - Llamada de Selección: ``| SYN | R | ENQ | '0' |``
+  - Llamada de Sondeo : ``| SYN | T | ENQ | '0' |``
   
 **Fase de trasferencia**
   - Envío de datos de Selección(trama número n): 
@@ -579,6 +579,9 @@ Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas 
 Al comienzo de cada fase de operación, el número de
 trama será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’. 
 
+Cuando la operación es de
+Selección, es decir, el maestro envía el fichero de texto al esclavo
+
 Se deberá mostrar en todo momento TODAS las
 tramas (control y datos) que se envían y que se reciban durante las tres fases de la comunicación
 (establecimiento, transferencia y liberación), tanto en el equipo emisor como en el equipo receptor
@@ -593,3 +596,132 @@ Para la estación maestra se mostrará (en orden de aparición):
 - El **BCE** de la trama que se envía. El valor que se muestre deberá ser un valor
   numérico, no se admitirá un carácter como representación en pantalla.
 
+Para la estación esclava se mostrará (en orden de aparición):
+- **E** si la trama es enviada o **R** si la trama es recibida.
+- **R**, que indica que el tipo de operación que estamos realizando es de Selección.
+- La descripción del campo de control **(ENQ, ACK, NACK, EOT o STX** (si es trama
+  de datos). 
+- El número de trama, que se corresponderá con **0 o 1.**
+-  El **BCE** que se recibe de la trama (el BCE que le llega al receptor). El valor que se
+   muestre deberá ser un valor numérico, no se admitirá un carácter como representación
+   en pantalla.
+- El **BCE** que se calcula de la trama recibida. El valor que se muestre deberá ser un
+  valor numérico, no se admitirá un carácter como representación en pantalla.
+  
+La información referente a las tramas de la fase de establecimiento se deberá mostrar en azul. La
+información de la fase de transferencia se mostrará: las correspondientes a las líneas de cabecera en
+rojo, las tramas del cuerpo del fichero se mostrarán en verde y las correspondientes al tamaño del
+fichero se mostrarán en gris. La información relacionada con las tramas de la fase de cierre, se
+mostrarán en cyan.
+
+A continuación, se muestra un ejemplo correspondiente al envío de un fichero + el tamaño del
+fichero, compuesto por 3 tramas de datos correspondientes a las líneas de cabecera, 3 tramas
+referentes al cuerpo del fichero y 1 trama con la información del tamaño del fichero.   
+
+| | **ESTACIÓN MAESTRA** | **ESTACIÓN ESCLAVA**|
+|---|---|---|
+|*Fase de establecimiento*|E R ENQ 0|R R ENQ 0|
+||R R ACK 0|E R ACK 0|
+|*Fase de transferencia*|E R STX 0 122|R R STX 0 122 122|
+||R R ACK 0|E R ACK 0|
+||E R STX 1 230|R R STC 1 230 230|
+||R R ACK 1|E R ACK 1|
+||E R STX 0 135|R R STX 0 135 135|
+||R R ACK 0|E R ACK 0|
+||E R STX 1 29|R R STX 1 29 29|
+||R R ACK 1|E R ACK 1|
+||E R STX 0 88| R R STX 0 88 88|
+||R R ACK 0|E R ACK 0|
+||E R STX 1 46|R R STX 1 46 46|
+||R R ACK 1|E R ACK 1|
+||E R STX 0 18|R R STX 0 18 18|
+||R R ACK 0|E R ACK 0|
+|*Fase de Cierre o liberación*|E R EOT 0 | R R EOT 0|
+||R R ACK 0| E R ACK 0|
+
+### :four: Fases de la operación de Sondeo
+El número de trama
+será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’. Para cada cierre o liberación solicitada
+a la estación maestra, también se alternará el número de trama.
+
+Cuando la operación es de Sondeo, es decir, el maestro le pide al esclavo que le envíe el fichero de texto.
+
+Para comprobar el funcionamiento de la práctica, se deberá mostrar en todo momento TODAS las
+tramas (control y datos) que se envían y que se reciben durante las tres fases (establecimiento,
+transferencia y liberación), tanto en el equipo emisor como en el receptor. De cada trama solo se mostrará la
+información estrictamente necesaria que se indica a continuación:
+
+Para la estación maestra se mostrará (en orden de aparición):
+- **E** si la trama es enviada o **R** si la trama es recibida.
+- **T**, que indica que el tipo de operación que estamos realizando es de Sondeo.
+- La descripción del campo de control (ENQ, ACK, NACK, EOT o STX (si es trama
+  de datos).
+- El número de trama, que se corresponderá con **0 o 1.**
+- El **BCE** que se recibe de la trama (el BCE que le llega). El valor que se muestre deberá
+ser un valor numérico, no se admitirá un carácter como representación en pantalla.
+- El **BCE** que se calcula de la trama recibida. El valor que se muestre deberá ser un
+valor numérico, no se admitirá un carácter como representación en pantalla.
+
+Para la estación esclava se mostrará (en orden de aparición):
+- **E** si la trama es enviada o **R** si la trama es recibida.
+- **T**, que indica que el tipo de operación que estamos realizando es de Sondeo.
+- La descripción del campo de control **(ENQ, ACK, NACK, EOT o STX*** (si es trama
+  de datos).
+- El número de trama, que se corresponderá con **0 o 1.**
+- El **BCE** de la trama que se envía. El valor que se muestre deberá ser un valor
+  numérico, no se admitirá un carácter como representación en pantalla.
+  
+La información referente a las tramas de la fase de establecimiento se deberá mostrar en azul. La
+información de la fase de transferencia se mostrará: las correspondientes a las líneas de cabecera en
+rojo, las tramas del cuerpo del fichero se mostrarán en verde y las correspondientes al tamaño del
+fichero se mostrarán en gris. La información relacionada con las tramas de la fase de cierre, se
+mostrarán en cyan.
+
+A continuación, se muestra un ejemplo correspondiente al envío de un fichero + tamaño del fichero,
+compuesto por 3 tramas de datos correspondientes a las líneas de cabecera, 2 tramas correspondiente
+al cuerpo del fichero y una trama con la información del tamaño del fichero. En este ejemplo, al
+solicitar el esclavo el cierre de la comunicación, el maestro rechazó el primer cierre y aceptó el
+segundo
+
+| | **ESTACIÓN MAESTRA** | **ESTACIÓN ESCLAVA**|
+|---|---|---|
+|*Fase de establecimiento*|E T ENQ 0|R T ENQ 0|
+||R T ACK 0|E T ACK 0|
+|*Fase de transferencia*|R T STX 0 112 112|E T STX 0 112|
+||E T ACK 0|R T ACK 0|
+||R T STX 1 242 242|E T STC 1 242|
+||E T ACK 1|R T ACK 1|
+||R T STX 0 26 26|E T STX 0 26|
+||E T ACK 0|R T ACK 0|
+||R T STX 1 139 139|E T STX 1 139|
+||E T ACK 1|R T ACK 1|
+||R T STX 0 12 12| E T STX 0 12|
+||E T ACK 0|R T ACK 0|
+||R T STX 1 200 200|E T STX 1 200|
+||E T ACK 1|R T ACK 1|
+||R T STX 0 194 194|E T STX 0 194|
+||E T ACK 0|R T ACK 0|
+|*Fase de Cierre o liberación*|R T EOT 0 | E T EOT 0|
+||E T NACK 0| R T NACK 0|
+||R T EOT 0| E T EOT 0|
+||E T ACK 0| R T ACK 0|
+
+### :five: volcado de pantalla a fichero Prolog-m.txt y Prolog-e.txt
+Para comprobar lo que ha podido ocurrir durante la ejecución del protocolo, toda la actividad
+mostrada en pantalla se volcará a dos ficheros distintos. La información mostrada en pantalla en el equipo
+maestro, se volcará a un fichero llamado **Prolog-m.txt** y la mostrada en el equipo esclavo a un fichero
+llamado **Prolog-e.txt**.
+
+En caso de haber activado previamente el volcado de información al fichero **log.txt** (mediante F5),
+ese fichero se cerrará una vez hayamos entrado en modo protocolo, es decir, al pulsar F6.
+
+### :six: Control de fin de aplicación (ESC)
+En este momento de la práctica, la tecla escape debería funcionar perfectamente en la mayoría de
+los casos. Al pulsar escape en el programa principal, el usuario pondría fin a la ejecución de la aplicación.
+En caso de estar realizando alguna acción mientras se pulse dicha tecla, por ejemplo, enviando fichero,
+enviando trama de control, enviando fichero mediante protocolo, … en lugar de abandonar la aplicación,
+se debería cancelar dicha acción y volver a la situación anterior, de modo que la práctica no termine de
+manera drástica. En el caso de estar recibiendo, tanto si estamos o no en modo protocolo, podría omitirse
+la pulsación del escape, ya que el abandonar el receptor la aplicación, provocaría que el emisor se quedara
+enviando información sin que nadie la recibiera (no sería muy lógico). Siempre se debe pensar en utilizar
+el escape de la manera más lógica y coherente posible
