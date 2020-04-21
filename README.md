@@ -1,3 +1,15 @@
+<a name ="top"></a>
+
+
+**INDICE**
+  - [Entrega 1](#ent1)
+  - [Entrega 2](#ent2)
+  - [Entrega 3](#ent3)
+  - [Entrega 4](#ent4)
+  - [Entrega 5](#ent5)
+
+
+<a name ="ent1"></a>
 # Entrega 1
 ### :one: Objetivos.
 Las primeras sesiones prácticas de la asignatura, tienen como objetivo la
@@ -57,7 +69,7 @@ pulsando la tecla de función **F1**.
 En todo momento, el usuario puede poner fin a la aplicación mediante la
 pulsación de la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se
 pulsa esta tecla, se cancelará dicha acción.
-
+<a name ="ent2"></a>
 # Entrega 2
 ### :one: Tipos de tramas de control.
 - En esta entrega empezaremos a trabajar con el nivel de enlace. Para enviar
@@ -158,7 +170,7 @@ opción adecuada.
 En todo momento, el usuario puede poner fin a la aplicación mediante la
 pulsación de la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se
 pulsa esta tecla, se cancelará dicha acción.
-
+<a name ="ent3"></a>
 # Entrega 3
 ### :one: Construcción de tramas de datos.
 Las tramas de datos estarán compuestas por los siguientes campos:
@@ -333,7 +345,7 @@ Se deberán usar colores que no impidan una visión cómoda de la información.
 En todo momento, el usuario puede poner fin a la aplicación mediante la pulsación
 de la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se pulsa esta
 tecla, se cancelará dicha acción.
-
+<a name ="ent4"></a>
 # Entrega 4
 
 ### :one: Construcción de tramas de datos.
@@ -479,7 +491,7 @@ volcará al fichero log.txt hasta finalizar la ejecución de la aplicación.
 En todo momento, el usuario puede poner fin a la aplicación mediante la pulsación de
 la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se pulsa esta tecla, se
 cancelará dicha acción.
-
+<a name ="ent5"></a>
 # Entrega 5
 ### :one: Funcionamiento del protocolo MAESTRO-EXCLAVO
 El protocolo Maestro-Esclavo se activará **únicamente** en una de las dos estaciones mediante la
@@ -706,7 +718,7 @@ segundo
 ||R T EOT 0| E T EOT 0|
 ||E T ACK 0| R T ACK 0|
 
-### :five: volcado de pantalla a fichero Prolog-m.txt y Prolog-e.txt
+### :five: Volcado de pantalla a fichero Prolog-m.txt y Prolog-e.txt
 Para comprobar lo que ha podido ocurrir durante la ejecución del protocolo, toda la actividad
 mostrada en pantalla se volcará a dos ficheros distintos. La información mostrada en pantalla en el equipo
 maestro, se volcará a un fichero llamado **Prolog-m.txt** y la mostrada en el equipo esclavo a un fichero
