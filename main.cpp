@@ -20,29 +20,6 @@
 using namespace std;
 
 HANDLE PuertoCOM;
-//File f;
-//Protocolo p;
-
-
-//
-///*
-// *    0 = Negro
-// * 	1 = Azul
-// *	2 = Verde
-// *	3 = Azul verdoso
-// *	4 = Marron
-// *	5 = Morado
-// *	6 = Verde mostaza
-// * 	7 = Gris claro
-// * 	8 = Gris oscuro
-// *	9 = Azul electrico
-// *	10 = Verde fluorescente
-// *	11 = Cian
-// *	12 = Rojo
-// *	13 = Fucsia
-// *	14 = Amarillo
-// *	15 = Blanco
-// */
 
 
 //Abrimos el puerto. Para ello necesitamos indicar los siguientes parï¿½metros:
