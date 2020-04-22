@@ -1,5 +1,5 @@
 //============================================================================
-// ----------- PRÁCTICAS DE FUNDAMENTOS DE REDES DE COMUNICACIONES -----------
+// ----------- PRÃ�CTICAS DE FUNDAMENTOS DE REDES DE COMUNICACIONES -----------
 // ---------------------------- CURSO 2019/20 --------------------------------
 // ----------------------------- SESION1.CPP ---------------------------------
 //============================================================================
@@ -21,11 +21,31 @@ using namespace std;
 
 HANDLE PuertoCOM;
 
+//
+///*
+// *    0 = Negro
+// * 	1 = Azul
+// *	2 = Verde
+// *	3 = Azul verdoso
+// *	4 = Marron
+// *	5 = Morado
+// *	6 = Verde mostaza
+// * 	7 = Gris claro
+// * 	8 = Gris oscuro
+// *	9 = Azul electrico
+// *	10 = Verde fluorescente
+// *	11 = Cian
+// *	12 = Rojo
+// *	13 = Fucsia
+// *	14 = Amarillo
+// *	15 = Blanco
+// */
 
-//Abrimos el puerto. Para ello necesitamos indicar los siguientes parï¿½metros:
+
+//Abrimos el puerto. Para ello necesitamos indicar los siguientes parÃ¯Â¿Â½metros:
 // - Nombre del puerto a abrir: ("COM1", "COM2", "COM3", ...).
 // - Velocidad: (1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200).
-// - Nï¿½mero de bits en cada byte enviado o recibido: (4, 5, 6, 7, 8).
+// - NÃ¯Â¿Â½mero de bits en cada byte enviado o recibido: (4, 5, 6, 7, 8).
 // - Paridad: (0=sin paridad, 1=impar, 2=par, 3=marca, 4=espacio).
 // - Bits de stop: (0=1 bit, 1=1.5 bits, 2=2 bits).
 
@@ -66,7 +86,7 @@ int main()
   	    }
 
 
-    // Lectura y escritura simultánea de caracteres:
+    // Lectura y escritura simultÃ¡nea de caracteres:
 	//if(i == 0){
 		while( E->getCarE() != 27){
 			R->Recibir(PuertoCOM);

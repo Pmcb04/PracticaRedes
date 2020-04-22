@@ -93,7 +93,7 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 void Emisor::escribir(){
 	if(indice < MAXMENSAJE){
 		establecerColor(2);
-		mensaje[indice] = carE;  //Añade el caracter para mostrarlo cuando se envie
+		mensaje[indice] = carE;  //AÃ±ade el caracter para mostrarlo cuando se envie
 		indice++;
 		printf("%c", carE);  //Muestra envio en la pantalla que escribe
 	}
@@ -143,6 +143,7 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 		f->changeCondicion();
 	}
 
+	p->setProtocolo(true);
 	p->abrirFichero();
 	p->printCabecera();
 
@@ -249,7 +250,7 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 	bool salir = false;
 	establecerColor(2);
 	do{
-		p->printString("�Desea el cierre de la comunicacion?(1-2)\n");
+		p->printString("¿Desea el cierre de la comunicacion?(1-2)\n");
 		p->printString("\t1. Si\n");
 		p->printString("\t2. No\n\n");
 		opcion = getch();
@@ -311,7 +312,7 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM){
 
 void Emisor::Esclavo(HANDLE &PuertoCOM){
 	establecerColor(2);
-	p->printCabecera();
+
 	p->printString("Ha seleccionado ESCLAVO\n\n");
 
 	establecerColor(1);//Para la trama ENQ que recibimos
@@ -747,7 +748,7 @@ void Emisor::construirTrama(int numCaracteres, int &indiceMensaje, char* mensaje
 		unsigned char BCE = TE.calcularBCE();
 
 		TE.setBCE(BCE);
-		TE.setDato(numCaracteres, '\0');//Añadir \0 al final del vector
+		TE.setDato(numCaracteres, '\0');//AÃ±adir \0 al final del vector
 }
 
 
