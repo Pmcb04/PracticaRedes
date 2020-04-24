@@ -175,6 +175,7 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 	}else{
 		establecerColor(15);
 		p->setProtocolo(false);//Se cancela protocolo
+		p->cerrarFichero();
 		p->printString("Se cancela la accion\n");
 	}
 
@@ -212,6 +213,8 @@ void Emisor::Maestro(HANDLE &PuertoCOM){
 	}else{
 		establecerColor(15);
 		p->setProtocolo(false);//Se cancela protocolo
+		p->cerrarFichero();
+		EnviarCaracter(PuertoCOM, 27);
 		p->printString("Se cancela la accion\n");
 	}
 
@@ -250,7 +253,7 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 	bool salir = false;
 	establecerColor(2);
 	do{
-		p->printString("¿Desea el cierre de la comunicacion?(1-2)\n");
+		p->printString("Desea el cierre de la comunicacion?(1-2)\n");
 		p->printString("\t1. Si\n");
 		p->printString("\t2. No\n\n");
 		opcion = getch();
@@ -281,6 +284,8 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 	}else{
 		establecerColor(15);
 		p->setProtocolo(false);//Se cancela protocolo
+		p->cerrarFichero();
+		EnviarCaracter(PuertoCOM, 27);
 		p->printString("Se cancela la accion\n");
 	}
 
@@ -311,6 +316,7 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM){
 
 
 void Emisor::Esclavo(HANDLE &PuertoCOM){
+
 	establecerColor(2);
 
 	p->printString("Ha seleccionado ESCLAVO\n\n");
@@ -318,17 +324,21 @@ void Emisor::Esclavo(HANDLE &PuertoCOM){
 	establecerColor(1);//Para la trama ENQ que recibimos
 	esperarTramaEstablecimiento(PuertoCOM);//Esperar llamada | Trama ENQ
 
-	char operacion = p->getOperacion();
-	switch(operacion){
-	case 82:
-		p->setOperacion('R');
-		esclavoSeleccion(PuertoCOM);
-		break;
-	case 84:
-		p->setOperacion('T');
-		esclavoSondeo(PuertoCOM);
-		break;
+	if(p->getProtocolo()){
+
+		char operacion = p->getOperacion();
+				switch(operacion){
+				case 82:
+					p->setOperacion('R');
+					esclavoSeleccion(PuertoCOM);
+					break;
+				case 84:
+					p->setOperacion('T');
+					esclavoSondeo(PuertoCOM);
+					break;
+				}
 	}
+
 }
 
 void Emisor::esclavoSeleccion(HANDLE &PuertoCOM){
@@ -443,8 +453,9 @@ void Emisor::enviarTramaNegacion(HANDLE &PuertoCOM){
 }
 
 void Emisor::esperarTramaEstablecimiento(HANDLE &PuertoCOM){
-	while(R->Recibir(PuertoCOM) != 3);//Esperar trama ENQ
+	while(R->Recibir(PuertoCOM) != 3 && p->getProtocolo());//Esperar trama ENQ
 }
+
 
 void Emisor::esperarTramaConfirmacion(HANDLE &PuertoCOM){
 	while(R->Recibir(PuertoCOM) != 4);//Esperar trama ACK

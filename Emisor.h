@@ -11,7 +11,7 @@
 
 #include "Receptor.h"
 #include "Protocolo.h"
-
+#include <ctime>
 
 const int MAXMENSAJE = 800;
 
