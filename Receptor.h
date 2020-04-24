@@ -2,14 +2,14 @@
  * Receptor.h
  *
  *  Created on: 26 mar. 2020
- *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
  */
 
 /*
  * Receptor.h
  *
  *  Created on: 26 mar. 2020
- *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
  */
 
 #ifndef RECEPTOR_H_
@@ -17,8 +17,9 @@
 
 
 #include "TramaDatos.h"
-#include "Gestor.h"
+#include "File.h"
 #include "Protocolo.h"
+#include "Gestor.h"
 
 
 class Receptor{

@@ -5,21 +5,12 @@
 //============================================================================
 
 
-#include <stdio.h>
-#include <conio.h>
-#include <windows.h>
-#include <iostream>
-#include <fstream>
-#include <string.h>
-#include "PuertoSerie.h"
-#include "TramaDatos.h"
-#include "File.h"
 #include "Emisor.h"
-#include "Protocolo.h"
 
 using namespace std;
 
 HANDLE PuertoCOM;
+
 
 //Abrimos el puerto. Para ello necesitamos indicar los siguientes parÃ¯Â¿Â½metros:
 // - Nombre del puerto a abrir: ("COM1", "COM2", "COM3", ...).
@@ -35,13 +26,9 @@ int main()
 
 	Receptor *R = new Receptor();  R->setFile(f); R->setProtocolo(p);
 	Emisor* E = new Emisor();  E->setReceptor(R);  E->setFile(f); E->setProtocolo(p);
-	Gestor* G = new Gestor();  G->setFile(f);
 
-  	//TramaDatos TD, TC;
-    //char PSerie[5];
-
-	G->encabezado();
-	int i = G->IniciarPuerto(PuertoCOM);
+	encabezado();
+	int i = IniciarPuerto(PuertoCOM);
 
 
     // Lectura y escritura simultánea de caracteres:
@@ -56,7 +43,7 @@ int main()
 	 f->cerrarFichero();//TODO mirarse donde cerrar eso
 
 	 delete p; delete f;  delete R;//TODO
-	 delete E;  delete G;
+	 delete E;
 
    CerrarPuerto(PuertoCOM);
 

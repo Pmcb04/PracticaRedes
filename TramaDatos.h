@@ -2,7 +2,6 @@
 #define TRAMADATOS_H
 
 #include "TramaControl.h"
-#include "PuertoSerie.h"
 
 const int MAX = 255;
 typedef char vDatos[MAX];

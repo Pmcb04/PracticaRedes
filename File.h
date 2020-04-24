@@ -1,5 +1,5 @@
 /*
- * Gestor.h
+ * File.h
  *
  *  Created on: 23 mar. 2020
  *      Author: Pedro Miguel Carmona & Rubén Marín Lucas

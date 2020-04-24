@@ -8,14 +8,9 @@
 #ifndef PROTOCOLO_H_
 #define PROTOCOLO_H_
 
-#include "Color.h"
-#include <stdio.h>
-#include <string.h>
-#include <fstream>
-#include <iostream>
-using namespace std;
+#include "Gestor.h"
 
-class Protocolo{
+class Protocolo {
 	bool protocolo;//Si se pusa f6 se activa
 	char mE;// 'M' maestro | 'E' esclavo
 	char operacion; // 'R' Seleccion | 'T' Sondeo

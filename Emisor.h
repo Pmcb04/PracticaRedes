@@ -3,7 +3,7 @@
  * Emisor.h
  *
  *  Created on: 26 mar. 2020
- *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
  */
 
 #ifndef EMISOR_H_
@@ -11,11 +11,11 @@
 
 #include "Receptor.h"
 #include "Protocolo.h"
-#include <ctime>
+
 
 const int MAXMENSAJE = 800;
 
-class Emisor{
+class Emisor {
 	char carE;
 	char mensaje[MAXMENSAJE+2];
 	int indice;
