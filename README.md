@@ -1,4 +1,42 @@
-# Entrega 1
+<a name ="top"></a>
+
+# **INDICE**
+  - [ENTREGA 1. ENVÍO Y RECEPCIÓN DE DATOS](#ent1)
+    - [Objetivos](#e11)
+    - [Elección de puerto y velocidad de trasmisión](#e12)
+    - [Envío y recepción de datos](#e13)
+    - [Control de fin de aplicación](#e14)
+  - [ENTREGA 2. ENVÍO Y RECEPCIÓN DE TRAMAS DE CONTROL (NIVEL ENLCE)](#ent2)
+    - [Tipos de trama de control](#e21)
+    - [Construcción de tramas de control](#e22)
+    - [Envio de tramas de control](#e23)
+    - [Recepción de tramas de control](#e24)
+    - [Control de fin de aplicación](#e25)
+  - [ENTREGA 3. ENVÍO Y RECEPCIÓN DE MENSAJES CON TRAMAS DE DATOS](#ent3)
+    - [Construcción de tramas de datos](#e31)
+    - [Cálculo del BCE](#e32)
+    - [Envío de mensajes de tramas de datos](#e33)
+    - [Recepción de mensajes con tramas de datos](#e34)
+    - [Utilización de diferentes colores para diferenciar mensajes enviados y recibidos](#e35)
+    - [Control de fin de aplicación(ESC)](#e36)
+  - [ENTREGA 4. ENVÍO Y RECEPCIÓN DE FICHEROS CON TRAMAS](#ent4)
+    - [Construcción de tramas de datos](#e41)
+    - [Envío y repección de ficheros con tramas de datos](#e42)
+    - [Ejemplo de fichero de texto](#e43)
+    - [Volcado de pantalla a fichero log.txt](#e44)
+    - [Control de fin de aplicación(ESC)](#e45)
+  - [ENTREGA 5. PROTOCOLO MAESTRO-ESCLAVO](#ent5)
+    - [Funcionamiento del protocolo](#e51)
+    - [Tipos de tramas empleadas](#e52)
+    - [Fases de la operación de Selección](#e53)
+    - [Fases de la operación de Sondeo](#e54)
+    - [Volcado de pantalla a fichero Prolog-m.txt y Prolog-e.txt](#e55)
+    - [Control de fin de aplicación(ESC)](#e56)
+
+
+<a name ="ent1"></a>
+# ENTREGA 1. ENVÍO Y RECEPCIÓN DE DATOS
+<a name ="e11"></a>
 ### :one: Objetivos.
 Las primeras sesiones prácticas de la asignatura, tienen como objetivo la
 familiarización con una librería de control del puerto RS-232. La mayoría de sistemas
@@ -7,7 +45,7 @@ disponibles en el ordenador. Para evitar la incorporación de instrucciones de a
 directo al hardware, se proporciona la librería **PuertoSerie** que hace uso de la librería
 **Windows.h.** Con ella se construirá una aplicación que permita controlar de forma
 precisa todos los circuitos de un puerto RS-232C.
-
+<a name ="e12"></a>
 ### :two: Elección del puerto y velocidad de transmisión.
 Al iniciar la aplicación se deberá permitir al usuario seleccionar el puerto serie que
 será utilizado por la aplicación, permitiendo elegir entre COM1, COM2, COM3 y COM4 de
@@ -22,7 +60,7 @@ Seleccionar el puerto a utilizar:
 ```
 Una vez seleccionado el puerto, se deberá mostrar al usuario la posibilidad de elegir la
 velocidad de transmisión de entre las siguientes opciones:
-
+ 
 ```
 Seleccionar la velocidad de transmisión:
 1. 1200
@@ -34,7 +72,7 @@ Seleccionar la velocidad de transmisión:
 
 A continuación, el puerto se abrirá usando el resto de parámetros por defecto comentados en
 clase (8 bits de datos, sin paridad, 1 bit de stop).
-
+<a name ="e13"></a>
 ### :three: Envío y recepción de datos.
 - Se debe permitir escribir un mensaje en pantalla de hasta 800 caracteres como
 máximo bloqueando la escritura de cualquier carácter más, a partir de ese
@@ -52,13 +90,15 @@ inicio de la línea siguiente.
 pulsando la tecla de función **F1**.
 - El receptor recibirá cualquier mensaje enviado por el emisor.
 - **El envío y la recepción nunca deben excluirse mutuamente.**
-
+<a name ="e14"></a>
 ### :four: Control de fin de aplicación (ESC).
 En todo momento, el usuario puede poner fin a la aplicación mediante la
 pulsación de la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se
 pulsa esta tecla, se cancelará dicha acción.
-
-# Entrega 2
+[:top:](#top)
+<a name ="ent2"></a>
+# ENTREGA 2. ENVÍO Y RECEPCIÓN DE TRAMAS DE CONTROL (NIVEL ENLCE)
+<a name ="e21"></a>
 ### :one: Tipos de tramas de control.
 - En esta entrega empezaremos a trabajar con el nivel de enlace. Para enviar
 información y controlar la comunicación entre dos estaciones de trabajo utilizaremos
@@ -89,7 +129,7 @@ comunicación entre dos estaciones y estarán formadas por 4 campos:
   - Trama ACK: Valor 06.
   - Trama NACK: Valor 21.
 - El campo **Numero de Trama** oscilará entre los valores '0' y '1'. En principio se fijará a '0'.
-
+<a name ="e22"></a>
 ### :two: Contrucción de tramas de control
 - Las tramas de control se construirán de la siguiente manera:
 ```C++
@@ -101,7 +141,7 @@ comunicación entre dos estaciones y estarán formadas por 4 campos:
    unsigned char NT; // Numero de Trama = (En principio fijo a ‘0’)
  };
  ```
-
+<a name ="e23"></a>
 ### :three: Envío tramas de control.
 - Para enviar tramas de control se añadirá una nueva opción a la práctica mediante la
 pulsación de **F2**.
@@ -119,7 +159,7 @@ Trama de control a enviar:
 Solo a través de la pulsación de **1, 2, 3 o 4** se enviará la trama de control seleccionada.
 En otro caso **no se enviará nada** y se informará al usuario que tiene que pulsar la
 opción adecuada.
-
+<a name ="e24"></a>
 ### :four: Recepción de tramas de control.
 - Para comprobar qué tipo de trama se recibirá (trama de datos o de control), se debe
   chequear el campo “control” y verificar que contiene un valor distinto de **02** (valor
@@ -153,13 +193,15 @@ opción adecuada.
                 Haremos algo distinto
     Fin
   ```
-  
+<a name ="e25"></a>
 ### :five: Control de fin de aplicación (ESC).
 En todo momento, el usuario puede poner fin a la aplicación mediante la
 pulsación de la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se
 pulsa esta tecla, se cancelará dicha acción.
-
-# Entrega 3
+[:top:](#top)
+<a name ="ent3"></a>
+# ENTREGA 3. ENVÍO Y RECEPCIÓN DE MENSAJES CON TRAMAS DE DATOS
+<a name ="e31"></a>
 ### :one: Construcción de tramas de datos.
 Las tramas de datos estarán compuestas por los siguientes campos:
 
@@ -178,6 +220,7 @@ struct TramaDatos
 
 En un principio la trama de datos se construirá de la manera expresada anteriormente.
 En las sesiones sucesivas se explicará como irá cambiando.
+<a name ="e32"></a>
 ### :two: Cálculo del BCE:
 Para calcular el valor del campo BCE de una trama se debe hacer la operación lógica XOR dos a dos entre todos
 los caracteres del campo de datos de la trama.
@@ -186,7 +229,7 @@ Es decir se hará (DATOS[0] XOR DATOS[1]) XOR DATOS[2]) XOR DATOS[3]) ... XOR DA
 
 - Si al calcular el **BCE** obtenemos un valor **0** o un valor **255**, lo cambiaremos
   siempre por **1**.
-
+<a name ="e33"></a>
 ### :three: Envío de mensajes con tramas de datos.
 - Los mensajes de datos serán como máximo de 800 caracteres.
 - Los mensajes se trocearán en bloques de 254 caracteres (ya que la última posición la
@@ -201,7 +244,7 @@ Es decir se hará (DATOS[0] XOR DATOS[1]) XOR DATOS[2]) XOR DATOS[3]) ... XOR DA
   forma se imprimirá un salto de línea al final de cada mensaje en el receptor. (Si ya se
   hizo en la primera entrega con F1 al enviar el mensaje, debe mantenerse).
 - **El envío y la recepción nunca deben excluirse mutuamente.**
-
+<a name ="e34"></a>
 ### :four: Recepción de mensajes con tramas de datos.
 - **La trama de datos se procesará solo cuando se reciba completa**
 - Procesar la trama de datos consiste en, una vez recibida la trama completa, calcular
@@ -260,7 +303,7 @@ Si (carR != 0) //Comprobamos si hay datos que recibir
           Break
   Fin
 ```
-
+<a name ="e35"></a>
 ### :five: Utilización de diferentes colores para diferenciar mensaje enviados y recibidos.
 Para diferenciar los mensajes que se envíen de los que se reciban, es obligatorio
 hacer uso de colores. Para ello deberemos utilizar Windows.h.
@@ -328,14 +371,15 @@ hacer uso de colores. Para ello deberemos utilizar Windows.h.
   }
   ```
 Se deberán usar colores que no impidan una visión cómoda de la información.
-
+<a name ="e36"></a>
 ### :six: Control de fin de aplicación (ESC).
 En todo momento, el usuario puede poner fin a la aplicación mediante la pulsación
 de la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se pulsa esta
 tecla, se cancelará dicha acción.
-
-# Entrega 4
-
+[:top:](#top)
+<a name ="ent4"></a>
+# ENTREGA 4. ENVÍO Y RECEPCIÓN DE FICHEROS CON TRAMAS
+<a name ="e41"></a>
 ### :one: Construcción de tramas de datos.
 Como ya se explicó anteriormente, las tramas de datos están compuestas por los
 siguientes campos:
@@ -356,7 +400,7 @@ struct TramaDatos
 
 En un principio, como se explicó en la entrega 3, la trama de datos se construirá de la
 manera expresada anteriormente. En la entrega 5 se explicará como cambiará.
-
+<a name ="e42"></a>
 ### :two: Envío y recepción de ficheros con tramas de datos.
 - Previamente se creará un fichero de texto llamado **“fichero-e.txt”** con el bloc de notas
   y se almacenará en el directorio de trabajo. El tamaño del fichero será como mínimo
@@ -439,7 +483,7 @@ manera expresada anteriormente. En la entrega 5 se explicará como cambiará.
   entrega 6. Se podrá enviar y recibir un fichero de 100 kb de forma
   simultánea. El realizar este apartado incrementará la nota de la práctica en
   1 punto.
-
+<a name ="e43"></a>
 ### :three: Envio de ficheros con tramas de datos
 
 A continuación, se muestra un pseudocódigo para enviar el fichero, a modo de ayuda,
@@ -467,20 +511,22 @@ función trocer_trama() que implementasteis en la entrega 3 para el envío del f
  ```
  
 En el emisor,**NO SE DEBE MOSTRAR** en ningún momento el cuerpo del fichero por pantalla.
-
+<a name ="e44"></a>
 ### :four: Volcado de pantalla a fichero log.txt.
 Para comprobar en un momento determinado de forma detallada todo lo que ocurre en
 la aplicación, se podrá volcar toda la activad mostrada en pantalla a un fichero llamado **log.txt**
 utilizando para ello la tecla de función F5. Una vez pulsada F5 toda la información que se
 muestre en pantalla a partir de ese momento en un equipo determinado (emisor o receptor) se
 volcará al fichero log.txt hasta finalizar la ejecución de la aplicación.
-
+<a name ="e45"></a>
 ### :five: Control de fin de aplicación (ESC).
 En todo momento, el usuario puede poner fin a la aplicación mediante la pulsación de
 la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se pulsa esta tecla, se
 cancelará dicha acción.
-
-# Entrega 5
+[:top:](#top)
+<a name ="ent5"></a>
+# ENTREGA 5. PROTOCOLO MAESTRO-ESCLAVO
+<a name ="e51"></a>
 ### :one: Funcionamiento del protocolo MAESTRO-EXCLAVO
 El protocolo Maestro-Esclavo se activará **únicamente** en una de las dos estaciones mediante la
 pulsación de la tecla **F6**. Una vez activado el protocolo, una estación tomará el roll de
@@ -544,7 +590,7 @@ el cuerpo del fichero. Las líneas de cabecera contendrán:
 modo de proceder del fichero será igual que en la práctica anterior. Debe tenerse en cuenta que
 después de enviar el fichero completo, se enviará una trama de datos con el tamaño en bytes del
 fichero.
-
+<a name ="e52"></a>
 ### :two: Tipos de tramas empleadas.
 Como ya sabemos, existen dos tipos de tramas: tramas de control (órdenes y respuestas) y tramas
 de datos. Se debe mostrar por pantalla cada trama de control que se envíe o que se reciba. En el caso
@@ -554,8 +600,8 @@ correspondiente, se mostrarán también en pantalla, tanto si son enviadas como 
 Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas fases:
 
 **Fase de selección**
-  - Llamada de Selección: ``SYN  R  ENQ  '0'``
-  - Llamada de Sondeo : ``SYN  T  ENQ  '0'``
+  - Llamada de Selección: ``| SYN | R | ENQ | '0' |``
+  - Llamada de Sondeo : ``| SYN | T | ENQ | '0' |``
   
 **Fase de trasferencia**
   - Envío de datos de Selección(trama número n): 
@@ -574,10 +620,13 @@ Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas 
     -  ``| SYN  | R | EOT | '0' |``  
    - Liberaci´on o cierre en Sondeo:   
     -  ``| SYN  | T | STX | '0' |``  
-
+<a name ="e53"></a>
 ### :three: Fases de la operación de Selección.
 Al comienzo de cada fase de operación, el número de
 trama será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’. 
+
+Cuando la operación es de
+Selección, es decir, el maestro envía el fichero de texto al esclavo
 
 Se deberá mostrar en todo momento TODAS las
 tramas (control y datos) que se envían y que se reciban durante las tres fases de la comunicación
@@ -593,3 +642,133 @@ Para la estación maestra se mostrará (en orden de aparición):
 - El **BCE** de la trama que se envía. El valor que se muestre deberá ser un valor
   numérico, no se admitirá un carácter como representación en pantalla.
 
+Para la estación esclava se mostrará (en orden de aparición):
+- **E** si la trama es enviada o **R** si la trama es recibida.
+- **R**, que indica que el tipo de operación que estamos realizando es de Selección.
+- La descripción del campo de control **(ENQ, ACK, NACK, EOT o STX** (si es trama
+  de datos). 
+- El número de trama, que se corresponderá con **0 o 1.**
+-  El **BCE** que se recibe de la trama (el BCE que le llega al receptor). El valor que se
+   muestre deberá ser un valor numérico, no se admitirá un carácter como representación
+   en pantalla.
+- El **BCE** que se calcula de la trama recibida. El valor que se muestre deberá ser un
+  valor numérico, no se admitirá un carácter como representación en pantalla.
+  
+La información referente a las tramas de la fase de establecimiento se deberá mostrar en azul. La
+información de la fase de transferencia se mostrará: las correspondientes a las líneas de cabecera en
+rojo, las tramas del cuerpo del fichero se mostrarán en verde y las correspondientes al tamaño del
+fichero se mostrarán en gris. La información relacionada con las tramas de la fase de cierre, se
+mostrarán en cyan.
+
+A continuación, se muestra un ejemplo correspondiente al envío de un fichero + el tamaño del
+fichero, compuesto por 3 tramas de datos correspondientes a las líneas de cabecera, 3 tramas
+referentes al cuerpo del fichero y 1 trama con la información del tamaño del fichero.   
+
+| | **ESTACIÓN MAESTRA** | **ESTACIÓN ESCLAVA**|
+|---|---|---|
+|*Fase de establecimiento*|E R ENQ 0|R R ENQ 0|
+||R R ACK 0|E R ACK 0|
+|*Fase de transferencia*|E R STX 0 122|R R STX 0 122 122|
+||R R ACK 0|E R ACK 0|
+||E R STX 1 230|R R STC 1 230 230|
+||R R ACK 1|E R ACK 1|
+||E R STX 0 135|R R STX 0 135 135|
+||R R ACK 0|E R ACK 0|
+||E R STX 1 29|R R STX 1 29 29|
+||R R ACK 1|E R ACK 1|
+||E R STX 0 88| R R STX 0 88 88|
+||R R ACK 0|E R ACK 0|
+||E R STX 1 46|R R STX 1 46 46|
+||R R ACK 1|E R ACK 1|
+||E R STX 0 18|R R STX 0 18 18|
+||R R ACK 0|E R ACK 0|
+|*Fase de Cierre o liberación*|E R EOT 0 | R R EOT 0|
+||R R ACK 0| E R ACK 0|
+<a name ="e54"></a>
+### :four: Fases de la operación de Sondeo
+El número de trama
+será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’. Para cada cierre o liberación solicitada
+a la estación maestra, también se alternará el número de trama.
+
+Cuando la operación es de Sondeo, es decir, el maestro le pide al esclavo que le envíe el fichero de texto.
+
+Para comprobar el funcionamiento de la práctica, se deberá mostrar en todo momento TODAS las
+tramas (control y datos) que se envían y que se reciben durante las tres fases (establecimiento,
+transferencia y liberación), tanto en el equipo emisor como en el receptor. De cada trama solo se mostrará la
+información estrictamente necesaria que se indica a continuación:
+
+Para la estación maestra se mostrará (en orden de aparición):
+- **E** si la trama es enviada o **R** si la trama es recibida.
+- **T**, que indica que el tipo de operación que estamos realizando es de Sondeo.
+- La descripción del campo de control (ENQ, ACK, NACK, EOT o STX (si es trama
+  de datos).
+- El número de trama, que se corresponderá con **0 o 1.**
+- El **BCE** que se recibe de la trama (el BCE que le llega). El valor que se muestre deberá
+ser un valor numérico, no se admitirá un carácter como representación en pantalla.
+- El **BCE** que se calcula de la trama recibida. El valor que se muestre deberá ser un
+valor numérico, no se admitirá un carácter como representación en pantalla.
+
+Para la estación esclava se mostrará (en orden de aparición):
+- **E** si la trama es enviada o **R** si la trama es recibida.
+- **T**, que indica que el tipo de operación que estamos realizando es de Sondeo.
+- La descripción del campo de control **(ENQ, ACK, NACK, EOT o STX*** (si es trama
+  de datos).
+- El número de trama, que se corresponderá con **0 o 1.**
+- El **BCE** de la trama que se envía. El valor que se muestre deberá ser un valor
+  numérico, no se admitirá un carácter como representación en pantalla.
+  
+La información referente a las tramas de la fase de establecimiento se deberá mostrar en azul. La
+información de la fase de transferencia se mostrará: las correspondientes a las líneas de cabecera en
+rojo, las tramas del cuerpo del fichero se mostrarán en verde y las correspondientes al tamaño del
+fichero se mostrarán en gris. La información relacionada con las tramas de la fase de cierre, se
+mostrarán en cyan.
+
+A continuación, se muestra un ejemplo correspondiente al envío de un fichero + tamaño del fichero,
+compuesto por 3 tramas de datos correspondientes a las líneas de cabecera, 2 tramas correspondiente
+al cuerpo del fichero y una trama con la información del tamaño del fichero. En este ejemplo, al
+solicitar el esclavo el cierre de la comunicación, el maestro rechazó el primer cierre y aceptó el
+segundo
+
+| | **ESTACIÓN MAESTRA** | **ESTACIÓN ESCLAVA**|
+|---|---|---|
+|*Fase de establecimiento*|E T ENQ 0|R T ENQ 0|
+||R T ACK 0|E T ACK 0|
+|*Fase de transferencia*|R T STX 0 112 112|E T STX 0 112|
+||E T ACK 0|R T ACK 0|
+||R T STX 1 242 242|E T STC 1 242|
+||E T ACK 1|R T ACK 1|
+||R T STX 0 26 26|E T STX 0 26|
+||E T ACK 0|R T ACK 0|
+||R T STX 1 139 139|E T STX 1 139|
+||E T ACK 1|R T ACK 1|
+||R T STX 0 12 12| E T STX 0 12|
+||E T ACK 0|R T ACK 0|
+||R T STX 1 200 200|E T STX 1 200|
+||E T ACK 1|R T ACK 1|
+||R T STX 0 194 194|E T STX 0 194|
+||E T ACK 0|R T ACK 0|
+|*Fase de Cierre o liberación*|R T EOT 0 | E T EOT 0|
+||E T NACK 0| R T NACK 0|
+||R T EOT 0| E T EOT 0|
+||E T ACK 0| R T ACK 0|
+<a name ="e55"></a>
+### :five: Volcado de pantalla a fichero Prolog-m.txt y Prolog-e.txt
+Para comprobar lo que ha podido ocurrir durante la ejecución del protocolo, toda la actividad
+mostrada en pantalla se volcará a dos ficheros distintos. La información mostrada en pantalla en el equipo
+maestro, se volcará a un fichero llamado **Prolog-m.txt** y la mostrada en el equipo esclavo a un fichero
+llamado **Prolog-e.txt**.
+
+En caso de haber activado previamente el volcado de información al fichero **log.txt** (mediante F5),
+ese fichero se cerrará una vez hayamos entrado en modo protocolo, es decir, al pulsar F6.
+<a name ="e56"></a>
+### :six: Control de fin de aplicación (ESC)
+En este momento de la práctica, la tecla escape debería funcionar perfectamente en la mayoría de
+los casos. Al pulsar escape en el programa principal, el usuario pondría fin a la ejecución de la aplicación.
+En caso de estar realizando alguna acción mientras se pulse dicha tecla, por ejemplo, enviando fichero,
+enviando trama de control, enviando fichero mediante protocolo, … en lugar de abandonar la aplicación,
+se debería cancelar dicha acción y volver a la situación anterior, de modo que la práctica no termine de
+manera drástica. En el caso de estar recibiendo, tanto si estamos o no en modo protocolo, podría omitirse
+la pulsación del escape, ya que el abandonar el receptor la aplicación, provocaría que el emisor se quedara
+enviando información sin que nadie la recibiera (no sería muy lógico). Siempre se debe pensar en utilizar
+el escape de la manera más lógica y coherente posible
+[:top:](#top)

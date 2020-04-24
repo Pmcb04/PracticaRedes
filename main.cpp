@@ -22,6 +22,7 @@ using namespace std;
 HANDLE PuertoCOM;
 
 
+
 //Abrimos el puerto. Para ello necesitamos indicar los siguientes parÃ¯Â¿Â½metros:
 // - Nombre del puerto a abrir: ("COM1", "COM2", "COM3", ...).
 // - Velocidad: (1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200).

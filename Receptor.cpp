@@ -245,7 +245,7 @@ void Receptor::procesarFichero(){
 			flujoEscritura.put(datos[i]);
 		}
 
-		if(p->getProtocolo()) establecerColor(3);//cuerpo de fichero
+		if(p->getProtocolo()) establecerColor(2);//cuerpo de fichero
 
 		linea++;
 	}

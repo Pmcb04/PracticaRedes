@@ -535,7 +535,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 						construirTrama(numCaracteres, indiceMensaje, cadaux);
 
 						enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
-						establecerColor(3);
+						establecerColor(2);
 						p->printString("E ");//Trama enviada
 						TE.imprimirTrama(); TEimprimirTrama();
 						p->printString("\n");
