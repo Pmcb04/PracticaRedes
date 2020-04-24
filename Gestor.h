@@ -2,7 +2,7 @@
  * Gestor.h
  *
  *  Created on: 27 mar. 2020
- *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
  */
 
 #ifndef GESTOR_H_
@@ -16,12 +16,9 @@
 #include <string.h>
 #include "PuertoSerie.h"
 #include "File.h"
-//#include "Protocolo.h"
 #include "Color.h"
 
 class Gestor{
-	char PSerie[5];
-	int vTrans;
 	File* f;
 
 	public:
@@ -29,20 +26,8 @@ class Gestor{
 
 	void setFile(File* f);
 
-	//Retorna el valor de -vTrans-
-	int getVTrans();
-
-	//Copia el contenido de -PSerie- en cadaux
-	void copiarPSerie(char* cadaux);
-
-	//Muestra el encabezado de la práctica
+	//Muestra el encabezado de la prÃ¡ctica
 	void encabezado();
-
-	//Elige el PuertoCOM
-	void elegirCOM();
-
-	//Elige la velocidad del puerto
-	void elegirVelocidad();
 
 	//A partir de "color" establece el color del texto y el fondo en la pantalla
 	//void establecerColor(int color);
@@ -51,6 +36,7 @@ class Gestor{
 	//es decir, antes de abrir el puerto pulso ESC, para salirme directamente
 	//y no tener que pulsar otra tecla, pero no se si se puede hacer...Hay que
 	//preguntar a Mar
+
 	int IniciarPuerto(HANDLE &PuertoCOM);
 
 

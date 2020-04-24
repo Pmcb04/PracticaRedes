@@ -10,8 +10,6 @@
 
 #include <windows.h>
 
-
-
 //
 ///*
 // *    0 = Negro
@@ -32,10 +30,10 @@
 // *	15 = Blanco
 // */
 
-//A partir de "color" establece el color del texto y el fondo en la pantalla
+	//A partir de "color" establece el color del texto y el fondo en la pantalla
 	void establecerColor(int color);
 
-
+	//void Gestor::establecerColor(int color){
 
 
 
