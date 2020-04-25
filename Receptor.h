@@ -38,35 +38,50 @@ class Receptor{
 	//TODO este caracter se podria poner mejor en protocolo?
    public:
 
-	Receptor();
+			// Contructor de la clase receptor
+			Receptor();
 
-	void setProtocolo(Protocolo* p);
+			// establece el protocolo
+			void setProtocolo(Protocolo* p);
 
-	void setFile(File* f);
+			// establece file
+			void setFile(File* f);
 
-	char getCarR();
+			// devuelve el caracter recibido
+			char getCarR();
 
-	int getTipoTrama(char c);
+			// devueve el tipo de trama
+			int getTipoTrama(char c);
 
-	bool getFinFichero();
+			// devuelve si se a llegado a dejar de escribir en fichero
+			bool getFinFichero();
 
-	char getNumeroTrama();
+			// devuelve el numero de trama
+			char getNumeroTrama();
 
-	int Recibir(HANDLE &PuertoCOM);
+			// metodo para recibir, devuelve el tipo de trama recibida
+			int Recibir(HANDLE &PuertoCOM);
 
-	void procesarTramaControl();
+			// imprime por pantalla el tipo de trama de control recibida
+			void procesarTramaControl();
 
-	bool procesarTramaDatos();
+			// comprueba si la trama de datos recibida es correcta por su BCE
+			bool procesarTramaDatos();
 
-	void procesarFichero();
+			// procesa el fichero recibido
+			void procesarFichero();
 
-	void cerrarFichero();
+			// cierra el fichero
+			void cerrarFichero();
 
-	void TRimprimir();
+			// imprime la trama que se va enviando
+			void TRimprimir();
 
-	void TRimprimirTrama();//para fichero
+			// mprime la trama que se va enviando y comprueba el BCE
+			void TRimprimirTrama();//para fichero
 
-	~Receptor();
+			// destructor de la clase receptors
+			~Receptor();
 
 };
 

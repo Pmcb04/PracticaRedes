@@ -22,27 +22,33 @@ HANDLE PuertoCOM;
 int main()
 {
 	File* f = new File();
-	Protocolo* p = new Protocolo();
-
-	Receptor *R = new Receptor();  R->setFile(f); R->setProtocolo(p);
-	Emisor* E = new Emisor();  E->setReceptor(R);  E->setFile(f); E->setProtocolo(p);
+	Protocolo* p = new Protocolo
+	Receptor *R = new Receptor();
+	Emisor* E = new Emisor();
+	R->setFile(f);
+	R->setProtocolo(p);
+	E->setReceptor(R);
+	E->setFile(f);
+	E->setProtocolo(p);
 
 	encabezado();
 	int i = IniciarPuerto(PuertoCOM);
 
 
     // Lectura y escritura simultánea de caracteres:
-	  if(i == 0){//Si i == 0 es que se aha abierto el puerto correctamente
-		while( E->getCarE() != 27){
-			R->Recibir(PuertoCOM);
-			E->Enviar(PuertoCOM);
-		}
+	  if(i == 0){//Si i == 0 es que se a ha abierto el puerto correctamente
+			while( E->getCarE() != 27){
+				R->Recibir(PuertoCOM);
+				E->Enviar(PuertoCOM);
+			}
 	  }
 
 // Cerramos el puerto:
 	 f->cerrarFichero();//TODO mirarse donde cerrar eso
 
-	 delete p; delete f;  delete R;//TODO
+	 delete p;
+	 delete f;
+	 delete R;
 	 delete E;
 
    CerrarPuerto(PuertoCOM);

@@ -70,9 +70,15 @@ class TramaDatos : public TramaControl
 		 */
         void copiarDatos(vDatos &datos);
 
-
+		/*
+		 * Imprime los datos de la trama de datos
+		*/
         string toString();
 
+
+		/*
+		 *	calcula el BCE de la trama de datos y lo devuelve
+		 */
         unsigned char calcularBCE();
 
 
@@ -86,11 +92,17 @@ class TramaDatos : public TramaControl
 		 */
         void imprimirDatos();
 
+		/*
+		 *	imprime la trama de datos entera diciendo que tipo es
+		 */
         void imprimir();
 
+		/*
+		 *	impriem la trama de datos entera diciendo que tipo es, ademas del BCE
+		 */
         void imprimirTrama();
 
-        /*
+    /*
 		 * Destructor por defecto
 		 */
         ~TramaDatos();

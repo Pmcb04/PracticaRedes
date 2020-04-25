@@ -46,6 +46,10 @@ class File{
 		*/
 		void printCharPuntero(char* s, int longitud);
 
+
+		/*
+		* Imprime en fichero si f5 = true
+		*/
 		void printMensaje(char* s, int longitud);
 
 		/*

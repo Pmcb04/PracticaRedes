@@ -737,7 +737,7 @@ void Emisor::copiarCadena(char* cadena, int numCaracteres, char* cadaux){
 }
 
 
-//Copia el contenido del string s en cadena y pone '\0' al final
+
 void Emisor::copiarString(char *cadena, string s){
 	for(unsigned int i = 0; i < s.size(); i++){
 		cadena[i] = s[i];

@@ -25,89 +25,130 @@ class Emisor {
 	Protocolo* p;
 
    public:
-	//Constructor de objetos de tipo Emisor
-	Emisor();
 
-	void setReceptor(Receptor* R);
+		//Constructor de objetos de tipo Emisor
+		Emisor();
 
-	void setFile(File *f);
+		// Establece un receptor
+		void setReceptor(Receptor* R);
 
-	void setProtocolo(Protocolo* p);
+		// Establece un archivo para escribir
+		void setFile(File *f);
 
-	//Retorna valor de -carE-
-	char getCarE();
+		// Establece un protocolo
+		void setProtocolo(Protocolo* p);
 
-	void Enviar(HANDLE &PuertoCOM);
+		//Retorna valor de -carE-
+		char getCarE();
 
-	void escribir();
+		// Metodo para enviar informacion
+		void Enviar(HANDLE &PuertoCOM);
 
-	void borrar();
+		// metodo para cuando se escribe
+		void escribir();
 
-	void enter();
+		// metodo para cuando se borra
+		void borrar();
 
-	void teclaF6(HANDLE &PuertoCOM);
+		// metodo para cunado se da a la tecla enter
+		void enter();
 
-	void teclaF5();
+		// metodo para cuando se da a la tecla F6
+		void teclaF6(HANDLE &PuertoCOM);
 
-	void teclaF2(HANDLE &PuertoCOM);
+		// metodo para cuando se da a la tecla F5
+		void teclaF5();
 
-	void teclaF3(HANDLE &PuertoCOM);
+		// metodo para cuando se da a la tecla F2
+		void teclaF2(HANDLE &PuertoCOM);
 
-	void teclaF1(HANDLE &PuertoCOM);
+		// metodo para cuando se da a la tecla F3
+		void teclaF3(HANDLE &PuertoCOM);
 
-	void enviarFichero(HANDLE &PuertoCOM);
+ 		// metodo para cuando se da a la tecla F1
+		void teclaF1(HANDLE &PuertoCOM);
 
-	void construirTrama(int numCaracteres, int &indiceMensaje, char* mensaje);
+		// metodo para enviar fichero
+		void enviarFichero(HANDLE &PuertoCOM);
 
-	void enviarTramaControl(HANDLE &PuertoCOM);
+		// metodo que contruye la trama par enviarla
+		void construirTrama(int numCaracteres, int &indiceMensaje, char* mensaje);
 
-	void elegirFin(HANDLE &PuertoCOM);
+		// metodo para enviar la trama de control que antes hemos contruido
+		void enviarTramaControl(HANDLE &PuertoCOM);
 
-	void enviarTramaDatos(HANDLE &PuertoCOM);
+		// metodo para elegir en el protocolo modo sondeo si se acaba el protocolo o no
+		void elegirFin(HANDLE &PuertoCOM);
 
-	void esperarRespuesta(HANDLE &PuertoCOM);
+		// metodo para enviar la trama de datos que antes hemos de contruir
+		void enviarTramaDatos(HANDLE &PuertoCOM);
 
-	void copiarCadena(char* cadena, int numCaracteres, char* cadaux);
+		// metodo para que el esclavo espere la respuesta del maestro para ver si acaba el protocolo o no
+		void esperarRespuesta(HANDLE &PuertoCOM);
 
-	void copiarString(char* cadena, string s);
+		// copia cadena en cadaux poniendo '\0' al final
+		void copiarCadena(char* cadena, int numCaracteres, char* cadaux);
 
-	void Maestro(HANDLE &PuertoCOM);
+		//Copia el contenido del string s en cadena y pone '\0' al final
+		void copiarString(char* cadena, string s);
 
-	void Esclavo(HANDLE &PuertoCOM);
+		// Metodo para el maestro en el protocolo, elige el tipo de
+		// operacion a realizar en el protocolo y el modo del maestro (Sondeo o selección)
+		void Maestro(HANDLE &PuertoCOM);
 
-	void maestroSeleccion(HANDLE &PuertoCOM);
+		// Metodo para el escalvo en el protocolo, el modo del esclavo (Sondeo o selección
+		void Esclavo(HANDLE &PuertoCOM);
 
-	void maestroSondeo(HANDLE &PuertoCOM);
+		// metodo para maestro de modo seleccion
+		void maestroSeleccion(HANDLE &PuertoCOM);
 
-	void esclavoSeleccion(HANDLE &PuertoCOM);
+		// metodo para maestro de modo selección
+		void maestroSondeo(HANDLE &PuertoCOM);
 
-	void esclavoSondeo(HANDLE &PuertoCOM);
+		// metodo para esclavo de modo selección
+		void esclavoSeleccion(HANDLE &PuertoCOM);
 
-	void enviarTramaEstablecimiento(HANDLE &PuertoCOM);
+		// metodo para esclavo de modo sondeo
+		void esclavoSondeo(HANDLE &PuertoCOM);
 
-	void esperarTramaEstablecimiento(HANDLE &PuertoCOM);
+		// envia una trama de establecimiento (Trama ENQ)
+		void enviarTramaEstablecimiento(HANDLE &PuertoCOM);
 
-	void enviarTramaConfirmacion(HANDLE &PuertoCOM);
+		// se espera a la espera de una trama de establecimiento (Trama ENQ)
+		void esperarTramaEstablecimiento(HANDLE &PuertoCOM);
 
-	void esperarTramaConfirmacion(HANDLE &PuertoCOM);
+		// envia una trama de confirmacion (Trama ACK)
+		void enviarTramaConfirmacion(HANDLE &PuertoCOM);
 
-	void enviarTramaCierre(HANDLE &PuertoCOM);
+		// se espera a la espera de una trama de confirmación (Trama ACK)
+		void esperarTramaConfirmacion(HANDLE &PuertoCOM);
 
-	void esperarTramaCierre(HANDLE &PuertoCOM);
+		// envia una trama de cierre (Trama EOT)
+		void enviarTramaCierre(HANDLE &PuertoCOM);
 
-	void esperarTramaDatos(HANDLE &PuertoCOM);
+		// se espera a la espera de una trama de cierre (Trama EOT)
+		void esperarTramaCierre(HANDLE &PuertoCOM);
 
-	void enviarTramaNegacion(HANDLE &PuertoCOM);
+		// se espera a la espera de una trama de datos (Trama STX)
+		void esperarTramaDatos(HANDLE &PuertoCOM);
 
-	void enviarFaseTransferencia(HANDLE &PuertoCOM);
+		// envia una trama de negacion (Trama NACK)
+		void enviarTramaNegacion(HANDLE &PuertoCOM);
 
-	void recibirFaseTranseferencia(HANDLE &PuertoCOM);
+		// envio de la fase de tranferencia (envio del fichero por tramas de STX)
+		void enviarFaseTransferencia(HANDLE &PuertoCOM);
 
-	void TEimprimir();//para fichero
+		// recibe la fase de Transferencia (recibo del fichero por tramas de STX)
+		void recibirFaseTranseferencia(HANDLE &PuertoCOM);
 
-	void TEimprimirTrama();//para fichero
+		// imprime la trama que se va enviando
+		void TEimprimir();//para fichero
 
-	~Emisor();
+		// imprime la trama que se va recibiendo y comprueba el BCE
+		void TEimprimirTrama();//para fichero
+
+		// Destructor de la clase Emisor
+		~Emisor();
 
 };
 

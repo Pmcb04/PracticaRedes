@@ -37,22 +37,11 @@
 	//A partir de "color" establece el color del texto y el fondo en la pantalla
 	void establecerColor(int color);
 
-	//void Gestor::establecerColor(int color){
-
-
 
 	//Muestra el encabezado de la prÃ¡ctica
 	void encabezado();
 
-
-	//A partir de "color" establece el color del texto y el fondo en la pantalla
-	//void establecerColor(int color);
-
-	//Este método era para hacer que si a la hora de elegir COM o velocidad,
-	//es decir, antes de abrir el puerto pulso ESC, para salirme directamente
-	//y no tener que pulsar otra tecla, pero no se si se puede hacer...Hay que
-	//preguntar a Mar
-
+	// metodo para sellecionar el puerto a utilizar y la velocidad a utilizar 
 	int IniciarPuerto(HANDLE &PuertoCOM);
 
 
