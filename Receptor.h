@@ -2,14 +2,7 @@
  * Receptor.h
  *
  *  Created on: 26 mar. 2020
- *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
- */
-
-/*
- * Receptor.h
- *
- *  Created on: 26 mar. 2020
- *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
+ *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
  */
 
 #ifndef RECEPTOR_H_
@@ -32,6 +25,7 @@ class Receptor{
 	int color;
 	ofstream flujoEscritura;
 	string Autores;
+	string numBytes;
 	File* f;
 	Protocolo* p;
 	char NT;//Para que desde esclavo sepamos NT de la ultima trama de maestro
@@ -74,10 +68,13 @@ class Receptor{
 			// cierra el fichero
 			void cerrarFichero();
 
+			// imprime los mensajes de "Fichero recibido..." y "El fichero recibido tiene un tamano de..." cuando esta activado el modo protocolo
+			void imprimirProtocolo();
+
 			// imprime la trama que se va enviando
 			void TRimprimir();
 
-			// mprime la trama que se va enviando y comprueba el BCE
+			// imprime la trama que se va enviando y comprueba el BCE
 			void TRimprimirTrama();//para fichero
 
 			// destructor de la clase receptors

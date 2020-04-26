@@ -69,6 +69,8 @@ public:
 	// imprime por pantalla y en fichero s
 	void printString(string s);
 
+	void printCharPuntero(char* c, int longitud);
+
 	// imprime en pantalla y en fichero la cabezera del protocolo
 	void printCabecera();
 

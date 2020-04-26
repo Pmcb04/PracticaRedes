@@ -308,6 +308,7 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM){
 		p->printString("\n");
 	}
 
+
 	p->printString("FIN PROTOCOLO\n");
 	p->cerrarFichero();
 	p->setProtocolo(false);//Se termina el protocolo
@@ -487,14 +488,15 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 		TE.imprimirTrama(); TEimprimir();
 		printf("\n");
 	}
+	R->imprimirProtocolo();
 	p->setFinFichero(false);
 }
 
 
 void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 
-	char cadaux[255]; //char salir;
-	int numBytes = 0; //bool fin = false;
+	char cadaux[255]; char autores[100];//char salir;
+	int numBytes = 0, caracteres; //bool fin = false;
 
 	ifstream flujoFichero;
 	flujoFichero.open("EProtoc.txt");
@@ -513,6 +515,11 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 
 					numCaracteres = (int) strlen(cadaux);//casting porque strlen te devuelve unsigned
 
+					if(i == 0){
+						copiarCadena(cadaux, numCaracteres, autores);//copio lo leido en cadaux, en Autores
+						caracteres = numCaracteres;
+					}
+
 					if(i%2 != 0) TE.setNumeroTrama('1');//Numero de trama 1 intercaladamente
 					else TE.setNumeroTrama('0');
 					construirTrama(numCaracteres, indiceMensaje, cadaux);
@@ -527,6 +534,11 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 
 					i++;
 				}
+
+				establecerColor(9);
+				p->printString("\nEnviando fichero por ");
+				p->printCharPuntero(autores, caracteres);
+				p->printString("\n\n");
 
 
 				while(!flujoFichero.eof()){
@@ -576,6 +588,9 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 				p->printString("\n");
 
 				esperarTramaConfirmacion(PuertoCOM);//Cada vez que envia Trama STX, espera trama ACK
+
+				establecerColor(9);
+				p->printString("\nFichero enviado\n");
 
 		}else{
 
@@ -729,7 +744,7 @@ void Emisor::enviarFichero(HANDLE &PuertoCOM){
 }
 
 
-void Emisor::copiarCadena(char* cadena, int numCaracteres, char* cadaux){
+void Emisor::copiarCadena(char* cadena, int numCaracteres, char* cadaux){//TODO ponerlo en otro sitio para aprovechar
 	for(int i = 0; i < numCaracteres; i++){
 			cadaux[i] = cadena[i];
 		}
@@ -737,8 +752,7 @@ void Emisor::copiarCadena(char* cadena, int numCaracteres, char* cadaux){
 }
 
 
-
-void Emisor::copiarString(char *cadena, string s){
+void Emisor::copiarString(char *cadena, string s){//TODO ponerlo en otro sitio para aprovechar
 	for(unsigned int i = 0; i < s.size(); i++){
 		cadena[i] = s[i];
 	}

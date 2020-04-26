@@ -93,7 +93,7 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 							cerrarFichero();
 							establecerColor(color);
 							f->printString("Fichero recibido\n");
-						}
+						}else establecerColor(8);
 						esFichero = false;
 						finFichero = true;
 						p->setFinFichero(true);
@@ -154,28 +154,25 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 				   campo = 1;
 
 					if(tramaCorrecta){
-							if(esFichero){
-								 procesarFichero();
-							}else if(finFichero){
-								string numBytes = TR.toString();
-								establecerColor(color);
-								if(!p->getProtocolo()){
-									f->printString("El fichero recibido tiene un tamano de ");
-									f->printString(numBytes);
-									f->printString(" bytes\n");
-								}else{
-									p->printString("El fichero recibido tiene un tamano de ");
-									p->printString(numBytes);
-									p->printString(" bytes\n");
-									establecerColor(8);
-								}
-								finFichero = false;
-								linea = 0;
-							}else{//mensaje normal
-								establecerColor(6);
-								string datos = TR.toString();
-								f->printString(datos);
+
+						if(esFichero){
+							 procesarFichero();
+						}else if(finFichero){
+							numBytes = TR.toString();
+							establecerColor(color);
+							if(p->getProtocolo()) establecerColor(8);
+							else{
+								f->printString("El fichero recibido tiene un tamano de ");
+								f->printString(numBytes);
+								f->printString(" bytes\n");
 							}
+							finFichero = false;
+							linea = 0;
+						}else{//mensaje normal
+							establecerColor(6);
+							string datos = TR.toString();
+							f->printString(datos);
+						}
 
 						if(p->getProtocolo()){
 							tipoTrama = getTipoTrama(TR.getControl());
@@ -236,12 +233,13 @@ void Receptor::procesarFichero(){
 			f->printString("Recibiendo fichero por ");
 			f->printString(Autores);
 			f->printString("\n");
-		}else establecerColor(12);//linea de cabecera
+		}else{
+			establecerColor(12);//linea de cabecera
+		}
 
 		linea++;
 
 	}else{//Viene el cuerpo del fichero
-
 		vDatos datos;
 		TR.copiarDatos(datos);
 
@@ -249,11 +247,28 @@ void Receptor::procesarFichero(){
 			flujoEscritura.put(datos[i]);
 		}
 
-		if(p->getProtocolo()) establecerColor(2);//cuerpo de fichero
+		if(p->getProtocolo()){
+			if(linea == 3){
+				establecerColor(color);
+				p->printString("\n");
+				p->printString("Recibiendo fichero por ");
+				p->printString(Autores);
+				p->printString("\n\n");
+			}
+			establecerColor(2);//cuerpo de fichero
+		}
 
 		linea++;
 	}
 
+}
+
+void Receptor::imprimirProtocolo(){
+	establecerColor(color);
+	p->printString("\nFichero recibido\n");
+	p->printString("El fichero recibido tiene un tamano de ");
+	p->printString(numBytes);
+	p->printString(" bytes\n\n");
 }
 
 
