@@ -2,7 +2,7 @@
  * Protocolo.h
  *
  *  Created on: 5 abr. 2020
- *      Author: nebur
+ *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
  */
 
 #ifndef PROTOCOLO_H_

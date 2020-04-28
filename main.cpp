@@ -24,7 +24,7 @@ int main()
 	File* f = new File();
 	Protocolo* p = new Protocolo();
 
-	Receptor* R = new Receptor();  R->setFile(f); R->setProtocolo(p);
+	Receptor *R = new Receptor();  R->setFile(f); R->setProtocolo(p);
 	Emisor* E = new Emisor();  E->setReceptor(R);  E->setFile(f); E->setProtocolo(p);
 
 	encabezado();

@@ -1,3 +1,10 @@
+/*
+ * TramaDatos.h
+ *
+ *  Created on: 26 mar. 2020
+ *      Author: Pedro Miguel Carmona & Rub�n Mar�n Lucas
+ */
+
 #ifndef TRAMADATOS_H
 #define TRAMADATOS_H
 
@@ -66,7 +73,7 @@ class TramaDatos : public TramaControl
         unsigned char getBCE();
 
 		/*
-		 * Se copia el contenido del atributo -Datos- en el vector "datos" que será devuevuelto por parametro
+		 * Se copia el contenido del atributo -Datos- en el vector "datos" que ser� devuevuelto por parametro
 		 */
         void copiarDatos(vDatos &datos);
 

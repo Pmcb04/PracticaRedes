@@ -93,7 +93,7 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 void Emisor::escribir(){
 	if(indice < MAXMENSAJE){
 		establecerColor(2);
-		mensaje[indice] = carE;  //AÃ±ade el caracter para mostrarlo cuando se envie
+		mensaje[indice] = carE;  //Añade el caracter para mostrarlo cuando se envie
 		indice++;
 		printf("%c", carE);  //Muestra envio en la pantalla que escribe
 	}
@@ -773,7 +773,7 @@ void Emisor::construirTrama(int numCaracteres, int &indiceMensaje, char* mensaje
 		unsigned char BCE = TE.calcularBCE();
 
 		TE.setBCE(BCE);
-		TE.setDato(numCaracteres, '\0');//AÃ±adir \0 al final del vector
+		TE.setDato(numCaracteres, '\0');//Añadir \0 al final del vector
 }
 
 

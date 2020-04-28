@@ -1,3 +1,10 @@
+/*
+ * TramaControl.h
+ *
+ *  Created on: 26 mar. 2020
+ *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ */
+
 #ifndef TRAMACONTROL_H
 #define TRAMACONTROL_H
 

@@ -6,56 +6,51 @@
  */
 #include "Gestor.h"
 
-Gestor::Gestor(){
-	f = NULL;
+
+void establecerColor(int color){
+	HANDLE Pantalla = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(Pantalla, color);
 }
 
-void Gestor::setFile(File* f){
-	this->f = f;
-}
 
-
-void Gestor::encabezado(){
+void encabezado(){
 		establecerColor(12);
-	    f->printString("============================================================================\n");
+	    printf("============================================================================\n");
 	    establecerColor(10);
-	    f->printString("----------- ");
+	    printf("----------- ");
 	    establecerColor(15);
-	    f->printString("PRACTICAS DE FUNDAMENTOS DE REDES DE COMUNICACIONES ");
+	    printf("PRACTICAS DE FUNDAMENTOS DE REDES DE COMUNICACIONES");
 	    establecerColor(10);
-	    f->printString("------------\n");
-	    f->printString("---------------------------- ");
+	    printf("------------\n");
+	    printf("---------------------------- ");
 	    establecerColor(15);
-	    f->printString(	"CURSO 2019/20");
+	    printf(	"CURSO 2019/20");
 	    establecerColor(10);
-	    f->printString(" ---------------------------------\n");
-	    f->printString("----------------------------- ");
+	    printf(" ---------------------------------\n");
+	    printf("----------------------------- ");
 	    establecerColor(15);
-	    f->printString("SESION1.CPP");
+	    printf("SESION1.CPP");
 	    establecerColor(10);
-	    f->printString(" ----------------------------------\n");
+	    printf(" ----------------------------------\n");
 	    establecerColor(12);
-	    f->printString("============================================================================\n\n");
+	    printf("============================================================================\n\n");
 }
 
 
-
-//Esto es para que quede toda esta inicializaciÃ³n en un mÃ©todo y en cualquier momento se
-//pueda pulsar ESC y salir directamente
-int Gestor::IniciarPuerto(HANDLE &PuertoCOM){
+int IniciarPuerto(HANDLE &PuertoCOM){
 
 	establecerColor(15);
 	   char opcion; char PSerie[5];
 	   bool salir0 = false;
 
 	  do{
-			f->printString("Seleccionar el puerto a utilizar:(1-4)\n");
-			f->printString("\t1. COM1\n");
-			f->printString("\t2. COM2\n");
-			f->printString("\t3. COM3\n");
-			f->printString("\t4. COM4\n");
+			  printf("Seleccionar el puerto a utilizar:(1-4)\n");
+			  printf("\t1. COM1\n");
+			  printf("\t2. COM2\n");
+			  printf("\t3. COM3\n");
+			  printf("\t4. COM4\n");
 			opcion = getch();
-			if(opcion > 52 || (opcion < 49 && opcion != 27)) f->printString("Por favor, seleccione una opcion valida...\n");
+			if(opcion > 52 || (opcion < 49 && opcion != 27)) printf("Por favor, seleccione una opcion valida...\n");
 			else if(opcion == 27) salir0 = true;
 
 	  }while((opcion > 52 || opcion < 49) && !salir0);
@@ -63,22 +58,22 @@ int Gestor::IniciarPuerto(HANDLE &PuertoCOM){
 		switch (opcion) {
 			case 49:
 				 strcpy (PSerie, "COM1");
-				 f->printString("Puerto COM1 seleccionado\n");
+				 printf("Puerto COM1 seleccionado\n");
 				break;
 
 			case 50:
 				 strcpy (PSerie,"COM2");
-				 f->printString("Puerto COM2 seleccionado\n");
+				 printf("Puerto COM2 seleccionado\n");
 				 break;
 
 			case 51:
 				 strcpy (PSerie,"COM3");
-				 f->printString("Puerto COM3 seleccionado\n");
+				 printf("Puerto COM3 seleccionado\n");
 				 break;
 
 			case 52:
 				 strcpy (PSerie,"COM4");
-				 f->printString("Puerto COM4 seleccionado\n");
+				 printf("Puerto COM4 seleccionado\n");
 				 break;
 
 			default:
@@ -91,14 +86,14 @@ int Gestor::IniciarPuerto(HANDLE &PuertoCOM){
 			int vTrans;
 
 			do{
-				   f->printString("Seleccionar la velocidad de transmision:(1-5)\n");
-				   f->printString("\t1. 1200\n");
-				   f->printString("\t2. 2400\n");
-				   f->printString("\t3. 4800\n");
-				   f->printString("\t4. 9600\n");
-				   f->printString("\t5. 19200\n");
+					printf("Seleccionar la velocidad de transmision:(1-5)\n");
+					printf("\t1. 1200\n");
+					printf("\t2. 2400\n");
+					printf("\t3. 4800\n");
+					printf("\t4. 9600\n");
+					printf("\t5. 19200\n");
 				   opcion = getch();
-				   if(opcion > 53 || (opcion < 49 && opcion != 27)) f->printString("Por favor, seleccione una opcion valida...\n");
+				   if(opcion > 53 || (opcion < 49 && opcion != 27)) printf("Por favor, seleccione una opcion valida...\n");
 				   else if(opcion == 27) salir1 = true;
 
 			   } while((opcion > 53 || opcion < 49) && !salir1);
@@ -129,7 +124,14 @@ int Gestor::IniciarPuerto(HANDLE &PuertoCOM){
 
 
 			if(!salir1){
-				f->printString("Velocidad seleccionada:" + to_string(vTrans) + "\n");
+
+				string s = to_string(vTrans);
+
+				char velocidad[s.length()];
+
+				for(unsigned int i = 0; i < s.length(); i++) velocidad[i] = s[i];
+
+				printf("Velocidad seleccionada: %s\n", velocidad);
 
 				PuertoCOM = AbrirPuerto(PSerie, vTrans, 8, 0, 1);
 
@@ -140,21 +142,17 @@ int Gestor::IniciarPuerto(HANDLE &PuertoCOM){
 		if(PuertoCOM == NULL)
 		{
 
-			f->printString("Error al abrir el puerto ");
-			f->printCharPuntero(PSerie, 5);
-			f->printString("\n");
+			printf("Error al abrir el puerto ");
+			printf(PSerie, 5);
+			printf("\n");
 			getch();
 			return (1);
 		}
 		else{
-			 f->printString("Puerto ");
-			 f->printCharPuntero(PSerie, 5);
-			 f->printString(" abierto correctamente\n");
+			 printf("Puerto ");
+			 printf(PSerie, 5);
+			 printf(" abierto correctamente\n");
 			 return (0);
 		}
 
-}
-
-Gestor::~Gestor(){//TODO
-	//delete f;
 }

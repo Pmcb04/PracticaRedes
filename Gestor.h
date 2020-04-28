@@ -2,7 +2,7 @@
  * Gestor.h
  *
  *  Created on: 27 mar. 2020
- *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
+ *      Author: Pedro Miguel Carmona & Rub�n Mar�n Lucas
  */
 
 #ifndef GESTOR_H_
@@ -38,10 +38,10 @@
 	void establecerColor(int color);
 
 
-	//Muestra el encabezado de la prÃ¡ctica
+	//Muestra el encabezado de la práctica
 	void encabezado();
 
-	// metodo para sellecionar el puerto a utilizar y la velocidad a utilizar 
+	// metodo para sellecionar el puerto a utilizar y la velocidad a utilizar
 	int IniciarPuerto(HANDLE &PuertoCOM);
 
 

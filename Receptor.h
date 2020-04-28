@@ -2,7 +2,7 @@
  * Receptor.h
  *
  *  Created on: 26 mar. 2020
- *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
+ *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
  */
 
 #ifndef RECEPTOR_H_
