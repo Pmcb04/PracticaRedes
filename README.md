@@ -60,7 +60,7 @@ Seleccionar el puerto a utilizar:
 ```
 Una vez seleccionado el puerto, se deberá mostrar al usuario la posibilidad de elegir la
 velocidad de transmisión de entre las siguientes opciones:
- 
+
 ```
 Seleccionar la velocidad de transmisión:
 1. 1200
@@ -120,7 +120,7 @@ comunicación entre dos estaciones y estarán formadas por 4 campos:
   - Tramas de repuestas
     - ACK: Aceptar (asentir) la trama recibida
     - NACK: Rechazar la trama recibida
-    
+
 - El valor del campo **Sincronismo** (SYN) es el 22
 - El valor del campo **Dirección** será 'T' o 'R', dependerá de si se hace una operación de selección o de sondeo. En     principio lo fijaremos a 'T'
 - El valor del campo **Control**, dependerá del tipo de trama de control que se vaya a construir
@@ -168,7 +168,7 @@ opción adecuada.
 - Al recibir una trama de control se deberá distinguir qué tipo de trama es e indicar un
   mensaje informativo dependiendo de si es ENQ, EOT, ACK o NACK.
   Ejemplo: ``` “Se ha recibido una trama ACK”.```
-  
+
   ```C++
   carR = RecibirCaracter(PuertoCOM)
   Si (carR != 0) //Comprobamos si hay datos que recibir
@@ -254,7 +254,7 @@ Es decir se hará (DATOS[0] XOR DATOS[1]) XOR DATOS[2]) XOR DATOS[3]) ... XOR DA
   habrá que mostrar un mensaje por pantalla informando que se ha producido un error
   (``“Error al recibir la trama”``) y esa trama se descartaría, por tanto, en este caso no
   habría que mostrar el campo **Datos.**
-  
+
 - En ningún momento deberán mostrarse los campos de la trama que no se pidan expresamente.
 
 ```C++
@@ -308,23 +308,23 @@ Si (carR != 0) //Comprobamos si hay datos que recibir
 Para diferenciar los mensajes que se envíen de los que se reciban, es obligatorio
 hacer uso de colores. Para ello deberemos utilizar Windows.h.
 - Tendremos que declarar un manejador (Pantalla) para controlar el color.
-  ```C++ 
+  ```C++
   HANDLE Pantalla //HANDLE está declarado en Windows.h
   ```
 - Mediante la función GetStdHandle() se podrá manipular el dispositivo estándar de salida para mostrar el color.
-  ```C++ 
+  ```C++
   Pantalla = GetStdHandle(STD_OUTPUT_HANDLE)
    ```
 - Tendremos que usar una variable color que contendrá el valor con el cual
-  indicaremos el color de texto y color de fondo deseado. 
-    ```C++ 
+  indicaremos el color de texto y color de fondo deseado.
+    ```C++
    int color
    ```
-- El color se calculará a través de la siguiente fórmula: 
+- El color se calculará a través de la siguiente fórmula:
   **color de texto + color de fondo*16**
-  
+
 - Los colores que se podrán utilizar son 15 y se identifican con los siguientes valores enteros:
-    ```C++ 
+    ```C++
   0 = Negro
   1 = Azul
   2 = Verde
@@ -344,14 +344,14 @@ hacer uso de colores. Para ello deberemos utilizar Windows.h.
    ```
 - Si se quisiera imprimir texto rojo (12) con fondo blanco (15), la variable color
   tendría que almacenar el siguiente valo
-  ```C++ 
+  ```C++
   color = 12 + 15*16 //(Valdría 252)
   ```
-  Cuando la variable color tome el valor de 252, se mostrará esa combinación. 
-  
+  Cuando la variable color tome el valor de 252, se mostrará esa combinación.
+
  Ejemplo de código para uso de color: Muestra de un mensaje en gris claro con  fondo azul verdoso y de otro mensaje en
  azul celeste con fondo negro.
-   ```C++ 
+   ```C++
   #include <iostream>
   #include <conio.h>
   #include <windows.h>
@@ -434,7 +434,7 @@ manera expresada anteriormente. En la entrega 5 se explicará como cambiará.
   indicar al receptor que el envío terminó.
   7. Por último, se enviará el número de caracteres de los que constará el fichero
   enviado mediante una trama de datos.
-  
+
 - **El fichero debe llegar íntegro.**
 - NO SE DEBE MOSTRAR en ningún momento el cuerpo del fichero por pantalla, ni
   en el emisor, ni en el receptor.
@@ -449,7 +449,7 @@ manera expresada anteriormente. En la entrega 5 se explicará como cambiará.
   deben llegar siempre correctas para que la entrega se pueda considerar APTA.
   Recordar: en el fichero receptor, solo se almacenarán las tramas de datos perteneciente
   al cuerpo del fichero enviado, no las líneas de cabecera.
-  
+
 - Cuando el emisor comience a enviar el fichero, mostrará un mensaje informativo de
   ``“Enviando fichero por Autores”`` y cuando termine, mostrará un mensaje indicando
   que el fichero ya se ha enviado, ``“Fichero enviado”``. Autores será el nombre y apellidos
@@ -495,7 +495,7 @@ función trocer_trama() que implementasteis en la entrega 3 para el envío del f
   si (Apertura correcta del fichero)
     EnviarCaracter(PuertoCOM, '{'); //Comienzo de envío de fichero
     EnviarLineasCabecera ();
-    printf("Enviando fichero por %s.\n", Autores); //Autores contendrá los autores del fichero de envío. 
+    printf("Enviando fichero por %s.\n", Autores); //Autores contendrá los autores del fichero de envío.
     Información que se encuentra en la primera línea de cabecera.
     Mientras (No fin de fichero) //Envío del cuerpo del fichero
       Leer del fichero ();
@@ -509,7 +509,7 @@ función trocer_trama() que implementasteis en la entrega 3 para el envío del f
   sino
     printf("ERROR: El fichero fichero-e.txt no existe.\n")
  ```
- 
+
 En el emisor,**NO SE DEBE MOSTRAR** en ningún momento el cuerpo del fichero por pantalla.
 <a name ="e44"></a>
 ### :four: Volcado de pantalla a fichero log.txt.
@@ -540,19 +540,19 @@ Selección de roll de maestro en una estación y automáticamente la otra estaci
 - Sólo el PC Maestro tiene capacidad para iniciar una comunicación mediante una llamada al
   Esclavo, mientras que éste sólo estará dedicado a esperar una posible llamada del equipo Maestro
   para contestarla.
-  
+
 - El Maestro podrá iniciar una llamada para realizar una operación de Selección o de Sondeo. Se
   deberá preguntar al usuario de la estación Maestra (figura 2 - izquierda) qué operación desea relizar.
   Si la operación es de Selección, el Maestro enviará un fichero de texto fraccionado en tramas de
   datos al Esclavo y si es de Sondeo, el Maestro hará que el Esclavo le envíe un fichero, también
   fraccionado en tramas de datos. El intercambio de datos será unidireccional.
- 
+
 - Si la operación es de Selección se empleará el valor ``'R'`` en el campo Dirección de todas las
   tramas. Si es de Sondeo se empleará el valor ``'T'`` en dicho campo.
-  
+
 - El campo Número de Trama de las tramas de datos tomará los valores ``‘0’ o ‘1’`` de forma cíclica,
   es decir, la trama siguiente a la ``‘0’`` será la ``‘1’``, y la siguiente a ésta, la ``‘0’`` y así sucesivamente.
-  
+
 - Para cada trama recibida se deberá devolver una confirmación de recepción o ACK (siempre y
   cuando la trama recibida sea correcta). Si la operación es de Selección, para cada trama de datos
   que reciba el esclavo, si ésta es correcta, éste deberá devolver una trama ACK. Cuando ésta sea
@@ -564,10 +564,10 @@ Selección de roll de maestro en una estación y automáticamente la otra estaci
   de datos al Maestro. Se deberá realizar la misma comprobación del BCE que se hizo con la operación
   de Selección. Tanto en selección, como en sondeo, en el momento en que, para alguna trama
   recibida, los BCEs no coincidieran, no se podría confirmar dicha trama con ACK, por lo que el
-  protocolo se quedaría parado y dejaría de funcionar; sería un fallo cometido por nosotros y 
+  protocolo se quedaría parado y dejaría de funcionar; sería un fallo cometido por nosotros y
   deberíamos corregirlo. Si los BCEs coincidieran, antes de enviar la trama ACK, el campo datos de
   la trama recibida se almacenará en el fichero del receptor
-  
+
 - El Esclavo nunca podrá dar órdenes. En caso de que la operación sea de sondeo, la estación
   Esclava solicitará a la Maestra la liberación de la comunicación cuando termine de enviar el fichero
   de texto, pero no la podrá liberar hasta que la estación Maestra se lo confirme. Dicho de otro modo,
@@ -577,7 +577,7 @@ Selección de roll de maestro en una estación y automáticamente la otra estaci
   usuario de la estación Maestra confirme el cierre (envía una trama ACK). Si en cambio la operación
   era de Selección, el Maestro iniciará la liberación de la comunicación automáticamente al terminar
   de enviar el fichero y el Esclavo la aceptará directamente.
-  
+
 - El fichero a enviar en la fase de transferencia se llamará “EProtoc.txt”. Al igual que en la
 práctica anterior, el fichero constará primero de tres líneas de cabecera y a continuación aparecerá
 el cuerpo del fichero. Las líneas de cabecera contendrán:
@@ -585,7 +585,7 @@ el cuerpo del fichero. Las líneas de cabecera contendrán:
     Santos & Olivia Becerra).
   - **Línea 2:** Color cabecera (texto y fondo). Se expresará con un valor entero.
   - **Línea 3:** Nombre y extensión del fichero en el equipo receptor.
-  
+
 - El nombre del fichero que se enviará en la fase de transferencia se llamará EProtoc.txt. El
 modo de proceder del fichero será igual que en la práctica anterior. Debe tenerse en cuenta que
 después de enviar el fichero completo, se enviará una trama de datos con el tamaño en bytes del
@@ -602,9 +602,9 @@ Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas 
 **Fase de selección**
   - Llamada de Selección: ``| SYN | R | ENQ | '0' |``
   - Llamada de Sondeo : ``| SYN | T | ENQ | '0' |``
-  
+
 **Fase de trasferencia**
-  - Envío de datos de Selección(trama número n): 
+  - Envío de datos de Selección(trama número n):
     -  ``| SYN | R | STX | n | Long | Datos | BCE |``
   - Envío de datos de Sondeo(trama número n):
     -  ``| SYN | T | STX | n | Long | Datos | BCE |``
@@ -614,7 +614,7 @@ Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas 
     -  ``| SYN  | T | STX | n | Long | Datos | BCE |``  
   - Rechazo de la trama n en Sondeo:   
     -  ``| SYN  | T | NACK | n |``
-    
+
  **Fase de cierre o liberación**
    - Liberación o cierre en Selección:   
     -  ``| SYN  | R | EOT | '0' |``  
@@ -623,7 +623,7 @@ Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas 
 <a name ="e53"></a>
 ### :three: Fases de la operación de Selección.
 Al comienzo de cada fase de operación, el número de
-trama será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’. 
+trama será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’.
 
 Cuando la operación es de
 Selección, es decir, el maestro envía el fichero de texto al esclavo
@@ -646,14 +646,14 @@ Para la estación esclava se mostrará (en orden de aparición):
 - **E** si la trama es enviada o **R** si la trama es recibida.
 - **R**, que indica que el tipo de operación que estamos realizando es de Selección.
 - La descripción del campo de control **(ENQ, ACK, NACK, EOT o STX** (si es trama
-  de datos). 
+  de datos).
 - El número de trama, que se corresponderá con **0 o 1.**
 -  El **BCE** que se recibe de la trama (el BCE que le llega al receptor). El valor que se
    muestre deberá ser un valor numérico, no se admitirá un carácter como representación
    en pantalla.
 - El **BCE** que se calcula de la trama recibida. El valor que se muestre deberá ser un
   valor numérico, no se admitirá un carácter como representación en pantalla.
-  
+
 La información referente a las tramas de la fase de establecimiento se deberá mostrar en azul. La
 información de la fase de transferencia se mostrará: las correspondientes a las líneas de cabecera en
 rojo, las tramas del cuerpo del fichero se mostrarán en verde y las correspondientes al tamaño del
@@ -716,7 +716,7 @@ Para la estación esclava se mostrará (en orden de aparición):
 - El número de trama, que se corresponderá con **0 o 1.**
 - El **BCE** de la trama que se envía. El valor que se muestre deberá ser un valor
   numérico, no se admitirá un carácter como representación en pantalla.
-  
+
 La información referente a las tramas de la fase de establecimiento se deberá mostrar en azul. La
 información de la fase de transferencia se mostrará: las correspondientes a las líneas de cabecera en
 rojo, las tramas del cuerpo del fichero se mostrarán en verde y las correspondientes al tamaño del
@@ -772,3 +772,6 @@ la pulsación del escape, ya que el abandonar el receptor la aplicación, provoc
 enviando información sin que nadie la recibiera (no sería muy lógico). Siempre se debe pensar en utilizar
 el escape de la manera más lógica y coherente posible
 [:top:](#top)
+
+<a name ="e6"></a>
+#Entrega 6

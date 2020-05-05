@@ -3,7 +3,7 @@
  * Emisor.h
  *
  *  Created on: 26 mar. 2020
- *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ *      Author: Pedro Miguel Carmona & Rubï¿½n Marï¿½n Lucas
  */
 
 #ifndef EMISOR_H_
@@ -53,11 +53,8 @@ class Emisor {
 		// metodo para cunado se da a la tecla enter
 		void enter();
 
-		// metodo para cuando se da a la tecla F6
-		void teclaF6(HANDLE &PuertoCOM);
-
-		// metodo para cuando se da a la tecla F5
-		void teclaF5();
+		// metodo para cuando se da a la tecla F1
+		void teclaF1(HANDLE &PuertoCOM);
 
 		// metodo para cuando se da a la tecla F2
 		void teclaF2(HANDLE &PuertoCOM);
@@ -65,8 +62,14 @@ class Emisor {
 		// metodo para cuando se da a la tecla F3
 		void teclaF3(HANDLE &PuertoCOM);
 
- 		// metodo para cuando se da a la tecla F1
-		void teclaF1(HANDLE &PuertoCOM);
+		// metodo para cuando se da a la tecla F5
+		void teclaF5();
+
+		// metodo para cuando se da a la tecla F6
+		void teclaF6(HANDLE &PuertoCOM);
+
+		//metodo para enviar trama incorrecta cuando se pulsa f7
+		void enviarTramaIncorrecta();
 
 		// metodo para enviar fichero
 		void enviarFichero(HANDLE &PuertoCOM);
@@ -93,19 +96,19 @@ class Emisor {
 		void copiarString(char* cadena, string s);
 
 		// Metodo para el maestro en el protocolo, elige el tipo de
-		// operacion a realizar en el protocolo y el modo del maestro (Sondeo o selección)
+		// operacion a realizar en el protocolo y el modo del maestro (Sondeo o selecciï¿½n)
 		void Maestro(HANDLE &PuertoCOM);
 
-		// Metodo para el escalvo en el protocolo, el modo del esclavo (Sondeo o selección
+		// Metodo para el escalvo en el protocolo, el modo del esclavo (Sondeo o selecciï¿½n
 		void Esclavo(HANDLE &PuertoCOM);
 
 		// metodo para maestro de modo seleccion
 		void maestroSeleccion(HANDLE &PuertoCOM);
 
-		// metodo para maestro de modo selección
+		// metodo para maestro de modo selecciï¿½n
 		void maestroSondeo(HANDLE &PuertoCOM);
 
-		// metodo para esclavo de modo selección
+		// metodo para esclavo de modo selecciï¿½n
 		void esclavoSeleccion(HANDLE &PuertoCOM);
 
 		// metodo para esclavo de modo sondeo
@@ -120,7 +123,7 @@ class Emisor {
 		// envia una trama de confirmacion (Trama ACK)
 		void enviarTramaConfirmacion(HANDLE &PuertoCOM);
 
-		// se espera a la espera de una trama de confirmación (Trama ACK)
+		// se espera a la espera de una trama de confirmaciï¿½n (Trama ACK)
 		void esperarTramaConfirmacion(HANDLE &PuertoCOM);
 
 		// envia una trama de cierre (Trama EOT)

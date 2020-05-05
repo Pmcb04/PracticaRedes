@@ -181,6 +181,10 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 
 }
 
+void Emisor::teclaF7(){
+
+}
+
 void Emisor::Maestro(HANDLE &PuertoCOM){
 
 	char opcion;
@@ -493,6 +497,17 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 }
 
 
+void Emisor::enviarTramaIncorrecta(){
+
+		if(getch() == 0){ // si se pulsa 
+
+
+		}
+
+
+}
+
+
 void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 
 	char cadaux[255]; char autores[100];//char salir;
@@ -540,6 +555,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 				p->printCharPuntero(autores, caracteres);
 				p->printString("\n\n");
 
+				p->setCuerpoFichero(true);
 
 				while(!flujoFichero.eof()){
 
@@ -556,7 +572,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 						if(i%2 != 0) TE.setNumeroTrama('1');//Numero de trama 1 intercaladamente
 						else TE.setNumeroTrama('0');
 						construirTrama(numCaracteres, indiceMensaje, cadaux);
-
+						enviarTramaIncorrecta()
 						enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
 						establecerColor(2);
 						p->printString("E ");//Trama enviada
@@ -571,6 +587,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 				}
 
 				EnviarCaracter(PuertoCOM, '}');//Enviamos caracter }
+				p->setCuerpoFichero(false);
 
 				string num = to_string(numBytes);
 				numCaracteres = num.size();

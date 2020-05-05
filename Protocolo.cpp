@@ -32,6 +32,10 @@ void Protocolo::setFinFichero(bool b){
 	finFichero = b;
 }
 
+void Protocolo::setCuerpoFichero(bool c){
+	cuerpoFichero = c;
+}
+
 void Protocolo::setFinSondeo(bool s){
 	finSondeo = s;
 }
@@ -53,6 +57,10 @@ bool Protocolo::getFinSondeo(){
 }
 char Protocolo::getOperacion(){
 	return operacion;
+}
+
+bool Protocolo::getCuerpoFichero(){
+	return cuerpoFichero;
 }
 
 
@@ -95,9 +103,9 @@ void Protocolo::printCharPuntero(char* c, int longitud){
     printDatos();
 
     if(mE == 'M'){
-    	for (unsigned int i = 0; i < longitud; i++) maestro.put(c[i]);
+    	for (int i = 0; i < longitud; i++) maestro.put(c[i]);
     }else{
-    	for (unsigned int i = 0; i < longitud; i++) esclavo.put(c[i]);
+    	for (int i = 0; i < longitud; i++) esclavo.put(c[i]);
     }
 }
 
