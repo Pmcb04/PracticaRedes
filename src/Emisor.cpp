@@ -93,7 +93,7 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 void Emisor::escribir(){
 	if(indice < MAXMENSAJE){
 		establecerColor(2);
-		mensaje[indice] = carE;  //AÃ±ade el caracter para mostrarlo cuando se envie
+		mensaje[indice] = carE;  //Añade el caracter para mostrarlo cuando se envie
 		indice++;
 		printf("%c", carE);  //Muestra envio en la pantalla que escribe
 	}
@@ -124,7 +124,7 @@ void Emisor::enter(){
 
 void Emisor::teclaF5(){
 
-	if(!f->getCondicion()){//Si no está activo
+	if(!f->getCondicion()){//Si no est� activo
 		f->setCondicion(true);
 		f->abrirFichero();
 		establecerColor(232);
@@ -143,56 +143,44 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 		f->setCondicion(false);
 	}
 
-	ifstream comprobar;
-	comprobar.open("EFichero.txt");
+	p->printCabecera();
 
+	char opcion;
+	bool salir = false;
+	establecerColor(12);
+	do{
+		p->printSeleccion();
+		opcion = getch();
+	    if(opcion > 50 || (opcion < 49 && opcion != 27)) p->printString("Por favor, seleccione una opcion valida...\n");
+	    else if(opcion == 27) salir = true;
 
-	if(comprobar.good()){
+	} while((opcion > 50 || opcion < 49) && !salir);
 
-		comprobar.close();
+	if(!salir){
 
-		p->printCabecera();
+		p->setProtocolo(true);//Se activa protocolo
 
-		char opcion;
-		bool salir = false;
-		establecerColor(12);
-		do{
-			p->printSeleccion();
-			opcion = getch();
-			if(opcion > 50 || (opcion < 49 && opcion != 27)) p->printString("Por favor, seleccione una opcion valida...\n");
-			else if(opcion == 27) salir = true;
-
-		} while((opcion > 50 || opcion < 49) && !salir);
-
-		if(!salir){
-
-			p->setProtocolo(true);//Se activa protocolo
-
-			if(opcion == 49){
-				p->setTipo('M');
-				p->abrirFichero();
-				p->printCabeceraFichero();
-				p->printSeleccionFichero();
-				EnviarCaracter(PuertoCOM, 'E');//La otra estacion sera esclavo
-				Maestro(PuertoCOM);
-			}else if(opcion == 50){
-				p->setTipo('E');
-				p->abrirFichero();
-				p->printCabeceraFichero();
-				p->printSeleccionFichero();
-				EnviarCaracter(PuertoCOM, 'M');//La otra estacion sera maestro
-				Esclavo(PuertoCOM);
-			}
-
-		}else{
-			establecerColor(15);
-			p->setProtocolo(false);//Se cancela protocolo
-			p->cerrarFichero();
-			p->printString("Se cancela la accion\n");
+		if(opcion == 49){
+			p->setTipo('M');
+			p->abrirFichero();
+			p->printCabeceraFichero();
+			p->printSeleccionFichero();
+			EnviarCaracter(PuertoCOM, 'E');//La otra estacion sera esclavo
+			Maestro(PuertoCOM);
+		}else if(opcion == 50){
+			p->setTipo('E');
+			p->abrirFichero();
+			p->printCabeceraFichero();
+			p->printSeleccionFichero();
+			EnviarCaracter(PuertoCOM, 'M');//La otra estacion sera maestro
+			Esclavo(PuertoCOM);
 		}
 
 	}else{
-		f->printString("No existe el archivo EProtocol.txt, por favor revise que exista o cree uno\n");
+		establecerColor(15);
+		p->setProtocolo(false);//Se cancela protocolo
+		p->cerrarFichero();
+		p->printString("Se cancela la accion\n");
 	}
 
 }
@@ -632,6 +620,10 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 		flujoFichero.close();
 }
 
+void Emisor::teclaf7(HANDLE &PuertoCOM){
+	TE.copiarDatos(aux);
+}
+
 
 void Emisor::teclaF3(HANDLE &PuertoCOM){
 	enviarFichero(PuertoCOM);
@@ -803,7 +795,7 @@ void Emisor::construirTrama(int numCaracteres, int &indiceMensaje, char* mensaje
 		unsigned char BCE = TE.calcularBCE();
 
 		TE.setBCE(BCE);
-		TE.setDato(numCaracteres, '\0');//AÃ±adir \0 al final del vector
+		TE.setDato(numCaracteres, '\0');//Añadir \0 al final del vector
 }
 
 
