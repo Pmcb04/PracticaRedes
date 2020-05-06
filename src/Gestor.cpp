@@ -126,13 +126,9 @@ int IniciarPuerto(HANDLE &PuertoCOM){
 			if(!salir1){
 
 				string s = to_string(vTrans);
-
 				char velocidad[s.length()];
-
-				for(unsigned int i = 0; i < s.length(); i++) velocidad[i] = s[i];
-
+				strcpy(velocidad, s.c_str());
 				printf("Velocidad seleccionada: %s\n", velocidad);
-
 				PuertoCOM = AbrirPuerto(PSerie, vTrans, 8, 0, 1);
 
 			}

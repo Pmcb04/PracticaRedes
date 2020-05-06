@@ -89,8 +89,8 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 						p->setFinFichero(false);
 						linea = 0;
 					}else if(carR == '}'){//fin de repcepcion de fichero
-						if(!p->getProtocolo()){
 							cerrarFichero();
+						if(!p->getProtocolo()){
 							establecerColor(color);
 							f->printString("Fichero recibido\n");
 						}else establecerColor(8);

@@ -138,49 +138,61 @@ void Emisor::teclaF5(){
 
 void Emisor::teclaF6(HANDLE &PuertoCOM){
 
-	if(f->getCondicion()){//Si esta activo
-		f->cerrarFichero();
-		f->setCondicion(false);
-	}
+	ifstream protocolo;
+	protocolo.open("EProtoc.txt");
 
-	p->printCabecera();
+	if(protocolo.good()){
 
-	char opcion;
-	bool salir = false;
-	establecerColor(12);
-	do{
-		p->printSeleccion();
-		opcion = getch();
-	    if(opcion > 50 || (opcion < 49 && opcion != 27)) p->printString("Por favor, seleccione una opcion valida...\n");
-	    else if(opcion == 27) salir = true;
+		protocolo.close();
 
-	} while((opcion > 50 || opcion < 49) && !salir);
+		if(f->getCondicion()){//Si esta activo
+			f->cerrarFichero();
+			f->setCondicion(false);
+		}
 
-	if(!salir){
+		p->printCabecera();
 
-		p->setProtocolo(true);//Se activa protocolo
+		char opcion;
+		bool salir = false;
+		establecerColor(12);
+		do{
+			p->printSeleccion();
+			opcion = getch();
+			if(opcion > 50 || (opcion < 49 && opcion != 27)) p->printString("Por favor, seleccione una opcion valida...\n");
+			else if(opcion == 27) salir = true;
 
-		if(opcion == 49){
-			p->setTipo('M');
-			p->abrirFichero();
-			p->printCabeceraFichero();
-			p->printSeleccionFichero();
-			EnviarCaracter(PuertoCOM, 'E');//La otra estacion sera esclavo
-			Maestro(PuertoCOM);
-		}else if(opcion == 50){
-			p->setTipo('E');
-			p->abrirFichero();
-			p->printCabeceraFichero();
-			p->printSeleccionFichero();
-			EnviarCaracter(PuertoCOM, 'M');//La otra estacion sera maestro
-			Esclavo(PuertoCOM);
+		} while((opcion > 50 || opcion < 49) && !salir);
+
+		if(!salir){
+
+			p->setProtocolo(true);//Se activa protocolo
+
+			if(opcion == 49){
+				p->setTipo('M');
+				p->abrirFichero();
+				p->printCabeceraFichero();
+				p->printSeleccionFichero();
+				EnviarCaracter(PuertoCOM, 'E');//La otra estacion sera esclavo
+				Maestro(PuertoCOM);
+			}else if(opcion == 50){
+				p->setTipo('E');
+				p->abrirFichero();
+				p->printCabeceraFichero();
+				p->printSeleccionFichero();
+				EnviarCaracter(PuertoCOM, 'M');//La otra estacion sera maestro
+				Esclavo(PuertoCOM);
+			}
+
+		}else{
+			establecerColor(15);
+			p->setProtocolo(false);//Se cancela protocolo
+			p->cerrarFichero();
+			p->printString("Se cancela la accion\n");
 		}
 
 	}else{
 		establecerColor(15);
-		p->setProtocolo(false);//Se cancela protocolo
-		p->cerrarFichero();
-		p->printString("Se cancela la accion\n");
+		f->printString("El fichero EProtoc.txt no se a podido encontrar...\n");
 	}
 
 }
