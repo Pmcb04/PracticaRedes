@@ -2,7 +2,7 @@
  * Protocolo.h
  *
  *  Created on: 5 abr. 2020
- *      Author: Pedro Miguel Carmona & Rub�n Mar�n Lucas
+ *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
  */
 
 #ifndef PROTOCOLO_H_
@@ -15,8 +15,7 @@ class Protocolo {
 	char mE;// 'M' maestro | 'E' esclavo
 	char operacion; // 'R' Seleccion | 'T' Sondeo
 	bool finFichero; //Para controlar la recepcion
-	bool cuerpoFichero; // para controlar cuando estamos en el cuerpo de fichero
-	bool finSondeo; // para controlar cuando se a acabado el sondeo
+	bool finSondeo;
 	char datos[800]; //Para mostrar en pantalla TODO creo que con 254 va que chuta
 	ofstream maestro; //Para escribir en fichero
 	ofstream esclavo;
@@ -46,9 +45,6 @@ public:
 	// establece si se a llegado al final de la operacion de sondeo
 	void setFinSondeo(bool s);
 
-	// establece si se a llegado a el cuerpo de fichero
-	void setCuerpoFichero(bool c);
-
 	// devuelve el tipo de protocolo
 	char getTipo();
 
@@ -64,9 +60,6 @@ public:
 	// devuevle si si a llegado a terminar de escribir en el fichero
 	bool getFinFichero();
 
-	// devuelve si se a llegado el cuerpo del fichero
-	bool getCuerpoFichero();
-
 	// abre el fichero
 	void abrirFichero();
 
@@ -81,11 +74,15 @@ public:
 	// imprime en pantalla y en fichero la cabezera del protocolo
 	void printCabecera();
 
+	void printCabeceraFichero();
+
 	//imprime el caracter especial de la cabezera cont veces por pantalla
 	void printCaracterCabecera(int cont);
 
 	// imprime el menu de seleccion de maestro esclavo
 	void printSeleccion();
+
+	void printSeleccionFichero();
 
 	// imprime en fichero s
 	void printStringFichero(string s);

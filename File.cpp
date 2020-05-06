@@ -13,11 +13,11 @@ void File::cerrarFichero(){
 	if(fichero.is_open()) fichero.close();
 }
 
-void File::changeCondicion(){
-	f5 = true;
+void File::setCondicion(bool b){
+	f5 = b;
 }
 
-bool File::getCondition(){
+bool File::getCondicion(){
 	return f5;
 }
 

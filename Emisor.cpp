@@ -74,9 +74,9 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 		}
 
 	}else{//Si esta activado el modo protocolo
-		if(f->getCondition()){
+		if(f->getCondicion()){
 			f->cerrarFichero();
-			f->changeCondicion();
+			f->setCondicion(false);
 		}
 		switch(p->getTipo()){
 		case 69://Esclavo
@@ -93,7 +93,7 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 void Emisor::escribir(){
 	if(indice < MAXMENSAJE){
 		establecerColor(2);
-		mensaje[indice] = carE;  //Añade el caracter para mostrarlo cuando se envie
+		mensaje[indice] = carE;  //AÃ±ade el caracter para mostrarlo cuando se envie
 		indice++;
 		printf("%c", carE);  //Muestra envio en la pantalla que escribe
 	}
@@ -124,11 +124,11 @@ void Emisor::enter(){
 
 void Emisor::teclaF5(){
 
-	if(!f->getCondition()){
-		f->changeCondicion();
+	if(!f->getCondicion()){//Si no está activo
+		f->setCondicion(true);
 		f->abrirFichero();
 		establecerColor(232);
-		printf("\nTodo lo que esciba se escribira en el fichero, tenga cuidado con lo que escribe :)\n");
+		printf("\nTodo lo que esciba se escribira en el log, tenga cuidado con lo que escribe :)\n");
 	}else{
 		establecerColor(15);
 		f->printString("La funcion de F5 ya esta activa\n");
@@ -138,13 +138,11 @@ void Emisor::teclaF5(){
 
 void Emisor::teclaF6(HANDLE &PuertoCOM){
 
-	if(f->getCondition()){
+	if(f->getCondicion()){//Si esta activo
 		f->cerrarFichero();
-		f->changeCondicion();
+		f->setCondicion(false);
 	}
 
-	p->setProtocolo(true);
-	p->abrirFichero();
 	p->printCabecera();
 
 	char opcion;
@@ -164,10 +162,16 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 
 		if(opcion == 49){
 			p->setTipo('M');
+			p->abrirFichero();
+			p->printCabeceraFichero();
+			p->printSeleccionFichero();
 			EnviarCaracter(PuertoCOM, 'E');//La otra estacion sera esclavo
 			Maestro(PuertoCOM);
 		}else if(opcion == 50){
 			p->setTipo('E');
+			p->abrirFichero();
+			p->printCabeceraFichero();
+			p->printSeleccionFichero();
 			EnviarCaracter(PuertoCOM, 'M');//La otra estacion sera maestro
 			Esclavo(PuertoCOM);
 		}
@@ -178,10 +182,6 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 		p->cerrarFichero();
 		p->printString("Se cancela la accion\n");
 	}
-
-}
-
-void Emisor::teclaF7(){
 
 }
 
@@ -273,13 +273,13 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 				TE.setNumeroTrama(R->getNumeroTrama());
 				enviarTramaConfirmacion(PuertoCOM);
 				p->printString("E ");//Trama enviada
-				TE.imprimir(); //TEimprimir();
+				TE.imprimir(); TEimprimir();
 				p->setFinSondeo(true);
 				break;
 			case 50:
 				TE.setNumeroTrama(R->getNumeroTrama());
 				p->printString("E ");//Trama enviada
-				TE.imprimir(); //TEimprimir();
+				TE.imprimir(); TEimprimir();
 				enviarTramaNegacion(PuertoCOM);
 				break;
 		}
@@ -497,20 +497,9 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 }
 
 
-void Emisor::enviarTramaIncorrecta(){
-
-		if(getch() == 0){ // si se pulsa 
-
-
-		}
-
-
-}
-
-
 void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 
-	char cadaux[255]; char autores[100];//char salir;
+	char cadaux[255]; char autores[100]; char tecla;
 	int numBytes = 0, caracteres; //bool fin = false;
 
 	ifstream flujoFichero;
@@ -555,7 +544,6 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 				p->printCharPuntero(autores, caracteres);
 				p->printString("\n\n");
 
-				p->setCuerpoFichero(true);
 
 				while(!flujoFichero.eof()){
 
@@ -572,7 +560,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 						if(i%2 != 0) TE.setNumeroTrama('1');//Numero de trama 1 intercaladamente
 						else TE.setNumeroTrama('0');
 						construirTrama(numCaracteres, indiceMensaje, cadaux);
-						enviarTramaIncorrecta()
+
 						enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
 						establecerColor(2);
 						p->printString("E ");//Trama enviada
@@ -587,7 +575,6 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 				}
 
 				EnviarCaracter(PuertoCOM, '}');//Enviamos caracter }
-				p->setCuerpoFichero(false);
 
 				string num = to_string(numBytes);
 				numCaracteres = num.size();
@@ -596,6 +583,20 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 				else TE.setNumeroTrama('0');
 				indiceMensaje = 0;
 				construirTrama(numCaracteres, indiceMensaje, cadaux);
+
+
+				if(kbhit()){//Si se pulsa una tecla
+				   tecla = getch();
+				    if(tecla == 27){
+//					   printf("Se cancela la accion\n");
+//					   fin = true;
+					}else if(tecla == 0){
+						tecla = getch();
+						if(tecla == 65){
+							//TODO tecla f7
+						}
+					}
+				}
 
 
 				enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
@@ -680,7 +681,7 @@ void Emisor::enviarFichero(HANDLE &PuertoCOM){
 	bool fin = false;
 
 	ifstream flujoFichero;
-	flujoFichero.open("fichero-e.txt");
+	flujoFichero.open("fichero-e.txt");//TODO he cambiado "fichero-e.txt"
 
 	if(!flujoFichero.fail()){
 
@@ -790,7 +791,7 @@ void Emisor::construirTrama(int numCaracteres, int &indiceMensaje, char* mensaje
 		unsigned char BCE = TE.calcularBCE();
 
 		TE.setBCE(BCE);
-		TE.setDato(numCaracteres, '\0');//Añadir \0 al final del vector
+		TE.setDato(numCaracteres, '\0');//AÃ±adir \0 al final del vector
 }
 
 

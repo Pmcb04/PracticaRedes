@@ -101,12 +101,12 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 						p->setProtocolo(true);//Se activa protocolo
 						p->setTipo('M');
 						p->abrirFichero();
-						p->printCabecera();
+						p->printCabecera(); p->printCabeceraFichero();
 					}else if(carR == 'E'){
 						p->setProtocolo(true);//Se activa protocolo
 						p->setTipo('E');
 						p->abrirFichero();
-						p->printCabecera();
+						p->printCabecera(); p->printCabeceraFichero();
 					}
 					break;
 

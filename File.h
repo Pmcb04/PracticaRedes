@@ -2,7 +2,7 @@
  * File.h
  *
  *  Created on: 23 mar. 2020
- *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
  */
 
 #ifndef __FILE_H_
@@ -65,12 +65,12 @@ class File{
 		/*
 		* Cambia la variable de f5 para poder o no escribir en el fichero
 		*/
-		void changeCondicion();
+		void setCondicion(bool b);
 
 		/*
 		* Devuelve el estado de la variable f5
 		*/
-		bool getCondition();
+		bool getCondicion();
 
 		/*
 		* Destructor por defecto
