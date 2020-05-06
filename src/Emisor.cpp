@@ -78,12 +78,16 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 			f->cerrarFichero();
 			f->setCondicion(false);
 		}
+
+		ifstream protocolo;
+		protocolo.open("EProtoc.txt");
+
 		switch(p->getTipo()){
 		case 69://Esclavo
-			Esclavo(PuertoCOM);
+			Esclavo(PuertoCOM, protocolo);
 			break;
 		case 77://Maestro
-			Maestro(PuertoCOM);
+			Maestro(PuertoCOM, protocolo);
 			break;
 		}
 	}
@@ -138,12 +142,7 @@ void Emisor::teclaF5(){
 
 void Emisor::teclaF6(HANDLE &PuertoCOM){
 
-	ifstream protocolo;
-	protocolo.open("EProtoc.txt");
 
-	if(protocolo.good()){
-
-		protocolo.close();
 
 		if(f->getCondicion()){//Si esta activo
 			f->cerrarFichero();
@@ -165,6 +164,9 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 
 		if(!salir){
 
+			ifstream protocolo;
+			protocolo.open("EProtoc.txt");
+
 			p->setProtocolo(true);//Se activa protocolo
 
 			if(opcion == 49){
@@ -173,14 +175,14 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 				p->printCabeceraFichero();
 				p->printSeleccionFichero();
 				EnviarCaracter(PuertoCOM, 'E');//La otra estacion sera esclavo
-				Maestro(PuertoCOM);
+				Maestro(PuertoCOM, protocolo);
 			}else if(opcion == 50){
 				p->setTipo('E');
 				p->abrirFichero();
 				p->printCabeceraFichero();
 				p->printSeleccionFichero();
 				EnviarCaracter(PuertoCOM, 'M');//La otra estacion sera maestro
-				Esclavo(PuertoCOM);
+				Esclavo(PuertoCOM, protocolo);
 			}
 
 		}else{
@@ -189,15 +191,9 @@ void Emisor::teclaF6(HANDLE &PuertoCOM){
 			p->cerrarFichero();
 			p->printString("Se cancela la accion\n");
 		}
-
-	}else{
-		establecerColor(15);
-		f->printString("El fichero EProtoc.txt no se a podido encontrar...\n");
-	}
-
 }
 
-void Emisor::Maestro(HANDLE &PuertoCOM){
+void Emisor::Maestro(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	char opcion;
 	bool salir = false;
@@ -217,11 +213,11 @@ void Emisor::Maestro(HANDLE &PuertoCOM){
 		switch(opcion){
 			case 49://Seleccion
 				p->setOperacion('R');
-				maestroSeleccion(PuertoCOM);
+				maestroSeleccion(PuertoCOM, protocolo);
 				break;
 			case 50://Sondeo
 				p->setOperacion('T');
-				maestroSondeo(PuertoCOM);
+				maestroSondeo(PuertoCOM, protocolo);
 				break;
 		}
 
@@ -236,7 +232,7 @@ void Emisor::Maestro(HANDLE &PuertoCOM){
 
 }
 
-void Emisor::maestroSeleccion(HANDLE &PuertoCOM){
+void Emisor::maestroSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	establecerColor(1);
 	enviarTramaEstablecimiento(PuertoCOM);
@@ -245,8 +241,14 @@ void Emisor::maestroSeleccion(HANDLE &PuertoCOM){
 	esperarTramaConfirmacion(PuertoCOM);
 	p->printString("\n");//Acaba fase Establecimiento
 
-	enviarFaseTransferencia(PuertoCOM);
-	p->printString("\n");//Acaba fase Transferencia
+	if(protocolo.good()){
+		enviarFaseTransferencia(PuertoCOM, protocolo);
+		p->printString("\n");//Acaba fase Transferencia
+	}else{
+		establecerColor(15);
+		f->printString("El fichero EProtoc.txt no se a podido encontrar\n");
+		f->printString("Cerrando protocolo...\n\n");
+	}
 
 	establecerColor(11);
 	TE.setNumeroTrama('0');
@@ -307,7 +309,7 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 
 }
 
-void Emisor::maestroSondeo(HANDLE &PuertoCOM){
+void Emisor::maestroSondeo(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	establecerColor(1);
 	enviarTramaEstablecimiento(PuertoCOM);
@@ -316,8 +318,14 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM){
 	esperarTramaConfirmacion(PuertoCOM);
 	p->printString("\n");//Acaba fase Establecimiento
 
-	recibirFaseTranseferencia(PuertoCOM);
-	p->printString("\n");//Acaba fase Transferencia
+	if(protocolo.good()){
+		recibirFaseTranseferencia(PuertoCOM);
+		p->printString("\n");//Acaba fase Transferencia
+	}else{
+		establecerColor(15);
+		f->printString("El fichero EProtoc.txt no se a podido encontrar\n");
+		f->printString("Cerrando protocolo...\n\n");
+	}
 
 	while(!p->getFinSondeo()){
 		elegirFin(PuertoCOM);
@@ -332,7 +340,7 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM){
 }
 
 
-void Emisor::Esclavo(HANDLE &PuertoCOM){
+void Emisor::Esclavo(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	establecerColor(2);
 
@@ -347,26 +355,34 @@ void Emisor::Esclavo(HANDLE &PuertoCOM){
 				switch(operacion){
 				case 82:
 					p->setOperacion('R');
-					esclavoSeleccion(PuertoCOM);
+					esclavoSeleccion(PuertoCOM, protocolo);
 					break;
 				case 84:
 					p->setOperacion('T');
-					esclavoSondeo(PuertoCOM);
+					esclavoSondeo(PuertoCOM, protocolo);
 					break;
 				}
 	}
 
 }
 
-void Emisor::esclavoSeleccion(HANDLE &PuertoCOM){
+void Emisor::esclavoSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	enviarTramaConfirmacion(PuertoCOM);
 	p->printString("E ");//Trama enviada
 	TE.imprimir(); TEimprimir();
 	p->printString("\n");//Acaba fase Establecimiento
 
-	recibirFaseTranseferencia(PuertoCOM);
-	p->printString("\n");//Acaba fase Transferencia
+
+	if(protocolo.good()){
+		recibirFaseTranseferencia(PuertoCOM);
+		p->printString("\n");//Acaba fase Transferencia
+	}else{
+		establecerColor(15);
+		f->printString("El fichero EProtoc.txt no se a podido encontrar\n");
+		f->printString("Cerrando protocolo...\n\n");
+	}
+
 
 	establecerColor(11);
 	esperarTramaCierre(PuertoCOM);
@@ -383,16 +399,21 @@ void Emisor::esclavoSeleccion(HANDLE &PuertoCOM){
 }
 
 
-void Emisor::esclavoSondeo(HANDLE &PuertoCOM){
+void Emisor::esclavoSondeo(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	enviarTramaConfirmacion(PuertoCOM);
 	p->printString("E ");//Trama enviada
 	TE.imprimir(); TEimprimir();
 	p->printString("\n");//Acaba fase Establecimiento
 
-	enviarFaseTransferencia(PuertoCOM);
-	p->printString("\n");//Acaba fase Transferencia
-
+	if(protocolo.good()){
+		enviarFaseTransferencia(PuertoCOM, protocolo);
+		p->printString("\n");//Acaba fase Transferencia
+	}else{
+		establecerColor(15);
+		f->printString("El fichero EProtoc.txt no se a podido encontrar\n");
+		f->printString("Cerrando protocolo...\n\n");
+	}
 
 	establecerColor(11);
 	TE.setNumeroTrama('0');
@@ -478,6 +499,10 @@ void Emisor::esperarTramaConfirmacion(HANDLE &PuertoCOM){
 	while(R->Recibir(PuertoCOM) != 4);//Esperar trama ACK
 }
 
+/*void Emisor::esperarTramaNegacion(HANDLE &PuertoCOM){
+
+}
+*/
 void Emisor::esperarTramaCierre(HANDLE &PuertoCOM){
 	while(R->Recibir(PuertoCOM) != 2);//Esperar trama EOT
 }
@@ -509,15 +534,11 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 }
 
 
-void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
+void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	char cadaux[255]; char autores[100]; char tecla;
+	boolean f7 = false;
 	int numBytes = 0, caracteres; //bool fin = false;
-
-	ifstream flujoFichero;
-	flujoFichero.open("EProtoc.txt");
-
-		if(!flujoFichero.fail()){
 
 				EnviarCaracter(PuertoCOM, '{');//Enviamos caracter {
 
@@ -527,7 +548,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 
 					indiceMensaje = 0;
 
-					flujoFichero.getline(cadaux, 70);//Lee 69 caracteres o hasta que encuentre \n
+					protocolo.getline(cadaux, 70);//Lee 69 caracteres o hasta que encuentre \n
 
 					numCaracteres = (int) strlen(cadaux);//casting porque strlen te devuelve unsigned
 
@@ -557,23 +578,41 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 				p->printString("\n\n");
 
 
-				while(!flujoFichero.eof()){
+				while(!protocolo.eof()){
 
-					flujoFichero.read(cadaux, 254);
+					protocolo.read(cadaux, 254);
 
 					indiceMensaje = 0;//Quiero que empiece desde el principio siempre, porque son cadenas distintas
 
-					if(flujoFichero.gcount() > 0){
+					if(protocolo.gcount() > 0){
 
-						numBytes += flujoFichero.gcount();
+						numBytes += protocolo.gcount();
 
-						cadaux[flujoFichero.gcount()] = '\0';
-						numCaracteres = flujoFichero.gcount();
+						cadaux[protocolo.gcount()] = '\0';
+						numCaracteres = protocolo.gcount();
 						if(i%2 != 0) TE.setNumeroTrama('1');//Numero de trama 1 intercaladamente
 						else TE.setNumeroTrama('0');
 						construirTrama(numCaracteres, indiceMensaje, cadaux);
 
-						enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
+						if(kbhit()){//Si se pulsa una tecla
+						   tecla = getch();
+							if(tecla == 27){
+		//					   printf("Se cancela la accion\n");
+								/*f->printString("Se cancela la accion");
+								p->setProtocolo(false);
+								p->cerrarFichero();
+								EnviarCaracter(PuertoCOM, 27);*/
+		//					   fin = true;
+							}else if(tecla == 0){
+								tecla = getch();
+								if(tecla == 65){
+									teclaf7(PuertoCOM);
+									f7 = true;
+								}
+							}
+						}
+						if(!f7)enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
+						f7 = false;
 						establecerColor(2);
 						p->printString("E ");//Trama enviada
 						TE.imprimirTrama(); TEimprimirTrama();
@@ -584,7 +623,6 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 						i++;
 					}
 
-				}
 
 				EnviarCaracter(PuertoCOM, '}');//Enviamos caracter }
 
@@ -597,19 +635,6 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 				construirTrama(numCaracteres, indiceMensaje, cadaux);
 
 
-				if(kbhit()){//Si se pulsa una tecla
-				   tecla = getch();
-				    if(tecla == 27){
-//					   printf("Se cancela la accion\n");
-//					   fin = true;
-					}else if(tecla == 0){
-						tecla = getch();
-						if(tecla == 65){
-							//TODO tecla f7
-						}
-					}
-				}
-
 
 				enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
 				establecerColor(8);
@@ -621,19 +646,19 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM){
 
 				establecerColor(9);
 				p->printString("\nFichero enviado\n");
-
-		}else{
-
-			establecerColor(15);
-			p->printString("ERROR: El fichero EProtoc.txt no existe\n");
-
 		}
 
-		flujoFichero.close();
+		protocolo.close();
 }
 
 void Emisor::teclaf7(HANDLE &PuertoCOM){
-	TE.copiarDatos(aux);
+
+	char aux = TE.getDato(0); // guardamos eel caracter
+	TE.setDato(0, 'ç');  // cambiamos el caracter para
+	enviarTramaDatos(PuertoCOM); // enviamos trama como error
+	//esperarTramaNegacion(PuertoCOM);// trama nack;
+	TE.setDato(0,aux); // volvemos a poner la trama bien
+	enviarTramaDatos(PuertoCOM); // enviamos trama como error
 }
 
 
@@ -697,7 +722,7 @@ void Emisor::enviarFichero(HANDLE &PuertoCOM){
 	bool fin = false;
 
 	ifstream flujoFichero;
-	flujoFichero.open("fichero-e.txt");//TODO he cambiado "fichero-e.txt"
+	flujoFichero.open("fichero-e.txt");
 
 	if(!flujoFichero.fail()){
 
@@ -778,7 +803,7 @@ void Emisor::enviarFichero(HANDLE &PuertoCOM){
 }
 
 
-void Emisor::copiarCadena(char* cadena, int numCaracteres, char* cadaux){//TODO ponerlo en otro sitio para aprovechar
+void Emisor::copiarCadena(char* cadena, int numCaracteres, char* cadaux){
 	for(int i = 0; i < numCaracteres; i++){
 			cadaux[i] = cadena[i];
 		}
@@ -786,7 +811,7 @@ void Emisor::copiarCadena(char* cadena, int numCaracteres, char* cadaux){//TODO 
 }
 
 
-void Emisor::copiarString(char *cadena, string s){//TODO ponerlo en otro sitio para aprovechar
+void Emisor::copiarString(char *cadena, string s){
 	for(unsigned int i = 0; i < s.size(); i++){
 		cadena[i] = s[i];
 	}
@@ -950,7 +975,7 @@ void Emisor::TEimprimirTrama(){
 }
 
 
-Emisor :: ~Emisor(){//TODO
+Emisor :: ~Emisor(){
 //	delete R;
 //	delete f;
 }

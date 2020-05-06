@@ -20,8 +20,6 @@ class Emisor {
 	char mensaje[MAXMENSAJE+2];
 	int indice;
 	TramaDatos TE;
-	//char aux[255]; //para f7
-	vDatos aux;
 	Receptor* R;
 	File* f;
 	Protocolo* p;
@@ -98,22 +96,22 @@ class Emisor {
 
 		// Metodo para el maestro en el protocolo, elige el tipo de
 		// operacion a realizar en el protocolo y el modo del maestro (Sondeo o selección)
-		void Maestro(HANDLE &PuertoCOM);
+		void Maestro(HANDLE &PuertoCOM, ifstream &protocolo);
 
 		// Metodo para el escalvo en el protocolo, el modo del esclavo (Sondeo o selección
-		void Esclavo(HANDLE &PuertoCOM);
+		void Esclavo(HANDLE &PuertoCOM, ifstream &protocolo);
 
 		// metodo para maestro de modo seleccion
-		void maestroSeleccion(HANDLE &PuertoCOM);
+		void maestroSeleccion(HANDLE &PuertoCOM, ifstream &protocolo);
 
 		// metodo para maestro de modo selección
-		void maestroSondeo(HANDLE &PuertoCOM);
+		void maestroSondeo(HANDLE &PuertoCOM, ifstream &protocolo);
 
 		// metodo para esclavo de modo selección
-		void esclavoSeleccion(HANDLE &PuertoCOM);
+		void esclavoSeleccion(HANDLE &PuertoCOM, ifstream &protocolo);
 
 		// metodo para esclavo de modo sondeo
-		void esclavoSondeo(HANDLE &PuertoCOM);
+		void esclavoSondeo(HANDLE &PuertoCOM, ifstream &protocolo);
 
 		// envia una trama de establecimiento (Trama ENQ)
 		void enviarTramaEstablecimiento(HANDLE &PuertoCOM);
@@ -140,7 +138,7 @@ class Emisor {
 		void enviarTramaNegacion(HANDLE &PuertoCOM);
 
 		// envio de la fase de tranferencia (envio del fichero por tramas de STX)
-		void enviarFaseTransferencia(HANDLE &PuertoCOM);
+		void enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo);
 
 		// recibe la fase de Transferencia (recibo del fichero por tramas de STX)
 		void recibirFaseTranseferencia(HANDLE &PuertoCOM);
