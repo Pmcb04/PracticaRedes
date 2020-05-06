@@ -134,6 +134,9 @@ class Emisor {
 		// se espera a la espera de una trama de datos (Trama STX)
 		void esperarTramaDatos(HANDLE &PuertoCOM);
 
+		// se espera a la espera de una trama de negacion (Trama NACK)
+		void esperarTramaNegacion(HANDLE &PuertoCOM);
+
 		// envia una trama de negacion (Trama NACK)
 		void enviarTramaNegacion(HANDLE &PuertoCOM);
 

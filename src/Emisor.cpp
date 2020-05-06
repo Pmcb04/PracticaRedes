@@ -490,6 +490,14 @@ void Emisor::enviarTramaNegacion(HANDLE &PuertoCOM){
 	EnviarCaracter(PuertoCOM, TE.getNumeroTrama());
 }
 
+void Emisor::esperarTramaDatos(HANDLE &PuertoCOM){
+	while(R->Recibir(PuertoCOM) != 1);//Esperar trama STX
+}
+
+void Emisor::esperarTramaCierre(HANDLE &PuertoCOM){
+	while(R->Recibir(PuertoCOM) != 2);//Esperar trama EOT
+}
+
 void Emisor::esperarTramaEstablecimiento(HANDLE &PuertoCOM){
 	while(R->Recibir(PuertoCOM) != 3 && p->getProtocolo());//Esperar trama ENQ
 }
@@ -499,16 +507,8 @@ void Emisor::esperarTramaConfirmacion(HANDLE &PuertoCOM){
 	while(R->Recibir(PuertoCOM) != 4);//Esperar trama ACK
 }
 
-/*void Emisor::esperarTramaNegacion(HANDLE &PuertoCOM){
-
-}
-*/
-void Emisor::esperarTramaCierre(HANDLE &PuertoCOM){
-	while(R->Recibir(PuertoCOM) != 2);//Esperar trama EOT
-}
-
-void Emisor::esperarTramaDatos(HANDLE &PuertoCOM){
-	while(R->Recibir(PuertoCOM) != 1);//Esperar trama STX
+void Emisor::esperarTramaNegacion(HANDLE &PuertoCOM){
+	while(R->Recibir(PuertoCOM) != 5); // Esperar trama NACK
 }
 
 void Emisor::esperarRespuesta(HANDLE &PuertoCOM){
@@ -520,14 +520,26 @@ void Emisor::esperarRespuesta(HANDLE &PuertoCOM){
 
 void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 	while(!p->getFinFichero()){
+
 		esperarTramaDatos(PuertoCOM);//Hasta que no reciba trama no puede confirmar
+		bool correcta = R->procesarTramaDatos();
+
+		while(!correcta){
+			enviarTramaNegacion(PuertoCOM);
+			p->printString("E ");
+			TE.imprimirTrama(); TEimprimir();
+			p->printString("\n");
+
+			esperarTramaDatos(PuertoCOM);
+			correcta = R->procesarTramaDatos();
+		}
 
 		if(R->getNumeroTrama() == '1') TE.setNumeroTrama('1');
 		else TE.setNumeroTrama('0');
 		enviarTramaConfirmacion(PuertoCOM);
 		p->printString("E ");
 		TE.imprimirTrama(); TEimprimir();
-		printf("\n");
+		p->printString("\n");
 	}
 	R->imprimirProtocolo();
 	p->setFinFichero(false);
@@ -537,8 +549,9 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	char cadaux[255]; char autores[100]; char tecla;
-	boolean f7 = false;
 	int numBytes = 0, caracteres; //bool fin = false;
+
+			if(protocolo.good()){
 
 				EnviarCaracter(PuertoCOM, '{');//Enviamos caracter {
 
@@ -582,6 +595,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 
 					protocolo.read(cadaux, 254);
 
+
 					indiceMensaje = 0;//Quiero que empiece desde el principio siempre, porque son cadenas distintas
 
 					if(protocolo.gcount() > 0){
@@ -597,22 +611,18 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 						if(kbhit()){//Si se pulsa una tecla
 						   tecla = getch();
 							if(tecla == 27){
-		//					   printf("Se cancela la accion\n");
-								/*f->printString("Se cancela la accion");
-								p->setProtocolo(false);
+								p->setProtocolo(false);//Se cancela protocolo
 								p->cerrarFichero();
-								EnviarCaracter(PuertoCOM, 27);*/
-		//					   fin = true;
+								EnviarCaracter(PuertoCOM, 27);
+								establecerColor(15);
+								f->printString("Se cancela la accion");
 							}else if(tecla == 0){
 								tecla = getch();
 								if(tecla == 65){
-									teclaf7(PuertoCOM);
-									f7 = true;
-								}
+									teclaf7(PuertoCOM);							}
 							}
 						}
-						if(!f7)enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
-						f7 = false;
+						enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
 						establecerColor(2);
 						p->printString("E ");//Trama enviada
 						TE.imprimirTrama(); TEimprimirTrama();
@@ -622,6 +632,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 
 						i++;
 					}
+			}
 
 
 				EnviarCaracter(PuertoCOM, '}');//Enviamos caracter }
@@ -655,10 +666,14 @@ void Emisor::teclaf7(HANDLE &PuertoCOM){
 
 	char aux = TE.getDato(0); // guardamos eel caracter
 	TE.setDato(0, 'ç');  // cambiamos el caracter para
+
 	enviarTramaDatos(PuertoCOM); // enviamos trama como error
-	//esperarTramaNegacion(PuertoCOM);// trama nack;
+	p->printString("E ");//Trama enviada
+	TE.imprimirTrama(); TEimprimirTrama();
+	p->printString("\n");
+
+	esperarTramaNegacion(PuertoCOM);// trama nack;
 	TE.setDato(0,aux); // volvemos a poner la trama bien
-	enviarTramaDatos(PuertoCOM); // enviamos trama como error
 }
 
 

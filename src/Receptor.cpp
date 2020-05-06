@@ -184,13 +184,30 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 						}
 
 					}else{//trama incorrecta
-						establecerColor(15);
 						if(esFichero){
-							if(!p->getProtocolo()) f->printString("Error en la recepcion de la trama del fichero\n");
-							else p->printString("Error en la recepcion de la trama del fichero\n");
+							if(!p->getProtocolo()) f->printString("Error en la recepcion de la trama del fichero no protocolo\n");
+							else{ // procesamos error en la trama y la mostramos
+								establecerColor(2);
+								tipoTrama = getTipoTrama(TR.getControl());
+								NT = TR.getNumeroTrama();
+								p->printString("R ");//Trama recibida
+								TR.imprimirTrama(); TRimprimirTrama();
+								int BCE = (int) carR;
+								printf("%d\n", TR.calcularBCE()); p->printIntFichero(BCE); p->printCharFichero('\n');
+
+								if(kbhit()){//Si se pulsa una tecla
+									if(getch() == 27){
+										p->setProtocolo(false);//Se cancela protocolo
+										p->cerrarFichero();
+										EnviarCaracter(PuertoCOM, 27);
+										establecerColor(15);
+										f->printString("Se cancela la accion");
+									}
+								}
+							}
 						}else{
-							if(!p->getProtocolo()) f->printString("Error en la trama recibida\n");
-							else p->printString("Error en la trama recibida\n");
+							if(!p->getProtocolo()) f->printString("Error en la trama recibida no protocolo\n");
+							else p->printString("Error en la trama recibida protocolo\n");
 
 						}
 					}
