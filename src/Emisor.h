@@ -146,11 +146,17 @@ class Emisor {
 		// recibe la fase de Transferencia (recibo del fichero por tramas de STX)
 		void recibirFaseTranseferencia(HANDLE &PuertoCOM);
 
-		// imprime la trama que se va enviando
+		// imprime la trama que se va enviando por pantalla
 		void TEimprimir();//para fichero
 
-		// imprime la trama que se va recibiendo y comprueba el BCE
+		// imprime la trama que se va recibiendo y comprueba el BCE por fichero
 		void TEimprimirTrama();//para fichero
+
+		// imprime la trama por pantalla y por fichero sin bce
+		void imprimir();
+
+		// imprime la trama por pantalla y por fichero con bce
+		void imprimirTrama();
 
 
 		// Destructor de la clase Emisor

@@ -109,7 +109,8 @@ void TramaDatos::imprimir(){
 	}
 
 	printf("%s ", control);
-	printf("%c\n", getNumeroTrama());
+	printf("%c", getNumeroTrama());
+
 }
 
 void TramaDatos::imprimirTrama(){

@@ -236,8 +236,7 @@ void Emisor::maestroSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	establecerColor(1);
 	enviarTramaEstablecimiento(PuertoCOM);
-	p->printString("E ");//Trama enviada
-	TE.imprimir(); TEimprimir();
+	imprimir();
 	esperarTramaConfirmacion(PuertoCOM);
 	p->printString("\n");//Acaba fase Establecimiento
 
@@ -253,9 +252,9 @@ void Emisor::maestroSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 	establecerColor(11);
 	TE.setNumeroTrama('0');
 	enviarTramaCierre(PuertoCOM);
-	p->printString("E ");//Trama enviada
-	TE.imprimir(); TEimprimir();
+	imprimir();
 	esperarTramaConfirmacion(PuertoCOM);
+	p->printString("\n");
 
 
 	p->printString("FIN PROTOCOLO\n");
@@ -286,15 +285,13 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 			case 49:
 				TE.setNumeroTrama(R->getNumeroTrama());
 				enviarTramaConfirmacion(PuertoCOM);
-				p->printString("E ");//Trama enviada
-				TE.imprimir(); TEimprimir();
+				imprimir();
 				p->setFinSondeo(true);
 				break;
 			case 50:
 				TE.setNumeroTrama(R->getNumeroTrama());
-				p->printString("E ");//Trama enviada
-				TE.imprimir(); TEimprimir();
 				enviarTramaNegacion(PuertoCOM);
+				imprimir();
 				break;
 		}
 
@@ -313,8 +310,7 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	establecerColor(1);
 	enviarTramaEstablecimiento(PuertoCOM);
-	p->printString("E ");//Trama enviada
-	TE.imprimir(); TEimprimir();
+	imprimir();
 	esperarTramaConfirmacion(PuertoCOM);
 	p->printString("\n");//Acaba fase Establecimiento
 
@@ -369,18 +365,16 @@ void Emisor::Esclavo(HANDLE &PuertoCOM, ifstream &protocolo){
 void Emisor::esclavoSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	enviarTramaConfirmacion(PuertoCOM);
-	p->printString("E ");//Trama enviada
-	TE.imprimir(); TEimprimir();
-	p->printString("\n");//Acaba fase Establecimiento
-
+	imprimir();
+	p->printString("\n");
 
 	if(protocolo.good()){
 		recibirFaseTranseferencia(PuertoCOM);
 		p->printString("\n");//Acaba fase Transferencia
 	}else{
 		establecerColor(15);
-		f->printString("El fichero EProtoc.txt no se a podido encontrar\n");
-		f->printString("Cerrando protocolo...\n\n");
+		printf("El fichero EProtoc.txt no se a podido encontrar\n");
+		printf("Cerrando protocolo...\n\n");
 	}
 
 
@@ -390,9 +384,9 @@ void Emisor::esclavoSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 	if(R->getNumeroTrama() == '1') TE.setNumeroTrama('1');
 	else TE.setNumeroTrama('0');
 	enviarTramaConfirmacion(PuertoCOM);
-	p->printString("E ");//Trama enviada
-	TE.imprimir(); TEimprimir();
+	imprimir();
 
+	p->printString("\n");
 	p->printString("FIN PROTOCOLO\n");
 	p->cerrarFichero();
 	p->setProtocolo(false);//Se termina el protocolo
@@ -402,9 +396,9 @@ void Emisor::esclavoSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 void Emisor::esclavoSondeo(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	enviarTramaConfirmacion(PuertoCOM);
-	p->printString("E ");//Trama enviada
-	TE.imprimir(); TEimprimir();
-	p->printString("\n");//Acaba fase Establecimiento
+	imprimir();
+	p->printString("\n");
+
 
 	if(protocolo.good()){
 		enviarFaseTransferencia(PuertoCOM, protocolo);
@@ -418,27 +412,24 @@ void Emisor::esclavoSondeo(HANDLE &PuertoCOM, ifstream &protocolo){
 	establecerColor(11);
 	TE.setNumeroTrama('0');
 	enviarTramaCierre(PuertoCOM);
-	p->printString("E ");//Trama enviada
-	TE.imprimir(); TEimprimir();
+	imprimir();
 
 
 	int i = 1;
 	while(!p->getFinSondeo()){
 		establecerColor(11);
 		esperarRespuesta(PuertoCOM);
-		p->printString("\n");
 		if(!p->getFinSondeo()){
+			p->printString("\n");
 			if(i%2 == 0) TE.setNumeroTrama('0');
 			else TE.setNumeroTrama('1');
 			enviarTramaCierre(PuertoCOM);
-			p->printString("E ");//Trama enviada
-			TE.imprimir(); TEimprimir();
+			imprimir();
 			i++;
 		}
 	}
 
-	p->printString("\n");//Acaba fase Cierre
-
+	p->printString("\n");
 	p->printString("FIN PROTOCOLO\n");
 	p->cerrarFichero();
 	p->setProtocolo(false);//Se termina el protocolo
@@ -526,9 +517,7 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 
 		while(!correcta){
 			enviarTramaNegacion(PuertoCOM);
-			p->printString("E ");
-			TE.imprimirTrama(); TEimprimir();
-			p->printString("\n");
+			imprimir();
 
 			esperarTramaDatos(PuertoCOM);
 			correcta = R->procesarTramaDatos();
@@ -537,9 +526,7 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 		if(R->getNumeroTrama() == '1') TE.setNumeroTrama('1');
 		else TE.setNumeroTrama('0');
 		enviarTramaConfirmacion(PuertoCOM);
-		p->printString("E ");
-		TE.imprimirTrama(); TEimprimir();
-		p->printString("\n");
+		imprimir();
 	}
 	R->imprimirProtocolo();
 	p->setFinFichero(false);
@@ -574,11 +561,9 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 					else TE.setNumeroTrama('0');
 					construirTrama(numCaracteres, indiceMensaje, cadaux);
 
-					enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
 					establecerColor(12);
-					p->printString("E ");//Trama enviada
-					TE.imprimirTrama(); TEimprimirTrama();
-					p->printString("\n");
+					enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
+					imprimirTrama();
 
 					esperarTramaConfirmacion(PuertoCOM);//Cada vez que envia Trama STX, espera trama ACK
 
@@ -624,9 +609,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 						}
 						enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
 						establecerColor(2);
-						p->printString("E ");//Trama enviada
-						TE.imprimirTrama(); TEimprimirTrama();
-						p->printString("\n");
+						imprimirTrama();
 
 						esperarTramaConfirmacion(PuertoCOM);//Cada vez que envia Trama STX, espera trama ACK
 
@@ -649,9 +632,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 
 				enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
 				establecerColor(8);
-				p->printString("E ");//Trama enviada
-				TE.imprimirTrama(); TEimprimirTrama();
-				p->printString("\n");
+				imprimirTrama();
 
 				esperarTramaConfirmacion(PuertoCOM);//Cada vez que envia Trama STX, espera trama ACK
 
@@ -668,9 +649,7 @@ void Emisor::teclaf7(HANDLE &PuertoCOM){
 	TE.setDato(0, 'ç');  // cambiamos el caracter para
 
 	enviarTramaDatos(PuertoCOM); // enviamos trama como error
-	p->printString("E ");//Trama enviada
-	TE.imprimirTrama(); TEimprimirTrama();
-	p->printString("\n");
+	imprimirTrama();
 
 	esperarTramaNegacion(PuertoCOM);// trama nack;
 	TE.setDato(0,aux); // volvemos a poner la trama bien
@@ -947,7 +926,7 @@ void Emisor::TEimprimir(){
 	control[longitud] = '\0';
 
 	p->printCharPunteroFichero(control, longitud); p->printCharFichero(' ');
-	p->printCharFichero(TE.getNumeroTrama()); p->printCharFichero('\n');
+	p->printCharFichero(TE.getNumeroTrama());
 }
 
 void Emisor::TEimprimirTrama(){
@@ -985,8 +964,23 @@ void Emisor::TEimprimirTrama(){
 	p->printCharFichero(TE.getNumeroTrama()); p->printCharFichero(' ');
 
 	int BCE = (int) TE.getBCE();
-	p->printIntFichero(BCE); //p->printCharFichero('\n');
+	p->printIntFichero(BCE);
 
+}
+
+
+void Emisor::imprimir(){
+	p->printString("E ");//Trama enviada
+	TE.imprimir(); // imprimimos en pantalla sin bce
+	TEimprimir(); // imprimimos en fichero sin bce
+	p->printString("\n"); // impimimos el salto de carro para los dos
+}
+
+void Emisor::imprimirTrama(){
+	p->printString("E ");//Trama enviada
+	TE.imprimirTrama(); // imprimimos en pantalla con bce
+	TEimprimirTrama(); // imprimimos en fichero con bce
+	p->printString("\n"); // impimimos el salto de carro para los dos
 }
 
 

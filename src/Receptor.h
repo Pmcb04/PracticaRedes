@@ -77,6 +77,12 @@ class Receptor{
 			// imprime la trama que se va enviando y comprueba el BCE
 			void TRimprimirTrama();//para fichero
 
+			// imprime la trama por pantalla y por fichero sin bce
+			void imprimir();
+
+			// imprime la trama por pantalla y por fichero con bce
+			void imprimirTrama();
+
 			// destructor de la clase receptors
 			~Receptor();
 

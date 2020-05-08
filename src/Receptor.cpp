@@ -44,8 +44,6 @@ int Receptor::getTipoTrama(char c){
 	case 21://NACK
 		tipoTrama = 5;
 		break;
-//	case 27://TODO Tecla ESC
-//		break;
 	}
 	return tipoTrama;
 }
@@ -127,8 +125,7 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 							tipoTrama = getTipoTrama(TR.getControl());
 							NT = TR.getNumeroTrama();
 							p->setOperacion(TR.getDireccion());//Sabemos la operacion por el campo direccion
-							p->printString("R ");//Trama recibida
-							TR.imprimir(); TRimprimir();
+							imprimir();
 						}else{//sino esta activo el protocolo
 							procesarTramaControl();
 						}
@@ -177,10 +174,7 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 						if(p->getProtocolo()){
 							tipoTrama = getTipoTrama(TR.getControl());
 							NT = TR.getNumeroTrama();
-							p->printString("R ");//Trama recibida
-							TR.imprimirTrama(); TRimprimirTrama();
-							int BCE = (int) carR;
-							printf("%d\n", carR); p->printIntFichero(BCE); p->printCharFichero('\n');
+							imprimirTrama();
 						}
 
 					}else{//trama incorrecta
@@ -190,10 +184,7 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 								establecerColor(2);
 								tipoTrama = getTipoTrama(TR.getControl());
 								NT = TR.getNumeroTrama();
-								p->printString("R ");//Trama recibida
-								TR.imprimirTrama(); TRimprimirTrama();
-								int BCE = (int) carR;
-								printf("%d\n", TR.calcularBCE()); p->printIntFichero(BCE); p->printCharFichero('\n');
+								imprimirTrama();
 
 								if(kbhit()){//Si se pulsa una tecla
 									if(getch() == 27){
@@ -285,7 +276,7 @@ void Receptor::imprimirProtocolo(){
 	p->printString("\nFichero recibido\n");
 	p->printString("El fichero recibido tiene un tamano de ");
 	p->printString(numBytes);
-	p->printString(" bytes\n\n");
+	p->printString(" bytes\n");
 }
 
 
@@ -321,7 +312,7 @@ void Receptor::TRimprimir(){
 	control[longitud] = '\0';
 
 	p->printCharPunteroFichero(control, longitud); p->printCharFichero(' ');
-	p->printCharFichero(TR.getNumeroTrama()); p->printCharFichero('\n');
+	p->printCharFichero(TR.getNumeroTrama());
 }
 
 void Receptor::TRimprimirTrama(){
@@ -359,7 +350,7 @@ void Receptor::TRimprimirTrama(){
 	p->printCharFichero(TR.getNumeroTrama()); p->printCharFichero(' ');
 
 	int BCE = (int) TR.getBCE();
-	p->printIntFichero(BCE); p->printCharFichero(' ');
+	p->printIntFichero(BCE);
 
 }
 
@@ -392,6 +383,26 @@ bool Receptor::procesarTramaDatos(){
 
 	return correcto;
 }
+
+
+void Receptor::imprimir(){
+	p->printString("R ");//Trama enviada
+	TR.imprimir(); // imprimimos en pantalla sin bce
+	TRimprimir(); // imprimimos en fichero sin bce
+	p->printString("\n"); // impimimos el salto de carro para los dos
+}
+
+void Receptor::imprimirTrama(){
+	p->printString("R ");//Trama enviada
+	TR.imprimirTrama(); // imprimimos en pantalla con bce
+	TRimprimirTrama(); // imprimimos en fichero con bce
+	int BCE = (int) carR;
+	printf("%d", carR);		// imprimimos el bce que nos ha llegado
+	p->printString(" ");
+	p->printIntFichero(BCE);
+	p->printString("\n"); // impimimos el salto de carro para los dos
+}
+
 
 
 Receptor::~Receptor(){//TODO
