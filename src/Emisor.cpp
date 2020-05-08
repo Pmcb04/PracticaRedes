@@ -245,21 +245,25 @@ void Emisor::maestroSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 		p->printString("\n");//Acaba fase Transferencia
 	}else{
 		establecerColor(15);
-		f->printString("El fichero EProtoc.txt no se a podido encontrar\n");
-		f->printString("Cerrando protocolo...\n\n");
+		p->printString("El fichero EProtoc.txt no se a podido encontrar\n");
+		p->printString("Cerrando protocolo...\n\n");
 	}
+//	if(p->getProtocolo()){
 
-	establecerColor(11);
-	TE.setNumeroTrama('0');
-	enviarTramaCierre(PuertoCOM);
-	imprimir();
-	esperarTramaConfirmacion(PuertoCOM);
-	p->printString("\n");
+		establecerColor(11);
+		TE.setNumeroTrama('0');
+		enviarTramaCierre(PuertoCOM);
+		imprimir();
+		esperarTramaConfirmacion(PuertoCOM);
+		p->printString("\n");
 
 
-	p->printString("FIN PROTOCOLO\n");
-	p->cerrarFichero();
-	p->setProtocolo(false);//Se termina el protocolo
+		p->printString("FIN PROTOCOLO\n");
+		p->cerrarFichero();
+		p->setProtocolo(false);//Se termina el protocolo
+
+//	}
+
 }
 
 void Emisor::elegirFin(HANDLE &PuertoCOM){
@@ -377,19 +381,20 @@ void Emisor::esclavoSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 		printf("Cerrando protocolo...\n\n");
 	}
 
+//    if(p->getProtocolo()){
+    	establecerColor(11);
+    	esperarTramaCierre(PuertoCOM);
 
-	establecerColor(11);
-	esperarTramaCierre(PuertoCOM);
+    	if(R->getNumeroTrama() == '1') TE.setNumeroTrama('1');
+    	else TE.setNumeroTrama('0');
+    	enviarTramaConfirmacion(PuertoCOM);
+    	imprimir();
 
-	if(R->getNumeroTrama() == '1') TE.setNumeroTrama('1');
-	else TE.setNumeroTrama('0');
-	enviarTramaConfirmacion(PuertoCOM);
-	imprimir();
-
-	p->printString("\n");
-	p->printString("FIN PROTOCOLO\n");
-	p->cerrarFichero();
-	p->setProtocolo(false);//Se termina el protocolo
+    	p->printString("\n");
+    	p->printString("FIN PROTOCOLO\n");
+    	p->cerrarFichero();
+    	p->setProtocolo(false);//Se termina el protocolo
+//    }
 }
 
 
@@ -515,18 +520,22 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 		esperarTramaDatos(PuertoCOM);//Hasta que no reciba trama no puede confirmar
 		bool correcta = R->procesarTramaDatos();
 
-		while(!correcta){
-			enviarTramaNegacion(PuertoCOM);
+//		if(p->getProtocolo()){
+
+			while(!correcta){
+				enviarTramaNegacion(PuertoCOM);
+				imprimir();
+
+				esperarTramaDatos(PuertoCOM);
+				correcta = R->procesarTramaDatos();
+			}
+
+			if(R->getNumeroTrama() == '1') TE.setNumeroTrama('1');
+			else TE.setNumeroTrama('0');
+			enviarTramaConfirmacion(PuertoCOM);
 			imprimir();
+//		}
 
-			esperarTramaDatos(PuertoCOM);
-			correcta = R->procesarTramaDatos();
-		}
-
-		if(R->getNumeroTrama() == '1') TE.setNumeroTrama('1');
-		else TE.setNumeroTrama('0');
-		enviarTramaConfirmacion(PuertoCOM);
-		imprimir();
 	}
 	R->imprimirProtocolo();
 	p->setFinFichero(false);
@@ -536,7 +545,7 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	char cadaux[255]; char autores[100]; char tecla;
-	int numBytes = 0, caracteres; //bool fin = false;
+	int numBytes = 0, caracteres; bool fin = false;
 
 			if(protocolo.good()){
 
@@ -576,7 +585,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 				p->printString("\n\n");
 
 
-				while(!protocolo.eof()){
+				while(!protocolo.eof() && !fin){
 
 					protocolo.read(cadaux, 254);
 
@@ -596,24 +605,26 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 						if(kbhit()){//Si se pulsa una tecla
 						   tecla = getch();
 							if(tecla == 27){
-								p->setProtocolo(false);//Se cancela protocolo
-								p->cerrarFichero();
+								fin = true;
 								EnviarCaracter(PuertoCOM, 27);
 								establecerColor(15);
-								f->printString("Se cancela la accion");
+								f->printString("Se cancela la accion\n");
 							}else if(tecla == 0){
 								tecla = getch();
 								if(tecla == 65){
 									teclaf7(PuertoCOM);							}
 							}
 						}
-						enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
-						establecerColor(2);
-						imprimirTrama();
+						if(!fin){
+							enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
+							establecerColor(2);
+							imprimirTrama();
 
-						esperarTramaConfirmacion(PuertoCOM);//Cada vez que envia Trama STX, espera trama ACK
+							esperarTramaConfirmacion(PuertoCOM);//Cada vez que envia Trama STX, espera trama ACK
 
-						i++;
+							i++;
+						}
+
 					}
 			}
 

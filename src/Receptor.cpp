@@ -79,8 +79,12 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 					}else if(carR == 27){
 						establecerColor(15);
 						printf("Se cancela la accion\n");
-						p->cerrarFichero();
-						p->setProtocolo(false);
+						if(!esFichero){
+							printf("\nCUIDADORL\n");
+							p->cerrarFichero();
+						    p->setProtocolo(false);
+						}
+
 					}else if(carR == '{'){//comienzo de recepcion de fichero
 						esFichero = true;
 						finFichero = false;
