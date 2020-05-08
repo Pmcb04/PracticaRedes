@@ -3,47 +3,50 @@
 같같같 PROTOCOLO MAESTRO-ESCLAVO 같같같
 같같같같같같같같같같같같같같같같같같같�
 
+Seleccione maestro o esclavo:(1-2)
+	1. Maestro
+	2. Esclavo
+
 Ha seleccionado ESCLAVO
 
-R R ENQ 0
-E R ACK 0
+R T ENQ 0
+E T ACK 0
 
-R R STX 0 87 87
-E R ACK 0
-R R STX 1 55 55
-E R ACK 1
-R R STX 0 14 14
-E R ACK 0
+E T STX 0 87
+R T ACK 0
+E T STX 1 2
+R T ACK 1
+E T STX 0 14
+R T ACK 0
 
-Recibiendo fichero por Pedro Miguel Carmona & Ruben Marin Lucas
+Enviando fichero por Pedro Miguel Carmona & Ruben Marin Lucas
 
-R R STX 1 37 37
-E R ACK 1
-R R STX 0 51 51
-E R ACK 0
-R R STX 1 107 107
-E R ACK 1
-R R STX 0 46 46
-E R ACK 0
-R R STX 1 6 6
-E R ACK 1
-R R STX 0 120 120
-E R ACK 0
-R R STX 1 87 87
-E R ACK 1
-R R STX 0 33 33
-E R ACK 0
-R R STX 1 94 94
-E R ACK 1
-R R STX 0 26 26
-E R ACK 0
-R R STX 1 3 3
-E R ACK 1
+E T STX 1 37
+R T ACK 1
+E T STX 0 51
+R T ACK 0
+E T STX 1 107
+R T ACK 1
+E T STX 0 46
+R T ACK 0
+E T STX 1 6
+R T ACK 1
+E T STX 0 120
+R T ACK 0
+E T STX 1 87
+R T ACK 1
+E T STX 0 33
+R T ACK 0
+E T STX 1 94
+R T ACK 1
+E T STX 0 26
+R T ACK 0
+E T STX 1 3
+R T ACK 1
 
-Fichero recibido
-El fichero recibido tiene un tamano de 2540 bytes
+Fichero enviado
 
-R R EOT 0
-E R ACK 0
+E T EOT 0
+R T ACK 0
 
 FIN PROTOCOLO

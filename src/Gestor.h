@@ -37,7 +37,6 @@
 	//A partir de "color" establece el color del texto y el fondo en la pantalla
 	void establecerColor(int color);
 
-
 	//Muestra el encabezado de la práctica
 	void encabezado();
 
