@@ -77,8 +77,6 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 						TR.setSincronismo(carR);
 						campo++;
 					}else if(carR == 27){
-						p->setProtocolo(false);
-						p->cerrarFichero();
 						establecerColor(15);
 						printf("Se cancela la accion\n");
 					}else if(carR == '{'){//comienzo de recepcion de fichero
