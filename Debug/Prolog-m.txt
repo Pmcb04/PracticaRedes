@@ -1,0 +1,13 @@
+
+같같같같같같같같같같같같같같같같같같같�
+같같같 PROTOCOLO MAESTRO-ESCLAVO 같같같
+같같같같같같같같같같같같같같같같같같같�
+
+Seleccione maestro o esclavo:(1-2)
+	1. Maestro
+	2. Esclavo
+
+Ha seleccionado MAESTRO, seleccione la operacion a realizar:(1-2)
+	1. Seleccion
+	2. Sondeo
+

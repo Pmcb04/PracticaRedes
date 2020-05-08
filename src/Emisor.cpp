@@ -224,8 +224,8 @@ void Emisor::Maestro(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	}else{
 		establecerColor(15);
-		p->setProtocolo(false);//Se cancela protocolo
 		p->cerrarFichero();
+		p->setProtocolo(false);//Se cancela protocolo
 		EnviarCaracter(PuertoCOM, 27);
 		p->printString("Se cancela la accion\n");
 	}

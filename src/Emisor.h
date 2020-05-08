@@ -152,7 +152,7 @@ class Emisor {
 		// imprime la trama que se va recibiendo y comprueba el BCE por fichero
 		void TEimprimirTrama();//para fichero
 
-		// imprime la trama por pantalla y por fichero sin bce
+		// imprime la trama por pantalla y por fichero con bce
 		void imprimir();
 
 		// imprime la trama por pantalla y por fichero con bce
