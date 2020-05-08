@@ -44,7 +44,7 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 					case 0://Tecla de funcion
 						carE = getch();
 						if(carE == 59){
-							if(indice > 0) teclaF1(PuertoCOM);
+							if(indice > 0)teclaF1(PuertoCOM);
 						}else if(carE == 60){
 							teclaF2(PuertoCOM);
 						}else if(carE == 61){
@@ -249,18 +249,17 @@ void Emisor::maestroSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 		f->printString("Cerrando protocolo...\n\n");
 	}
 
-		establecerColor(11);
-		TE.setNumeroTrama('0');
-		enviarTramaCierre(PuertoCOM);
-		imprimir();
-		esperarTramaConfirmacion(PuertoCOM);
-		p->printString("\n");
-
-		p->printString("FIN PROTOCOLO\n");
-		p->cerrarFichero();
-		p->setProtocolo(false);//Se termina el protocolo
+	establecerColor(11);
+	TE.setNumeroTrama('0');
+	enviarTramaCierre(PuertoCOM);
+	imprimir();
+	esperarTramaConfirmacion(PuertoCOM);
+	p->printString("\n");
 
 
+	p->printString("FIN PROTOCOLO\n");
+	p->cerrarFichero();
+	p->setProtocolo(false);//Se termina el protocolo
 }
 
 void Emisor::elegirFin(HANDLE &PuertoCOM){
@@ -537,7 +536,7 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 
 	char cadaux[255]; char autores[100]; char tecla;
-	int numBytes = 0, caracteres; bool fin = false;
+	int numBytes = 0, caracteres; //bool fin = false;
 
 			if(protocolo.good()){
 
@@ -577,7 +576,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 				p->printString("\n\n");
 
 
-				while(!protocolo.eof() && !fin){
+				while(!protocolo.eof()){
 
 					protocolo.read(cadaux, 254);
 
@@ -597,28 +596,24 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 						if(kbhit()){//Si se pulsa una tecla
 						   tecla = getch();
 							if(tecla == 27){
-								fin = true;
+								p->setProtocolo(false);//Se cancela protocolo
+								p->cerrarFichero();
 								EnviarCaracter(PuertoCOM, 27);
 								establecerColor(15);
-								p->printString("Se cancela la accion\n");
-//								p->printString("FIN PROTOCOLO\n");
-//								p->setProtocolo(false);//Se cancela protocolo
-//								p->cerrarFichero();
+								f->printString("Se cancela la accion");
 							}else if(tecla == 0){
 								tecla = getch();
 								if(tecla == 65){
 									teclaf7(PuertoCOM);							}
 							}
 						}
-						if(!fin){
-							enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
-							establecerColor(2);
-							imprimirTrama();
+						enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
+						establecerColor(2);
+						imprimirTrama();
 
-							esperarTramaConfirmacion(PuertoCOM);//Cada vez que envia Trama STX, espera trama ACK
+						esperarTramaConfirmacion(PuertoCOM);//Cada vez que envia Trama STX, espera trama ACK
 
-							i++;
-						}
+						i++;
 					}
 			}
 
