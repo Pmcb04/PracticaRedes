@@ -1,0 +1,55 @@
+<<<<<<< HEAD
+=======
+
+���������������������������������������
+������ PROTOCOLO MAESTRO-ESCLAVO ������
+���������������������������������������
+
+Seleccione maestro o esclavo:(1-2)
+	1. Maestro
+	2. Esclavo
+
+Ha seleccionado ESCLAVO
+
+R T ENQ 0
+E T ACK 0
+
+E T STX 0 87
+R T ACK 0
+E T STX 1 2
+R T ACK 1
+E T STX 0 14
+R T ACK 0
+
+Enviando fichero por Pedro Miguel Carmona & Ruben Marin Lucas
+
+E T STX 1 37
+R T ACK 1
+E T STX 0 51
+R T ACK 0
+E T STX 1 107
+R T ACK 1
+E T STX 0 46
+R T ACK 0
+E T STX 1 6
+R T ACK 1
+E T STX 0 120
+R T ACK 0
+E T STX 1 87
+R T ACK 1
+E T STX 0 33
+R T ACK 0
+E T STX 1 94
+R T ACK 1
+E T STX 0 26
+R T ACK 0
+E T STX 1 3
+R T ACK 1
+
+Fichero enviado
+
+E T EOT 0
+R T ACK 0
+
+FIN PROTOCOLO
+>>>>>>> ed98b872017dfa4603f16fd0051ee34a011d2bdc

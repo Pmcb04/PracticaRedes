@@ -44,7 +44,7 @@ void Emisor::Enviar(HANDLE &PuertoCOM){
 					case 0://Tecla de funcion
 						carE = getch();
 						if(carE == 59){
-							teclaF1(PuertoCOM);
+							if(indice > 0) teclaF1(PuertoCOM);
 						}else if(carE == 60){
 							teclaF2(PuertoCOM);
 						}else if(carE == 61){
