@@ -1,3 +1,12 @@
+/*
+ *
+ * File.cpp
+ *
+ *  Created on: 26 mar. 2020
+ *    Author: Rubén Marín Lucas & Pedro Miguel Carmona Broncano
+ */
+
+
 #include "File.h"
 
 

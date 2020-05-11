@@ -3,7 +3,7 @@
  * Emisor.h
  *
  *  Created on: 26 mar. 2020
- *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ *	 Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
  */
 
 #ifndef EMISOR_H_
@@ -94,19 +94,19 @@ class Emisor {
 		void copiarString(char* cadena, string s);
 
 		// Metodo para el maestro en el protocolo, elige el tipo de
-		// operacion a realizar en el protocolo y el modo del maestro (Sondeo o selección)
+		// operacion a realizar en el protocolo y el modo del maestro (Sondeo o selecciï¿½n)
 		void Maestro(HANDLE &PuertoCOM, ifstream &protocolo);
 
-		// Metodo para el escalvo en el protocolo, el modo del esclavo (Sondeo o selección
+		// Metodo para el escalvo en el protocolo, el modo del esclavo (Sondeo o selecciï¿½n
 		void Esclavo(HANDLE &PuertoCOM, ifstream &protocolo);
 
 		// metodo para maestro de modo seleccion
 		void maestroSeleccion(HANDLE &PuertoCOM, ifstream &protocolo);
 
-		// metodo para maestro de modo selección
+		// metodo para maestro de modo selecciï¿½n
 		void maestroSondeo(HANDLE &PuertoCOM, ifstream &protocolo);
 
-		// metodo para esclavo de modo selección
+		// metodo para esclavo de modo selecciï¿½n
 		void esclavoSeleccion(HANDLE &PuertoCOM, ifstream &protocolo);
 
 		// metodo para esclavo de modo sondeo
@@ -121,7 +121,7 @@ class Emisor {
 		// envia una trama de confirmacion (Trama ACK)
 		void enviarTramaConfirmacion(HANDLE &PuertoCOM);
 
-		// se espera a la espera de una trama de confirmación (Trama ACK)
+		// se espera a la espera de una trama de confirmaciï¿½n (Trama ACK)
 		void esperarTramaConfirmacion(HANDLE &PuertoCOM);
 
 		// envia una trama de cierre (Trama EOT)

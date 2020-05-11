@@ -2,7 +2,7 @@
  * Receptor.cpp
  *
  *  Created on: 26 mar. 2020
- *      Author: nebur
+ *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
  */
 #include "Receptor.h"
 

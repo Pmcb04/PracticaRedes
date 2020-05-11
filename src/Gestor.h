@@ -2,7 +2,7 @@
  * Gestor.h
  *
  *  Created on: 27 mar. 2020
- *      Author: Pedro Miguel Carmona & Rub�n Mar�n Lucas
+ *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
  */
 
 #ifndef GESTOR_H_

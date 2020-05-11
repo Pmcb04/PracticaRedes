@@ -637,7 +637,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 void Emisor::teclaf7(HANDLE &PuertoCOM){
 
 	char aux = TE.getDato(0); // guardamos eel caracter
-	TE.setDato(0, '�');  // cambiamos el caracter para
+	TE.setDato(0, 'ç');  // cambiamos el caracter
 
 	enviarTramaDatos(PuertoCOM); // enviamos trama como error
 	imprimirTrama();

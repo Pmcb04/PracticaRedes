@@ -2,7 +2,7 @@
  * File.h
  *
  *  Created on: 23 mar. 2020
- *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ *      Author: Pedro Miguel Carmona & RubÃ©n MarÃ­n Lucas
  */
 
 #ifndef __FILE_H_

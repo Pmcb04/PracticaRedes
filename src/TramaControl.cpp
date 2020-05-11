@@ -1,3 +1,11 @@
+
+/*
+ * TramaControl.cpp
+ *
+ *  Created on: 26 mar. 2020
+ *      Author: Pedro Miguel Carmona & Rubén Marín Lucas
+ */
+
 #include "TramaControl.h"
 #include <stdio.h>
 

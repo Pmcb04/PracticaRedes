@@ -2,7 +2,7 @@
  * Gestor.cpp
  *
  *  Created on: 27 mar. 2020
- *      Author: nebur
+ *     Author: Pedro Miguel Carmona & Rubén Marín Lucas
  */
 #include "Gestor.h"
 
