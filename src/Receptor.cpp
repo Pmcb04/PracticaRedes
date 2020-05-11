@@ -76,7 +76,6 @@ int Receptor::Recibir(HANDLE &PuertoCOM){
 						establecerColor(15);
 						printf("Se cancela la accion\n");
 						if(!esFichero){
-							printf("\nCUIDADORL\n");
 							p->cerrarFichero();
 						    p->setProtocolo(false);
 						}
