@@ -15,7 +15,7 @@ class Protocolo {
 	char mE;// 'M' maestro | 'E' esclavo
 	char operacion; // 'R' Seleccion | 'T' Sondeo
 	bool finFichero; //Para controlar la recepcion
-	bool finSondeo;
+	bool finSondeo; //Para saber que maestro tiene que seguir
 	char datos[800]; //Para mostrar en pantalla TODO creo que con 254 va que chuta
 	ofstream maestro; //Para escribir en fichero
 	ofstream esclavo;

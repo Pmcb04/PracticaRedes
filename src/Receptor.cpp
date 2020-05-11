@@ -49,10 +49,6 @@ int Receptor::getTipoTrama(char c){
 }
 
 
-bool Receptor::getFinFichero(){
-	return finFichero;
-}
-
 char Receptor::getNumeroTrama(){
 	return NT;
 }

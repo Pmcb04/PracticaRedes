@@ -11,6 +11,7 @@
 #include <fstream>
 #include <string.h>
 #include <iostream>
+#include <stdio.h>
 using namespace std;
 
 const int MAX_FILE = 802;

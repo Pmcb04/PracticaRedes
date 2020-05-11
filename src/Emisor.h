@@ -10,7 +10,6 @@
 #define EMISOR_H_
 
 #include "Receptor.h"
-#include "Protocolo.h"
 
 
 const int MAXMENSAJE = 800;

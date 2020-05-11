@@ -22,7 +22,7 @@ class TramaControl{
 
 	private:
 		unsigned char S;  // Sincronismo = SYN = 22
-		unsigned char D;  // Direccion= (En principio fijo a ’T’)
+		unsigned char D;  // Direccion= (En principio fijo a T)
 		unsigned char C;  // Control = (05 (ENQ), 04 (EOT), 06 (ACK), 21 (NACK))
 		unsigned char NT; // Numero de Trama = (En principio fijo a ‘0’)
 

@@ -2,7 +2,7 @@
  * Emisor.cpp
  *
  *  Created on: 26 mar. 2020
- *      Author: nebur
+ *      Author: RubÃ©n MarÃ­n Lucas & Pedro Miguel Carmona Broncano
  */
 #include "Emisor.h"
 
@@ -128,7 +128,7 @@ void Emisor::enter(){
 
 void Emisor::teclaF5(){
 
-	if(!f->getCondicion()){//Si no está activo
+	if(!f->getCondicion()){//Si no estï¿½ activo
 		f->setCondicion(true);
 		f->abrirFichero();
 		establecerColor(232);
@@ -248,7 +248,6 @@ void Emisor::maestroSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 		p->printString("El fichero EProtoc.txt no se a podido encontrar\n");
 		p->printString("Cerrando protocolo...\n\n");
 	}
-//	if(p->getProtocolo()){
 
 		establecerColor(11);
 		TE.setNumeroTrama('0');
@@ -262,8 +261,6 @@ void Emisor::maestroSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 		p->cerrarFichero();
 		p->setProtocolo(false);//Se termina el protocolo
 
-//	}
-
 }
 
 void Emisor::elegirFin(HANDLE &PuertoCOM){
@@ -271,19 +268,16 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 	esperarTramaCierre(PuertoCOM);
 
 	char opcion;
-	bool salir = false;
 	establecerColor(2);
 	do{
 		p->printString("Desea el cierre de la comunicacion?(1-2)\n");
 		p->printString("\t1. Si\n");
 		p->printString("\t2. No\n\n");
 		opcion = getch();
-		if(opcion > 50 || (opcion < 49 && opcion != 27)) p->printString("Por favor, seleccione una opcion valida...\n");
-		else if(opcion == 27) salir = true;
+		if(opcion > 50 || opcion < 49) p->printString("Por favor, seleccione una opcion valida...\n");
 
-	} while((opcion > 50 || opcion < 49) && !salir);
+	} while(opcion > 50 || opcion < 49);
 
-	if(!salir){
 		establecerColor(11);
 		switch(opcion){
 			case 49:
@@ -298,15 +292,6 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 				imprimir();
 				break;
 		}
-
-
-	}else{
-		establecerColor(15);
-		p->setProtocolo(false);//Se cancela protocolo
-		p->cerrarFichero();
-		EnviarCaracter(PuertoCOM, 27);
-		p->printString("Se cancela la accion\n");
-	}
 
 }
 
@@ -323,7 +308,7 @@ void Emisor::maestroSondeo(HANDLE &PuertoCOM, ifstream &protocolo){
 		p->printString("\n");//Acaba fase Transferencia
 	}else{
 		establecerColor(15);
-		f->printString("El fichero EProtoc.txt no se a podido encontrar\n");
+		f->printString("El fichero EProtoc.txt no se ha podido encontrar\n");
 		f->printString("Cerrando protocolo...\n\n");
 	}
 
@@ -377,11 +362,10 @@ void Emisor::esclavoSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
 		p->printString("\n");//Acaba fase Transferencia
 	}else{
 		establecerColor(15);
-		printf("El fichero EProtoc.txt no se a podido encontrar\n");
+		printf("El fichero EProtoc.txt no se ha podido encontrar\n");
 		printf("Cerrando protocolo...\n\n");
 	}
 
-//    if(p->getProtocolo()){
     	establecerColor(11);
     	esperarTramaCierre(PuertoCOM);
 
@@ -394,7 +378,6 @@ void Emisor::esclavoSeleccion(HANDLE &PuertoCOM, ifstream &protocolo){
     	p->printString("FIN PROTOCOLO\n");
     	p->cerrarFichero();
     	p->setProtocolo(false);//Se termina el protocolo
-//    }
 }
 
 
@@ -509,7 +492,7 @@ void Emisor::esperarTramaNegacion(HANDLE &PuertoCOM){
 
 void Emisor::esperarRespuesta(HANDLE &PuertoCOM){
 	int n = 0;
-	while((n = R->Recibir(PuertoCOM)) < 3);
+	while(((n = R->Recibir(PuertoCOM)) < 3));
 
 	if(n == 4) p->setFinSondeo(true);
 }
@@ -519,8 +502,6 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 
 		esperarTramaDatos(PuertoCOM);//Hasta que no reciba trama no puede confirmar
 		bool correcta = R->procesarTramaDatos();
-
-//		if(p->getProtocolo()){
 
 			while(!correcta){
 				enviarTramaNegacion(PuertoCOM);
@@ -534,7 +515,6 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 			else TE.setNumeroTrama('0');
 			enviarTramaConfirmacion(PuertoCOM);
 			imprimir();
-//		}
 
 	}
 	R->imprimirProtocolo();
@@ -657,7 +637,7 @@ void Emisor::enviarFaseTransferencia(HANDLE &PuertoCOM, ifstream &protocolo){
 void Emisor::teclaf7(HANDLE &PuertoCOM){
 
 	char aux = TE.getDato(0); // guardamos eel caracter
-	TE.setDato(0, 'ç');  // cambiamos el caracter para
+	TE.setDato(0, 'ï¿½');  // cambiamos el caracter para
 
 	enviarTramaDatos(PuertoCOM); // enviamos trama como error
 	imprimirTrama();

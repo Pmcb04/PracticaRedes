@@ -12,7 +12,6 @@
 #include "TramaDatos.h"
 #include "File.h"
 #include "Protocolo.h"
-#include "Gestor.h"
 
 
 class Receptor{
@@ -29,7 +28,7 @@ class Receptor{
 	File* f;
 	Protocolo* p;
 	char NT;//Para que desde esclavo sepamos NT de la ultima trama de maestro
-	//TODO este caracter se podria poner mejor en protocolo?
+
    public:
 
 			// Contructor de la clase receptor
@@ -46,9 +45,6 @@ class Receptor{
 
 			// devueve el tipo de trama
 			int getTipoTrama(char c);
-
-			// devuelve si se a llegado a dejar de escribir en fichero
-			bool getFinFichero();
 
 			// devuelve el numero de trama
 			char getNumeroTrama();

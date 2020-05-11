@@ -10,9 +10,9 @@ E T ACK 0
 
 E T STX 0 87
 R T ACK 0
-E T STX 1 5
+E T STX 1 55
 R T ACK 1
-E T STX 0 8
+E T STX 0 14
 R T ACK 0
 
 Enviando fichero por Pedro Miguel Carmona & Ruben Marin Lucas
@@ -35,45 +35,11 @@ E T STX 0 33
 R T ACK 0
 E T STX 1 94
 R T ACK 1
-E T STX 0 42
+E T STX 0 26
 R T ACK 0
-E T STX 1 39
+E T STX 1 3
 R T ACK 1
-E T STX 0 82
-R T ACK 0
-E T STX 1 30
-R T ACK 1
-E T STX 0 62
-R T ACK 0
-E T STX 1 123
-R T ACK 1
-E T STX 0 37
-R T ACK 0
-E T STX 1 60
-R T ACK 1
-E T STX 0 74
-R T ACK 0
-E T STX 1 57
-R T ACK 1
-E T STX 0 54
-R T ACK 0
-E T STX 1 103
-R T ACK 1
-E T STX 0 1
-R T ACK 0
 
 Fichero enviado
 
 E T EOT 0
-R T NACK 0
-
-E T EOT 1
-R T NACK 1
-
-E T EOT 0
-R T NACK 0
-
-E T EOT 1
-R T ACK 1
-
-FIN PROTOCOLO
