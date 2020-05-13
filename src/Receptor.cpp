@@ -395,8 +395,8 @@ void Receptor::imprimirTrama(){
 	p->printString("R ");//Trama enviada
 	TR.imprimirTrama(); // imprimimos en pantalla con bce
 	TRimprimirTrama(); // imprimimos en fichero con bce
-	int BCE = (int) carR;
-	printf("%d", carR);		// imprimimos el bce que nos ha llegado
+	int BCE = TR.calcularBCE();
+	printf("%d", BCE);		// imprimimos el bce que nos ha llegado
 	p->printString(" ");
 	p->printIntFichero(BCE);
 	p->printString("\n"); // impimimos el salto de carro para los dos

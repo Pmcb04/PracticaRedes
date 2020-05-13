@@ -142,8 +142,6 @@ void Emisor::teclaF5(){
 
 void Emisor::teclaF6(HANDLE &PuertoCOM){
 
-
-
 		if(f->getCondicion()){//Si esta activo
 			f->cerrarFichero();
 			f->setCondicion(false);
@@ -213,10 +211,12 @@ void Emisor::Maestro(HANDLE &PuertoCOM, ifstream &protocolo){
 		switch(opcion){
 			case 49://Seleccion
 				p->setOperacion('R');
+				p->setFinFichero(false);
 				maestroSeleccion(PuertoCOM, protocolo);
 				break;
 			case 50://Sondeo
 				p->setOperacion('T');
+				p->setFinFichero(false);
 				maestroSondeo(PuertoCOM, protocolo);
 				break;
 		}
@@ -340,10 +340,12 @@ void Emisor::Esclavo(HANDLE &PuertoCOM, ifstream &protocolo){
 				switch(operacion){
 				case 82:
 					p->setOperacion('R');
+					p->setFinFichero(false);
 					esclavoSeleccion(PuertoCOM, protocolo);
 					break;
 				case 84:
 					p->setOperacion('T');
+					p->setFinFichero(false);
 					esclavoSondeo(PuertoCOM, protocolo);
 					break;
 				}
@@ -727,7 +729,6 @@ void Emisor::enviarFichero(HANDLE &PuertoCOM){
 
 				construirTrama(numCaracteres, indiceMensaje, cadaux);
 				indiceMensaje = 0;//Quiero que empiece desde el principio siempre, porqeu son cadenas distintas
-				//enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
 
 				SetRTS(PuertoCOM, 0);
 				SetDTR(PuertoCOM, 0);
