@@ -274,6 +274,7 @@ void Emisor::elegirFin(HANDLE &PuertoCOM){
 		p->printString("\t1. Si\n");
 		p->printString("\t2. No\n\n");
 		opcion = getch();
+		if(opcion == 27) opcion = getch();//Si hemos pulsado esc para salirnos tenemos qe pulsar una tecla
 		if(opcion > 50 || opcion < 49) p->printString("Por favor, seleccione una opcion valida...\n");
 
 	} while(opcion > 50 || opcion < 49);
