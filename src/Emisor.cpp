@@ -505,6 +505,9 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 		esperarTramaDatos(PuertoCOM);//Hasta que no reciba trama no puede confirmar
 		bool correcta = R->procesarTramaDatos();
 
+			if(R->getNumeroTrama() == '1') TE.setNumeroTrama('1');
+			else TE.setNumeroTrama('0');
+
 			while(!correcta){
 				enviarTramaNegacion(PuertoCOM);
 				imprimir();
@@ -513,8 +516,6 @@ void Emisor::recibirFaseTranseferencia(HANDLE &PuertoCOM){
 				correcta = R->procesarTramaDatos();
 			}
 
-			if(R->getNumeroTrama() == '1') TE.setNumeroTrama('1');
-			else TE.setNumeroTrama('0');
 			enviarTramaConfirmacion(PuertoCOM);
 			imprimir();
 
@@ -729,17 +730,8 @@ void Emisor::enviarFichero(HANDLE &PuertoCOM){
 
 				construirTrama(numCaracteres, indiceMensaje, cadaux);
 				indiceMensaje = 0;//Quiero que empiece desde el principio siempre, porqeu son cadenas distintas
-
-				SetRTS(PuertoCOM, 0);
-				SetDTR(PuertoCOM, 0);
 				enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
-				SetRTS(PuertoCOM, 1);
-				SetDTR(PuertoCOM, 1);
-				while(!GetCTS(PuertoCOM) && !GetDSR(PuertoCOM)){
-					SetDTR(PuertoCOM, 1);
-					SetRTS(PuertoCOM, 1);
-					R->Recibir(PuertoCOM);
-				}
+				R->Recibir(PuertoCOM);
 
 				i++;
 			}
@@ -770,17 +762,8 @@ void Emisor::enviarFichero(HANDLE &PuertoCOM){
 						}
 
 					}
-
-					SetRTS(PuertoCOM, 0);
-					SetDTR(PuertoCOM, 0);
 					enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
-					SetRTS(PuertoCOM, 1);
-					SetDTR(PuertoCOM, 1);
-					while(!GetCTS(PuertoCOM) && !GetDSR(PuertoCOM)){
-						SetDTR(PuertoCOM, 1);
-						SetRTS(PuertoCOM, 1);
-						R->Recibir(PuertoCOM);
-					}
+					R->Recibir(PuertoCOM);
 				}
 
 			}
@@ -795,19 +778,8 @@ void Emisor::enviarFichero(HANDLE &PuertoCOM){
 			copiarString(cadaux, num);
 			construirTrama(numCaracteres, indiceMensaje, cadaux);
 			indiceMensaje = 0;
-
-			SetRTS(PuertoCOM, 0);
-			SetDTR(PuertoCOM, 0);
 			enviarTramaDatos(PuertoCOM);//se envia la trama una vez construida
-			SetRTS(PuertoCOM, 1);
-			SetDTR(PuertoCOM, 1);
-			while(!GetCTS(PuertoCOM) && !GetDSR(PuertoCOM)){
-				SetDTR(PuertoCOM, 1);
-				SetRTS(PuertoCOM, 1);
-				R->Recibir(PuertoCOM);
-			}
-
-
+			R->Recibir(PuertoCOM);
 
 		}else{
 

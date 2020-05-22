@@ -216,6 +216,9 @@ void Receptor::cerrarFichero(){
 
 void Receptor::procesarFichero(){
 
+
+
+
 	if(linea == 0){
 
 	  Autores = TR.toString();
