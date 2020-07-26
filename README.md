@@ -32,6 +32,11 @@
     - [Fases de la operación de Sondeo](#e54)
     - [Volcado de pantalla a fichero Prolog-m.txt y Prolog-e.txt](#e55)
     - [Control de fin de aplicación(ESC)](#e56)
+  - [ENTREGA 6. PROTOCOLO MAESTRO-ESCLAVO CON ERRORES](#ent6)
+    - [Funcionamiento del protocolo Maestro-Esclavo sensible a errores](#e61)
+    - [Fases de la operación de Selección con control de errores](#e62)
+    - [Fases de la operación de Sondeo con control de errores](#e64)
+
 
 
 <a name ="ent1"></a>
@@ -775,3 +780,108 @@ el escape de la manera más lógica y coherente posible
 
 <a name ="e6"></a>
 #Entrega 6
+### :one: Funcionamiento del protocolo sensible a errores
+
+- En esta entrega se parte de la práctica anterior, el protocolo maestro-esclavo. El protocolo
+seguirá funcionando como hasta ahora (incluyendo los ficheros log de maestro y esclavo),
+simplemente se le añadirá una nueva funcionalidad, la cual será complementaria.
+
+- En esta sesión la aplicación deberá controlar y corregir la posible alteración de las tramas de
+datos por interferencias externas o ruido sobre la línea. En realidad, se trata sólo de una simulación,
+ya que en nuestro caso la transmisión es virtual.
+
+- Para la generación de ruido se empleará una función de inserción de errores, una vez que las
+tramas hayan sido construidas y se haya calculado su BCE, de forma que, desde el punto de vista
+del receptor, se producirá el mismo efecto que si el error se hubiera introducido durante la
+transmisión de las tramas por el medio.
+
+- La pulsación de la tecla **F7** simulará errores en una trama. Esta tecla solo se podrá pulsar cuando
+se esté ejecutando la opción Maestro/esclavo (**F6**). Solo tendrá efecto en el emisor durante el envío
+del fichero, y provocará que la siguiente trama a enviar se vea alterada con errores.
+
+- Para ello, después de calcular y rellenar el campo BCE, se va a sustituir el primer carácter del
+campo datos por ‘ç’ (CampoDatos [0] = ’ç’). Esto simulará el caso de que, después de ser enviada
+la trama, ésta se vea alterada por algún tipo de ruido durante la transmisión, cambiándose el primer
+carácter del campo datos por el valor ‘ç’.
+
+- Cada vez que se pulse **F7** se introducirá error en una trama diferente. No se podrá introducir
+errores en la misma trama y, por tanto, tampoco se podrán introducir errores en la retrasmisión de
+una trama. (La trama enviada y su retransmisión se consideran solo una trama).
+
+- Se puede pulsar **F7** tantas veces como dure el envío del cuerpo del fichero (en otras secciones
+de la práctica no debe tener efecto). Esto significa que solo se van a poder introducir errores en las
+tramas referentes al cuerpo del fichero.
+
+- Se deberá poder enviar errores consecutivos, es decir, enviar errores en tramas consecutivas.
+Para probar este caso de forma sencilla, se puede usar el fichero de 10 tramas (campus virtual)
+empleando la velocidad del puerto más baja, 1200 bps.
+
+- En el receptor, se debe calcular el BCE de cada trama de datos recibida (como siempre se ha
+hecho), para luego comparar el valor obtenido con el del campo BCE de la trama recibida.
+- Si los BCEs coinciden, se devolverá una trama **ACK** (como se ha hecho en la entrega anterior),
+informando que todo es correcto.
+
+- Si los datos fueron alterados después de rellenar el BCE (en el emisor), el receptor detectará
+que los BCEs no coinciden y devolverá una trama **NACK**, indicando de esta manera al emisor que
+retransmita de nuevo la trama.
+
+### :two: Fases de la operación de Selección con control de errores
+
+En la siguiente figura se muestra cómo se realiza la comunicación cuando la operación es de
+Selección con control de errores. En este ejemplo se detecta un error en la segunda trama de datos
+que envía el maestro al esclavo. Éste contesta con una trama NACK y el maestro retransmite la
+misma trama, la cual ya llega sin errores, por lo que el esclavo responde con una ACK.
+
+// imagen
+
+Como se puede observar, los números de trama de la trama errónea y de la trama retransmitida son
+los mismos, ya que se trata de la misma trama.
+
+Se puede comprobar en la figura 1, que, al comienzo de cada fase de operación, el número de trama
+será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’.
+
+Para comprobar el funcionamiento de la práctica, se deberá mostrar en todo momento **TODAS** las
+tramas (control y datos) que se envían y que se reciban durante las tres fases de la comunicación
+(establecimiento, transferencia y liberación), tanto en el equipo emisor como en el equipo receptor,
+de la misma manera que se hizo en la práctica anterior, así como en los colores empleados en dicha
+práctica. En caso de no mostrar todas las tramas la práctica será considerada NO APTA.
+
+A continuación, se muestra un ejemplo correspondiente al envío de un fichero + el tamaño del
+fichero, compuesto por 3 tramas de datos correspondientes a las líneas de cabecera, 3 tramas
+referentes al cuerpo del fichero (siendo la segunda de ellas incorrecta por lo que se vuelve a
+retransmitir) y 1 trama con la información del tamaño del fichero.
+
+// imagen
+
+### :three: Fases de la operación de Sondeo con control de errores
+
+En la siguiente figura se muestra cómo se realiza la comunicación cuando la operación es de
+Sondeo con control de errores. En este ejemplo se detecta un error en la segunda trama de datos que
+envía el esclavo al maestro. Éste contesta con una trama NACK y el esclavo retransmite la misma
+trama, la cual ya llega sin errores, por lo que el maestro responderá con una ACK. Al final el esclavo
+pide liberación, pero es el maestro el que la concede o no, y como se observa en el ejemplo en la
+primera petición ésta es denegada.
+
+// imagen
+
+Como se puede observar, los números de trama de la trama errónea y de la trama retransmitida son
+los mismos, ya que se trata de la misma trama.
+
+Se puede comprobar en la figura 3, que, al comienzo de cada fase de operación, el número de trama
+será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’. Para cada cierre o liberación solicitada
+a la estación maestra, también se alternará el número de trama.
+
+Para comprobar el funcionamiento de la práctica, se deberá mostrar en todo momento **TODAS** las
+tramas (control y datos) que se envían y que se reciban durante las tres fases de la comunicación
+(establecimiento, transferencia y liberación), tanto en el equipo emisor como en el equipo receptor,
+de la misma manera que se hizo en la práctica anterior, así como en los colores empleados en dicha
+práctica. En caso de no mostrar todas las tramas la práctica será considerada NO APTA.
+
+A continuación, se muestra un ejemplo correspondiente al envío de un fichero + tamaño del fichero,
+compuesto por 3 tramas de datos correspondientes a las líneas de cabecera, 3 tramas referentes al
+cuerpo del fichero (siendo la tercera trama incorrecta por lo que se vuelve a retransmitir) y una trama
+con la información del tamaño del fichero. En este ejemplo, al solicitar el esclavo el cierre de la
+comunicación, el maestro rechazó el primer cierre y aceptó el segundo.
+
+
+// imagen
