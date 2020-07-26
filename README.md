@@ -1,41 +1,59 @@
 <a name ="top"></a>
 
+# :books: Realizado por: 
+  - :computer: [Pedro Miguel Carmona Broncano](https://github.com/Pmcb04)
+  - :computer: [Rubén Marín Lucas](https://github.com/Pr0t0n9)
+  - :date: Curso 2019/2020
+  - :office: [Universidad de Extremadura](https://www.unex.es)
+
+
+
 # **INDICE**
-  - [ENTREGA 1. ENVÍO Y RECEPCIÓN DE DATOS](#ent1)
+  - :one: [ENTREGA 1. ENVÍO Y RECEPCIÓN DE DATOS](#ent1)
     - [Objetivos](#e11)
     - [Elección de puerto y velocidad de trasmisión](#e12)
     - [Envío y recepción de datos](#e13)
     - [Control de fin de aplicación](#e14)
-  - [ENTREGA 2. ENVÍO Y RECEPCIÓN DE TRAMAS DE CONTROL (NIVEL ENLCE)](#ent2)
+  - :two: [ENTREGA 2. ENVÍO Y RECEPCIÓN DE TRAMAS DE CONTROL (NIVEL ENLCE)](#ent2)
     - [Tipos de trama de control](#e21)
     - [Construcción de tramas de control](#e22)
     - [Envio de tramas de control](#e23)
     - [Recepción de tramas de control](#e24)
     - [Control de fin de aplicación](#e25)
-  - [ENTREGA 3. ENVÍO Y RECEPCIÓN DE MENSAJES CON TRAMAS DE DATOS](#ent3)
+  - :three: [ENTREGA 3. ENVÍO Y RECEPCIÓN DE MENSAJES CON TRAMAS DE DATOS](#ent3)
     - [Construcción de tramas de datos](#e31)
     - [Cálculo del BCE](#e32)
     - [Envío de mensajes de tramas de datos](#e33)
     - [Recepción de mensajes con tramas de datos](#e34)
     - [Utilización de diferentes colores para diferenciar mensajes enviados y recibidos](#e35)
     - [Control de fin de aplicación(ESC)](#e36)
-  - [ENTREGA 4. ENVÍO Y RECEPCIÓN DE FICHEROS CON TRAMAS](#ent4)
+  - :four: [ENTREGA 4. ENVÍO Y RECEPCIÓN DE FICHEROS CON TRAMAS](#ent4)
     - [Construcción de tramas de datos](#e41)
     - [Envío y repección de ficheros con tramas de datos](#e42)
     - [Ejemplo de fichero de texto](#e43)
     - [Volcado de pantalla a fichero log.txt](#e44)
     - [Control de fin de aplicación(ESC)](#e45)
-  - [ENTREGA 5. PROTOCOLO MAESTRO-ESCLAVO](#ent5)
+  - :five: [ENTREGA 5. PROTOCOLO MAESTRO-ESCLAVO](#ent5)
     - [Funcionamiento del protocolo](#e51)
     - [Tipos de tramas empleadas](#e52)
     - [Fases de la operación de Selección](#e53)
     - [Fases de la operación de Sondeo](#e54)
     - [Volcado de pantalla a fichero Prolog-m.txt y Prolog-e.txt](#e55)
     - [Control de fin de aplicación(ESC)](#e56)
-  - [ENTREGA 6. PROTOCOLO MAESTRO-ESCLAVO CON ERRORES](#ent6)
+  - :six: [ENTREGA 6. PROTOCOLO MAESTRO-ESCLAVO CON ERRORES](#ent6)
     - [Funcionamiento del protocolo Maestro-Esclavo sensible a errores](#e61)
     - [Fases de la operación de Selección con control de errores](#e62)
-    - [Fases de la operación de Sondeo con control de errores](#e64)
+    - [Fases de la operación de Sondeo con control de errores](#e63)
+    - [Puntos a incluir en la documentación externa](#e64)
+    
+ 
+  ## :computer: PROGRAMAS UTILIZADOS
+   - [Eclipse](https://www.eclipse.org/)
+   - Virtual Serial Port Emulator
+   - Libreria *Windows.h*
+   - Libreria *PuertoSerie.h* (Proporcionada por profesores)
+
+
 
 
 
@@ -119,12 +137,20 @@ comunicación entre dos estaciones y estarán formadas por 4 campos:
   - Campo 4: Número de trama (**‘0’** ó **‘1’**).
 
 - Tendremos 4 tipos de tramas de control (dependiendo de campo de control):
-  - Tramas de órdenes:
+  - *Tramas de órdenes*:
     - ENQ: Para sondear o seleccionar a la estación esclava.
+    - ![Entrega 2.1](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%202.1.jpg)
+    
     - EOT: Para liberrar la comunicación o petición de liberación
-  - Tramas de repuestas
+    - ![Entrega 2.2](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%202.2.jpg)
+    
+  - *Tramas de repuestas*
     - ACK: Aceptar (asentir) la trama recibida
+    - ![Entrega 2.3](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%202.3.jpg)
+
     - NACK: Rechazar la trama recibida
+    - ![Entrega 2.4](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%202.4.jpg)
+
 
 - El valor del campo **Sincronismo** (SYN) es el 22
 - El valor del campo **Dirección** será 'T' o 'R', dependerá de si se hace una operación de selección o de sondeo. En     principio lo fijaremos a 'T'
@@ -204,6 +230,7 @@ En todo momento, el usuario puede poner fin a la aplicación mediante la
 pulsación de la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se
 pulsa esta tecla, se cancelará dicha acción.
 [:top:](#top)
+
 <a name ="ent3"></a>
 # ENTREGA 3. ENVÍO Y RECEPCIÓN DE MENSAJES CON TRAMAS DE DATOS
 <a name ="e31"></a>
@@ -223,17 +250,21 @@ struct TramaDatos
 };
 ```
 
-En un principio la trama de datos se construirá de la manera expresada anteriormente.
+ ![Entrega 3.1](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%203.1.jpg)
+- En un principio la trama de datos se construirá de la manera expresada anteriormente.
 En las sesiones sucesivas se explicará como irá cambiando.
 <a name ="e32"></a>
 ### :two: Cálculo del BCE:
 Para calcular el valor del campo BCE de una trama se debe hacer la operación lógica XOR dos a dos entre todos
-los caracteres del campo de datos de la trama.
+los caracteres del campo de datos de la trama. Por ejemplo, para calcular el BCE de
+una trama de datos que transporta los caracteres "HOLA" se haría:
 
-Es decir se hará (DATOS[0] XOR DATOS[1]) XOR DATOS[2]) XOR DATOS[3]) ... XOR DATOS[Long-1]).
+
+ ![Entrega 3.2](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%203.2.jpg)
 
 - Si al calcular el **BCE** obtenemos un valor **0** o un valor **255**, lo cambiaremos
   siempre por **1**.
+  
 <a name ="e33"></a>
 ### :three: Envío de mensajes con tramas de datos.
 - Los mensajes de datos serán como máximo de 800 caracteres.
@@ -249,6 +280,7 @@ Es decir se hará (DATOS[0] XOR DATOS[1]) XOR DATOS[2]) XOR DATOS[3]) ... XOR DA
   forma se imprimirá un salto de línea al final de cada mensaje en el receptor. (Si ya se
   hizo en la primera entrega con F1 al enviar el mensaje, debe mantenerse).
 - **El envío y la recepción nunca deben excluirse mutuamente.**
+
 <a name ="e34"></a>
 ### :four: Recepción de mensajes con tramas de datos.
 - **La trama de datos se procesará solo cuando se reciba completa**
@@ -356,6 +388,7 @@ hacer uso de colores. Para ello deberemos utilizar Windows.h.
 
  Ejemplo de código para uso de color: Muestra de un mensaje en gris claro con  fondo azul verdoso y de otro mensaje en
  azul celeste con fondo negro.
+ 
    ```C++
   #include <iostream>
   #include <conio.h>
@@ -382,6 +415,7 @@ En todo momento, el usuario puede poner fin a la aplicación mediante la pulsaci
 de la tecla **ESCAPE.** En el caso de estar realizando alguna acción mientras se pulsa esta
 tecla, se cancelará dicha acción.
 [:top:](#top)
+
 <a name ="ent4"></a>
 # ENTREGA 4. ENVÍO Y RECEPCIÓN DE FICHEROS CON TRAMAS
 <a name ="e41"></a>
@@ -401,7 +435,11 @@ struct TramaDatos
   char Datos[255]; // Datos[255];
   unsigned char BCE; // (Siempre debe tomar siempre valores entre 1 y 254);
 };
+
 ```
+
+![Entrega 4.1](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%204.1.jpg)
+
 
 En un principio, como se explicó en la entrega 3, la trama de datos se construirá de la
 manera expresada anteriormente. En la entrega 5 se explicará como cambiará.
@@ -416,6 +454,10 @@ manera expresada anteriormente. En la entrega 5 se explicará como cambiará.
   - Línea 1: Nombre y apellidos de los autores de la práctica separados por & (Ej: Clara Santos & Olivia Becerra).
   - Línea 2: Color cabecera (texto y fondo). Se expresará con un valor entero.
   - Línea 3: Nombre y extensión del fichero en el equipo receptor.
+  
+ ![Entrega 4.2](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%204.2.jpg)
+
+  
 - Mediante la tecla F3 se iniciará el envío del fichero de texto. Pasos a seguir:
   1. Se intentará abrir el fichero **“fichero-e.txt”.** Si existe dicho fichero, se
   enviará el carácter ‘{’ al receptor para indicarle que recibirá un fichero. Si
@@ -483,6 +525,17 @@ manera expresada anteriormente. En la entrega 5 se explicará como cambiará.
   - **Enviar fichero / recibir mensaje datos.**
   Se podrá enviar un fichero y recibir mensajes del equipo receptor (que envió
   con F1).
+  
+   ![Entrega 4.3](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%204.3.jpg)
+
+  - Para que se pueda enviar un fichero de 100 kb a la vez que se reciba el mensaje de 800
+  caracteres, se debería usar como velocidad de transmisión 4800 bits por segundo, de esta  
+  manera dará tiempo a enviar el fichero y a recibir las 4 tramas del mensaje de 800 caracteres.
+  En caso de utilizar una velocidad más alta, habría que ampliar el tamaño del fichero de texto
+  para que diese tiempo a enviar y a recibir toda la información. Se recuerda que cuando se cree
+  el puerto virtual con el emulador de puerto serie, se debe activar la emulación de la velocidad,
+  tal y como está descrito en el manual de uso del virtualizador subido al campus.
+
   - **Enviar fichero / recibir fichero. (OPCIONAL).**
   Este apartado es opcional. Se podrá implementar desde ahora hasta la
   entrega 6. Se podrá enviar y recibir un fichero de 100 kb de forma
@@ -540,12 +593,19 @@ mismo tiempo. La estación que pulse **F6** tendrá el control para elegir el ro
 dicha estación seleccione dicho roll, automáticamente la otra estación adquirirá el roll que quedase
 libre.
 
-Selección de roll de maestro en una estación y automáticamente la otra estación se convierte en esclava.
+ - Activación del protocolo mediante pulsación de **F6**
+
+   ![Entrega 5.1](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%205.1.jpg)
+
+
+ - Selección de roll de maestro en una estación y automáticamente la otra estación se convierte en esclava.
+
+   ![Entrega 5.2](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%205.2.jpg)
 
 - Sólo el PC Maestro tiene capacidad para iniciar una comunicación mediante una llamada al
   Esclavo, mientras que éste sólo estará dedicado a esperar una posible llamada del equipo Maestro
   para contestarla.
-
+  
 - El Maestro podrá iniciar una llamada para realizar una operación de Selección o de Sondeo. Se
   deberá preguntar al usuario de la estación Maestra (figura 2 - izquierda) qué operación desea relizar.
   Si la operación es de Selección, el Maestro enviará un fichero de texto fraccionado en tramas de
@@ -582,6 +642,8 @@ Selección de roll de maestro en una estación y automáticamente la otra estaci
   usuario de la estación Maestra confirme el cierre (envía una trama ACK). Si en cambio la operación
   era de Selección, el Maestro iniciará la liberación de la comunicación automáticamente al terminar
   de enviar el fichero y el Esclavo la aceptará directamente.
+  
+     ![Entrega 5.3](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%205.3.jpg)
 
 - El fichero a enviar en la fase de transferencia se llamará “EProtoc.txt”. Al igual que en la
 práctica anterior, el fichero constará primero de tres líneas de cabecera y a continuación aparecerá
@@ -604,38 +666,23 @@ correspondiente, se mostrarán también en pantalla, tanto si son enviadas como 
 
 Ejemplo de los tipos de operaciones y tramas que se emplearán en las distintas fases:
 
-**Fase de selección**
-  - Llamada de Selección: ``| SYN | R | ENQ | '0' |``
-  - Llamada de Sondeo : ``| SYN | T | ENQ | '0' |``
+ ![Entrega 5.4](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%205.4.jpg)
 
-**Fase de trasferencia**
-  - Envío de datos de Selección(trama número n):
-    -  ``| SYN | R | STX | n | Long | Datos | BCE |``
-  - Envío de datos de Sondeo(trama número n):
-    -  ``| SYN | T | STX | n | Long | Datos | BCE |``
-  - Confirmación de la tama n en Selección:   
-    -  ``| SYN  | R | STX | n | Long | Datos | BCE |``  
-  - Confirmación de la tama n en Sondeo:   
-    -  ``| SYN  | T | STX | n | Long | Datos | BCE |``  
-  - Rechazo de la trama n en Sondeo:   
-    -  ``| SYN  | T | NACK | n |``
-
- **Fase de cierre o liberación**
-   - Liberación o cierre en Selección:   
-    -  ``| SYN  | R | EOT | '0' |``  
-   - Liberaci´on o cierre en Sondeo:   
-    -  ``| SYN  | T | STX | '0' |``  
 <a name ="e53"></a>
 ### :three: Fases de la operación de Selección.
+
+En la siguiente figura se muestra cómo se realiza la comunicación cuando la operación es de
+Selección, es decir, el maestro envía el fichero de texto al esclavo:
+
+ ![Entrega 5.5](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%205.5.jpg)
+
+
 Al comienzo de cada fase de operación, el número de
 trama será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’.
 
-Cuando la operación es de
-Selección, es decir, el maestro envía el fichero de texto al esclavo
+Cuando la operación es de Selección, es decir, el maestro envía el fichero de texto al esclavo
 
-Se deberá mostrar en todo momento TODAS las
-tramas (control y datos) que se envían y que se reciban durante las tres fases de la comunicación
-(establecimiento, transferencia y liberación), tanto en el equipo emisor como en el equipo receptor
+Se deberá mostrar en todo momento TODAS las tramas (control y datos) que se envían y que se reciban durante las tres fases de la comunicación (establecimiento, transferencia y liberación), tanto en el equipo emisor como en el equipo receptor
 
 De cada trama SOLO se mostrará la información estrictamente necesaria que se indica a continuación.
 Para la estación maestra se mostrará (en orden de aparición):
@@ -667,32 +714,19 @@ mostrarán en cyan.
 
 A continuación, se muestra un ejemplo correspondiente al envío de un fichero + el tamaño del
 fichero, compuesto por 3 tramas de datos correspondientes a las líneas de cabecera, 3 tramas
-referentes al cuerpo del fichero y 1 trama con la información del tamaño del fichero.   
+referentes al cuerpo del fichero y 1 trama con la información del tamaño del fichero.  
 
-| | **ESTACIÓN MAESTRA** | **ESTACIÓN ESCLAVA**|
-|---|---|---|
-|*Fase de establecimiento*|E R ENQ 0|R R ENQ 0|
-||R R ACK 0|E R ACK 0|
-|*Fase de transferencia*|E R STX 0 122|R R STX 0 122 122|
-||R R ACK 0|E R ACK 0|
-||E R STX 1 230|R R STC 1 230 230|
-||R R ACK 1|E R ACK 1|
-||E R STX 0 135|R R STX 0 135 135|
-||R R ACK 0|E R ACK 0|
-||E R STX 1 29|R R STX 1 29 29|
-||R R ACK 1|E R ACK 1|
-||E R STX 0 88| R R STX 0 88 88|
-||R R ACK 0|E R ACK 0|
-||E R STX 1 46|R R STX 1 46 46|
-||R R ACK 1|E R ACK 1|
-||E R STX 0 18|R R STX 0 18 18|
-||R R ACK 0|E R ACK 0|
-|*Fase de Cierre o liberación*|E R EOT 0 | R R EOT 0|
-||R R ACK 0| E R ACK 0|
+ ![Entrega 5.6](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%205.6.jpg)
+
 <a name ="e54"></a>
 ### :four: Fases de la operación de Sondeo
-El número de trama
-será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’. Para cada cierre o liberación solicitada
+
+En la siguiente figura se muestra cómo se realiza la comunicación cuando la operación es de
+Sondeo, es decir, el maestro le pide al esclavo que le envíe el fichero de texto:
+
+ ![Entrega 5.7](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%205.7.jpg)
+
+El número de trama será ‘0’. Dentro de cada fase, se irá alternando entre ‘0’ y ‘1’. Para cada cierre o liberación solicitada
 a la estación maestra, también se alternará el número de trama.
 
 Cuando la operación es de Sondeo, es decir, el maestro le pide al esclavo que le envíe el fichero de texto.
@@ -734,28 +768,9 @@ al cuerpo del fichero y una trama con la información del tamaño del fichero. E
 solicitar el esclavo el cierre de la comunicación, el maestro rechazó el primer cierre y aceptó el
 segundo
 
-| | **ESTACIÓN MAESTRA** | **ESTACIÓN ESCLAVA**|
-|---|---|---|
-|*Fase de establecimiento*|E T ENQ 0|R T ENQ 0|
-||R T ACK 0|E T ACK 0|
-|*Fase de transferencia*|R T STX 0 112 112|E T STX 0 112|
-||E T ACK 0|R T ACK 0|
-||R T STX 1 242 242|E T STC 1 242|
-||E T ACK 1|R T ACK 1|
-||R T STX 0 26 26|E T STX 0 26|
-||E T ACK 0|R T ACK 0|
-||R T STX 1 139 139|E T STX 1 139|
-||E T ACK 1|R T ACK 1|
-||R T STX 0 12 12| E T STX 0 12|
-||E T ACK 0|R T ACK 0|
-||R T STX 1 200 200|E T STX 1 200|
-||E T ACK 1|R T ACK 1|
-||R T STX 0 194 194|E T STX 0 194|
-||E T ACK 0|R T ACK 0|
-|*Fase de Cierre o liberación*|R T EOT 0 | E T EOT 0|
-||E T NACK 0| R T NACK 0|
-||R T EOT 0| E T EOT 0|
-||E T ACK 0| R T ACK 0|
+ ![Entrega 5.8](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%205.8.jpg)
+
+
 <a name ="e55"></a>
 ### :five: Volcado de pantalla a fichero Prolog-m.txt y Prolog-e.txt
 Para comprobar lo que ha podido ocurrir durante la ejecución del protocolo, toda la actividad
@@ -763,8 +778,11 @@ mostrada en pantalla se volcará a dos ficheros distintos. La información mostr
 maestro, se volcará a un fichero llamado **Prolog-m.txt** y la mostrada en el equipo esclavo a un fichero
 llamado **Prolog-e.txt**.
 
+ ![Entrega 5.9](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%205.9.jpg)
+
 En caso de haber activado previamente el volcado de información al fichero **log.txt** (mediante F5),
 ese fichero se cerrará una vez hayamos entrado en modo protocolo, es decir, al pulsar F6.
+
 <a name ="e56"></a>
 ### :six: Control de fin de aplicación (ESC)
 En este momento de la práctica, la tecla escape debería funcionar perfectamente en la mayoría de
@@ -778,8 +796,9 @@ enviando información sin que nadie la recibiera (no sería muy lógico). Siempr
 el escape de la manera más lógica y coherente posible
 [:top:](#top)
 
-<a name ="e6"></a>
-#Entrega 6
+<a name ="ent6"></a>
+# Entrega 6
+<a name ="e61"></a>
 ### :one: Funcionamiento del protocolo sensible a errores
 
 - En esta entrega se parte de la práctica anterior, el protocolo maestro-esclavo. El protocolo
@@ -825,6 +844,7 @@ informando que todo es correcto.
 que los BCEs no coinciden y devolverá una trama **NACK**, indicando de esta manera al emisor que
 retransmita de nuevo la trama.
 
+<a name ="e62"></a>
 ### :two: Fases de la operación de Selección con control de errores
 
 En la siguiente figura se muestra cómo se realiza la comunicación cuando la operación es de
@@ -832,7 +852,8 @@ Selección con control de errores. En este ejemplo se detecta un error en la seg
 que envía el maestro al esclavo. Éste contesta con una trama NACK y el maestro retransmite la
 misma trama, la cual ya llega sin errores, por lo que el esclavo responde con una ACK.
 
-// imagen
+ ![Entrega 6.1](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%206.1.jpg)
+
 
 Como se puede observar, los números de trama de la trama errónea y de la trama retransmitida son
 los mismos, ya que se trata de la misma trama.
@@ -851,8 +872,9 @@ fichero, compuesto por 3 tramas de datos correspondientes a las líneas de cabec
 referentes al cuerpo del fichero (siendo la segunda de ellas incorrecta por lo que se vuelve a
 retransmitir) y 1 trama con la información del tamaño del fichero.
 
-// imagen
+ ![Entrega 6.2](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%206.2.jpg)
 
+<a name ="e63"></a>
 ### :three: Fases de la operación de Sondeo con control de errores
 
 En la siguiente figura se muestra cómo se realiza la comunicación cuando la operación es de
@@ -862,7 +884,7 @@ trama, la cual ya llega sin errores, por lo que el maestro responderá con una A
 pide liberación, pero es el maestro el que la concede o no, y como se observa en el ejemplo en la
 primera petición ésta es denegada.
 
-// imagen
+ ![Entrega 6.3](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%206.3.jpg)
 
 Como se puede observar, los números de trama de la trama errónea y de la trama retransmitida son
 los mismos, ya que se trata de la misma trama.
@@ -884,4 +906,13 @@ con la información del tamaño del fichero. En este ejemplo, al solicitar el es
 comunicación, el maestro rechazó el primer cierre y aceptó el segundo.
 
 
-// imagen
+ ![Entrega 6.4](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%206.4.jpg)
+
+<a name ="e64"></a>
+### :four: Puntos a incluir en la documentación externa
+
+ ![Entrega doc](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%20doc.jpg)
+
+ ![Entrega doc 2](https://github.com/Pmcb04/PracticaRedes/blob/master/images/Entrega%20doc%202.jpg)
+ 
+ [:top:](#top)
